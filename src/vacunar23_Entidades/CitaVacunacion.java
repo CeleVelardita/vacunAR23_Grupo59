@@ -12,7 +12,7 @@ public class CitaVacunacion {
   private int codRefuerzo;
   private LocalDate fechaHoraCita;
   private String centroVacunacion;
-  private Time fechaHoraColoca;
+  private LocalDate fechaHoraColoca;
   private int idVacuna;
   
   //Constructores
@@ -72,11 +72,11 @@ public class CitaVacunacion {
         this.centroVacunacion = centroVacunacion;
     }
 
-    public Time getFechaHoraColoca() {
+    public LocalDate getFechaHoraColoca() {
         return fechaHoraColoca;
     }
 
-    public void setFechaHoraColoca(Time fechaHoraColoca) {
+    public void setFechaHoraColoca(LocalDate fechaHoraColoca) {
         this.fechaHoraColoca = fechaHoraColoca;
     }
 
