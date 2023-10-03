@@ -1,5 +1,5 @@
 
-package vacunar23_grupo59;
+package vacunar23_grupo59_MAIN;
 
 public class VacunAR23_Grupo59 {
 
