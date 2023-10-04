@@ -2,22 +2,43 @@
 package vacunar23_Entidades;
 
 public class Ciudadano {
+    
+    private int idCiudadano; // Atributo creado por nos por conveniencia   
+    
     private int dni;
     private String nombreCompleto;
     private String email;
     private String celular;
-    private String patologia;
+    private String patologia = null;
     private String ambitoTrabajo;
     
     public Ciudadano(){}
     
-    public Ciudadano(int dni, String nombre, String email, String cel, String patologia, String ambTrab){
+    public Ciudadano(int dni, String nombre, String email, String cel, String patologia, String ambTrab) {
         this.dni = dni;
         nombreCompleto = nombre;
         this.email = email;
         celular = cel;
-       patologia = null;
-       ambitoTrabajo = ambTrab;
+        this.patologia = patologia;
+        ambitoTrabajo = ambTrab;
+    }
+
+    public Ciudadano(int id, int dni, String nombre, String email, String cel, String patologia, String ambTrab) {
+        idCiudadano = id;
+        this.dni = dni;
+        nombreCompleto = nombre;
+        this.email = email;
+        celular = cel;
+        this.patologia = patologia;
+        ambitoTrabajo = ambTrab;
+    }
+    
+    public int getIdCiudadano(){
+        return idCiudadano;
+    }
+    
+    public void setIdCiudadano(int id){
+        idCiudadano = id;
     }
     
     public int getDni(){
