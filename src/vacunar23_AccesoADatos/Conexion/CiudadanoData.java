@@ -5,6 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import vacunar23_Entidades.Ciudadano;
@@ -24,7 +25,7 @@ public class CiudadanoData {
                 + "VALUES (?, ?, ?, ?, ?, ?)";
                 
         try {
-            PreparedStatement ps = con.prepareStatement(sql);
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
             ps.setInt(1, ciudadano.getDni());
             ps.setString(2, ciudadano.getNombreCompleto());
@@ -33,25 +34,29 @@ public class CiudadanoData {
             ps.setString(5, ciudadano.getPatologia());
             ps.setString(6, ciudadano.getAmbitoTrabajo());
             
-            ps.executeUpdate();
-            
-            // Luego de preparar, enviar y ejecutar las sentencias, pido la clave generada a cada ciudadano, que correspondería al idCiudadano
-            // Recordar que el ResultSet devuelve una tabla, pero en este caso sería de una sola columna (idCiudadano) con tantas filas
-            // como ciudadanos haya cargado en la BD
-            ResultSet id = ps.getGeneratedKeys();
-            
-            if(id.next()){
-                ciudadano.setIdCiudadano(id.getInt(1)); //No comprendo por qué va el 1
-                System.out.println("Paciente cargado exitosamente");
-                System.out.println("-------------------------");
-                System.out.println("Chequeamos:");
-                System.out.println(ciudadano.getDni());
-                System.out.println(ciudadano.getNombreCompleto());
-                System.out.println(ciudadano.getEmail());
-                System.out.println(ciudadano.getCelular());
-                System.out.println(ciudadano.getPatologia());
-                System.out.println(ciudadano.getAmbitoTrabajo());
-                System.out.println("También mostramos el id: "+id);
+            // El executeUpdate devuelve un entero
+            int columnaAfectada = ps.executeUpdate();
+                        
+            if (columnaAfectada > 0) {
+                // Luego de preparar, enviar y ejecutar las sentencias, pido la clave generada a cada ciudadano, que correspondería al idCiudadano
+                // Recordar que el ResultSet devuelve una tabla, pero en este caso sería de una sola columna (idCiudadano) con tantas filas
+                // como ciudadanos haya cargado en la BD
+                ResultSet id = ps.getGeneratedKeys();
+                System.out.println(id);
+                if (id.next()) {
+                    ciudadano.setIdCiudadano(id.getInt("idCiudadano")); //Va el 1 porque le indico la columna que quiero utilizar, también podría ir el nombre
+                    // de la columna entre "" tal cual está en la BD
+                    System.out.println("Paciente cargado exitosamente");
+                    System.out.println("-------------------------");
+                    System.out.println("Chequeamos:");
+                    System.out.println(ciudadano.getDni());
+                    System.out.println(ciudadano.getNombreCompleto());
+                    System.out.println(ciudadano.getEmail());
+                    System.out.println(ciudadano.getCelular());
+                    System.out.println(ciudadano.getPatologia());
+                    System.out.println(ciudadano.getAmbitoTrabajo());
+                    System.out.println("También mostramos el id: " + ciudadano.getIdCiudadano());
+                }
             }
             
             ps.close();            
@@ -61,13 +66,13 @@ public class CiudadanoData {
         }        
     }
             
-    public void buscarCiudadano(int dni){
-        String sql = "SELEC * FROM ciudadano WHERE dni = ?";
+    public Ciudadano buscarCiudadano(int dni){
+        String sql = "SELECT * FROM ciudadano WHERE dni = ?";
         
         // Se setea el ciudadano en null y luego se cargan los datos del ciudadano buscado
         Ciudadano ciudadano = null;
         try {
-           PreparedStatement ps = con.prepareStatement(sql);
+           PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
            ps.setInt(1, dni);
            
            //En este caso (diferente al insert), se utiliza un executeQuery para la ejecución de la consulta
@@ -88,10 +93,20 @@ public class CiudadanoData {
             } else{
                 System.out.println("No se ha encontrado el DNI ingresado en la Base de Datos");
             }
+            
+            ps.close();
+            
         } catch (SQLException ex) {
             System.out.println("Error al acceder a la Base de Datos 'Ciudadano': "+ex.getMessage());
-        } 
+        }
+        
+     
+        
+        return ciudadano;
     }
+    
+    // Hacer método para listar ciudadanos, evaluar si va un List o un TreeSet o algo así
+    
     
     
 }

@@ -12,9 +12,11 @@ public class VacunAR23_Grupo59 {
         
         //Connection con = Conexion.getConexion();
         
-        Ciudadano persona = new Ciudadano(22333444, "Fua Sandra", "fuasandra@gmail.com", "2901-192134", "diabetes", "salud");
+        Ciudadano persona = new Ciudadano(22111555, "Ezequiel Diaz", "programeze@gmail.com", "11-002234256", "ninguno", "profesor");
         CiudadanoData datos = new CiudadanoData();
         datos.guardarCiudadano(persona);
+        System.out.println("----------------");
+        datos.buscarCiudadano(22111555);
         
         
     }
