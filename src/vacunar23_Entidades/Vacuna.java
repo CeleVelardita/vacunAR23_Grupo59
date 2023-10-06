@@ -6,6 +6,7 @@ import java.time.LocalDate;
 public class Vacuna {
     
     private int idVacuna;
+    private Laboratorio laboratorio; // Lo voy a necesitar para vincular con los laboratorios
     
     private int nroSerie;
     private String marca;
@@ -15,8 +16,9 @@ public class Vacuna {
     
     public Vacuna(){}
     
-    public Vacuna(int id, int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada){
+    public Vacuna(int id, Laboratorio lab, int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada){
         idVacuna = id;
+        laboratorio = lab;
         this.nroSerie = nroSerie;
         this.marca = marca;
         this.medida = medida;
@@ -24,7 +26,8 @@ public class Vacuna {
         this.colocada = colocada;
     }
     
-    public Vacuna(int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada){
+    public Vacuna(Laboratorio lab, int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada){
+        laboratorio = lab;
         this.nroSerie = nroSerie;
         this.marca = marca;
         this.medida = medida;
@@ -32,6 +35,14 @@ public class Vacuna {
         this.colocada = colocada;
     }
 
+    public Laboratorio getLaboratorio(){
+        return laboratorio;
+    }
+    
+    public void setLaboratorio(Laboratorio laboratorio){
+        this.laboratorio = laboratorio;
+    }
+    
     public int getIdVacuna() {
         return idVacuna;
     }
