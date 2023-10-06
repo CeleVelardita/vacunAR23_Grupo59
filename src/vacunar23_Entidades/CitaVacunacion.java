@@ -5,24 +5,22 @@ import java.time.LocalDate;
 
 public class CitaVacunacion {
     private int codCita;
-    private int idCiudadano;
     private LocalDate fechaHoraCita;
     private String centroVacunacion; 
     private LocalDate fechaHoraColoca;
-    private int idVacuna;
-    //private Vacuna vacuna;
-    //private Ciudadano ciudadano;
+    private Vacuna vacuna;
+    private Ciudadano ciudadano;
 
     public CitaVacunacion() {
     }
 
-    public CitaVacunacion(int codCita, int idCiudadano, LocalDate fechaHoraCita, String centroVacunacion, LocalDate fechaHoraColoca, int idVacuna) {
+    public CitaVacunacion(int codCita, LocalDate fechaHoraCita, String centroVacunacion, LocalDate fechaHoraColoca, Vacuna vacuna, Ciudadano ciudadano) {
         this.codCita = codCita;
-        this.idCiudadano = idCiudadano;
         this.fechaHoraCita = fechaHoraCita;
         this.centroVacunacion = centroVacunacion;
         this.fechaHoraColoca = fechaHoraColoca;
-        this.idVacuna = idVacuna;
+        this.vacuna = vacuna;
+        this.ciudadano = ciudadano;
     }
 
     public int getCodCita() {
@@ -31,14 +29,6 @@ public class CitaVacunacion {
 
     public void setCodCita(int codCita) {
         this.codCita = codCita;
-    }
-
-    public int getIdCiudadano() {
-        return idCiudadano;
-    }
-
-    public void setIdCiudadano(int idCiudadano) {
-        this.idCiudadano = idCiudadano;
     }
 
     public LocalDate getFechaHoraCita() {
@@ -65,19 +55,28 @@ public class CitaVacunacion {
         this.fechaHoraColoca = fechaHoraColoca;
     }
 
-    public int getIdVacuna() {
-        return idVacuna;
+    public Vacuna getVacuna() {
+        return vacuna;
     }
 
-    public void setIdVacuna(int idVacuna) {
-        this.idVacuna = idVacuna;
+    public void setVacuna(Vacuna vacuna) {
+        this.vacuna = vacuna;
+    }
+
+    public Ciudadano getCiudadano() {
+        return ciudadano;
+    }
+
+    public void setCiudadano(Ciudadano ciudadano) {
+        this.ciudadano = ciudadano;
     }
 
     @Override
     public String toString() {
-        return "CitaVacunacion{" + "codCita=" + codCita + ", idCiudadano=" + idCiudadano + ", fechaHoraCita=" + fechaHoraCita + ", centroVacunacion=" + centroVacunacion + ", fechaHoraColoca=" + fechaHoraColoca + ", idVacuna=" + idVacuna + '}';
+        return "CitaVacunacion{" + "codCita=" + codCita + ", fechaHoraCita=" + fechaHoraCita + ", centroVacunacion=" + centroVacunacion + ", fechaHoraColoca=" + fechaHoraColoca + ", vacuna=" + vacuna + ", ciudadano=" + ciudadano + '}';
     }
-    
+
+   
     
     
 }
