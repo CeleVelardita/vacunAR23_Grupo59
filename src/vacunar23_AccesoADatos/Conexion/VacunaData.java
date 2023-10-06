@@ -17,6 +17,7 @@ import vacunar23_Entidades.Vacuna;
 public class VacunaData {
     
     private Connection con = null;
+    private LaboratorioData lab;
     
     public VacunaData(){
         con = Conexion.getConexion();
