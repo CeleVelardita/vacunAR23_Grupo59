@@ -21,8 +21,6 @@ public class Laboratorio {
         this.domComercial = domComercial;
         this.estado = estado;
     }
-
-    
     
     public int getIdLaboratorio() {
         return idLaboratorio;
