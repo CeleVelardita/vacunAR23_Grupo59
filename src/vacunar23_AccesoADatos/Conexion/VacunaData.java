@@ -97,7 +97,7 @@ public class VacunaData {
     }
         
     // El método eliminarVacuna va a eliminar la vacuna según el número de serie... o la marca?
-    public void eliminarVacuna(int id){
+    public void eliminarVacuna(int id){ // No me cierra eliminar por id
         String sql = "DELETE FROM vacuna WHERE idVacuna = ?";        
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

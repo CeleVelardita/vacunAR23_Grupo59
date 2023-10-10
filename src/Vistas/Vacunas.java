@@ -39,7 +39,7 @@ public class Vacunas extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Laboratorio", "Marca", "Nro. Serie", "Medida", "Vencimiento", "Stock"
+                "Laboratorio", "Marca", "Nro. Serie", "Dosis (ml)", "Vencimiento", "Stock"
             }
         ) {
             Class[] types = new Class [] {
