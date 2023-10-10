@@ -148,7 +148,7 @@
                 <Column editable="false" title="Laboratorio" type="java.lang.String"/>
                 <Column editable="false" title="Marca" type="java.lang.String"/>
                 <Column editable="false" title="Nro. Serie" type="java.lang.Integer"/>
-                <Column editable="false" title="Medida" type="java.lang.Double"/>
+                <Column editable="false" title="Dosis (ml)" type="java.lang.Double"/>
                 <Column editable="false" title="Vencimiento" type="java.lang.Object"/>
                 <Column editable="true" title="Stock" type="java.lang.Integer"/>
               </Table>
