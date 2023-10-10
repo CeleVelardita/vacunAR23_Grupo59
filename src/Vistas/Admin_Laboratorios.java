@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package Vistas;
 
 import java.util.ArrayList;
@@ -13,10 +9,13 @@ import vacunar23_Entidades.Laboratorio;
 public class Admin_Laboratorios extends javax.swing.JInternalFrame {
 
     private DefaultTableModel modeloTabla;//modelo para la tabla
-    private ArrayList<Laboratorio> ListaInscripto;
+    private ArrayList<Laboratorio> ListaLaboratorios;
     private LaboratorioData labData;
+    
+    
     public Admin_Laboratorios() {
         initComponents();
+        armarCabeceraTabla();
     }
 
     /**
@@ -55,10 +54,7 @@ public class Admin_Laboratorios extends javax.swing.JInternalFrame {
         jTListadoLab.setAutoCreateRowSorter(true);
         jTListadoLab.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
@@ -152,7 +148,7 @@ public class Admin_Laboratorios extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLNombreLab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jTextField1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLCuit)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -198,4 +194,39 @@ public class Admin_Laboratorios extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbListarLab;
     private javax.swing.JButton jbModificar;
     // End of variables declaration//GEN-END:variables
+
+    public void armarCabeceraTabla(){
+        ArrayList<Object> filaCabecera = new  ArrayList<>();
+             
+            filaCabecera.add("Nombre de la Empresa");
+            filaCabecera.add("Cuit");         
+            filaCabecera.add("País");
+            filaCabecera.add("Domicilio Comercial");
+            filaCabecera.add("Contrato/Estado");
+
+
+             for(Object it: filaCabecera){
+                 modeloTabla.addColumn(it);
+             }
+             jTListadoLab.setModel(modeloTabla);
+    }
+    
+    private void borrarFilaDeTabla(){
+        int indice = modeloTabla.getRowCount() -1;
+        for(int i = indice ; i >= 0 ; i--){
+            modeloTabla.removeRow(i);           
+        }
+    }
+    
+    private void ListarLaboratorios (){
+//        borrarFilaDeTabla();//limpiamos tabla
+//        ListaLaboratorios.add((Laboratorio) labData.listarLaboratorios());
+//        Laboratorio labModelo= new Laboratorio();
+//        //mostramos en tabla la lista fila por fila (materias con sus notas)
+//        for(labModelo i: ListaLaboratorios){
+//            modeloTabla.addRow(new Object[]{i.getId_Materia(),i.getNombreMateria() , i.getNota()});
+//        }
+    }
+
+
 }
