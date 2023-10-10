@@ -7,12 +7,14 @@ package Vistas;
 
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
+import vacunar23_AccesoADatos.Conexion.LaboratorioData;
+import vacunar23_Entidades.Laboratorio;
 
 public class Admin_Laboratorios extends javax.swing.JInternalFrame {
 
     private DefaultTableModel modeloTabla;//modelo para la tabla
     private ArrayList<Laboratorio> ListaInscripto;
-    private InscripcionData inscData;
+    private LaboratorioData labData;
     public Admin_Laboratorios() {
         initComponents();
     }
