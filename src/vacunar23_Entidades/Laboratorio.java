@@ -2,47 +2,40 @@
 package vacunar23_Entidades;
 
 public class Laboratorio {
-    
     private int idLaboratorio;
-    private int CUIT;
+    private int cuit;
     private String nomLaboratorio;
-    private String pais;
+    private String pais; 
     private String domComercial;
     private boolean estado;
-   
-    // constructor vacio
-    public Laboratorio () {
-    }
-
     
-    // constructor con idLaboratorio
-    public Laboratorio( int idLaboratorio, int CUIT, String nomLaboratorio, String pais, String domComercial, boolean estado) {
+    
+    public Laboratorio() {
+    }
+   
+    public Laboratorio(int idLaboratorio, int cuit, String nomLaboratorio, String pais, String domComercial, boolean estado) {
         this.idLaboratorio = idLaboratorio;
-        this.CUIT = CUIT;
+        this.cuit = cuit;
         this.nomLaboratorio = nomLaboratorio;
         this.pais = pais;
         this.domComercial = domComercial;
         this.estado = estado;
     }
     
-    // constructor sin idLaboratorio
-     public Laboratorio(int CUIT, String nomLaboratorio, String pais, String domComercial) {
-        this.CUIT = CUIT;
-        this.nomLaboratorio = nomLaboratorio;
-        this.pais = pais;
-        this.domComercial = domComercial;
-    }
-    
-     
-     
-    // getter and setter
-
-    public int getCUIT() {
-        return CUIT;
+    public int getIdLaboratorio() {
+        return idLaboratorio;
     }
 
-    public void setCUIT(int CUIT) {
-        this.CUIT = CUIT;
+    public void setIdLaboratorio(int idLaboratorio) {
+        this.idLaboratorio = idLaboratorio;
+    }
+
+    public int getCuit() {
+        return cuit;
+    }
+
+    public void setCuit(int cuit) {
+        this.cuit = cuit;
     }
 
     public String getNomLaboratorio() {
@@ -76,16 +69,12 @@ public class Laboratorio {
     public void setEstado(boolean estado) {
         this.estado = estado;
     }
-    
-    
 
+    
+    
     @Override
     public String toString() {
-        return "Laboratorio{" + "CUIT=" + CUIT + ", nomLaboratorio=" + nomLaboratorio + ", pais=" + pais + ", domComercial=" + domComercial + '}';
+        return "Laboratorio{" + "idLaboratorio=" + idLaboratorio + ", cuit=" + cuit + ", nomLaboratorio=" + nomLaboratorio + ", pais=" + pais + ", domComercial=" + domComercial + '}';
     }
-    
-    
-    
-    
-    
+   
 }

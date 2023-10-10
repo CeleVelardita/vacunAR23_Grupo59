@@ -8,6 +8,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import vacunar23_Entidades.Vacuna;
@@ -15,24 +17,39 @@ import vacunar23_Entidades.Vacuna;
 public class VacunaData {
     
     private Connection con = null;
+    private LaboratorioData lab;
     
     public VacunaData(){
         con = Conexion.getConexion();
     }
     
+    /* Necesito los siguientes métodos:
+    - Cargar vacuna
+    - Modificar vacuna
+    - Eliminar vacuna
+    
+    - Listar vacunas
+    - Buscar vacuna por id... mmm no sé
+    - Buscar vacuna por laboratorio
+    - Buscar vacuna por marca
+    
+    */
+    
+    
     // El método cargarVacuna ingresa en la BD la vacuna que se va a colocar el paciente
     public void cargarVacuna(Vacuna vacuna){
-        String sql = "INSERT INTO vacuna (nroSerieDosis, marca, medida, fechaCaduca, coloca)"
-                + "+ VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO vacuna (nroSerieDosis, marca, medida, fechaCaduca, coloca, stock)"
+                + "+ VALUES (?, ?, ?, ?, ?, ?)";
         
         try {
-            PreparedStatement ps = con.prepareStatement(sql, Statement.NO_GENERATED_KEYS);
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
             ps.setInt(1, vacuna.getNroSerie());
             ps.setString(2, vacuna.getMarca());
             ps.setDouble(3, vacuna.getMedida());
             ps.setDate(4, Date.valueOf(vacuna.getFechaCaduca()));
             ps.setBoolean(5, vacuna.isColocada());
+            ps.setInt(6, vacuna.getStock());
             
             int columnaAfectada = ps.executeUpdate();
             
@@ -42,7 +59,7 @@ public class VacunaData {
                     System.out.println("La vacuna fue cargada exitosamente");
                     
                 } else{
-                    System.out.println("No de ha cargado ninguna vacuna");
+                    System.out.println("No se ha cargado ninguna vacuna");
                 }
             }
             
@@ -52,14 +69,63 @@ public class VacunaData {
             System.out.println("Error al acceder a la tabla de vacunas: "+ex.getMessage());
         }
     }
-    
-    
+     
+    public void modificarVacuna(Vacuna vacuna){
+        String sql = "UPDATE vacuna SET nroSerieDosis = ?, marca = ?, medida = ?, fechaCaduda = ?, coloca = ?, stock = ? WHERE idVacuna = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ps.setInt(1, vacuna.getNroSerie());
+            ps.setString(2, vacuna.getMarca());
+            ps.setDouble(3, vacuna.getMedida());
+            ps.setDate(4, Date.valueOf(vacuna.getFechaCaduca()));
+            ps.setBoolean(5, vacuna.isColocada());
+            ps.setInt(6, vacuna.getStock());
+            
+            int filaAfectada = ps.executeUpdate();
+            
+            if (filaAfectada > 0) {                
+                ResultSet id = ps.getGeneratedKeys();
+                if (id.next()) {
+                    System.out.println("¡Modificación exitosa!");
+                }
+                
+            }
+        } catch (SQLException ex) {
+            System.out.println("No se ha podido ingresar a la tabla de Vacunas");
+        }
+    }
+        
     // El método eliminarVacuna va a eliminar la vacuna según el número de serie... o la marca?
-    public void eliminarVacuna(){
+    public void eliminarVacuna(int id){
+        String sql = "DELETE FROM vacuna WHERE idVacuna = ?";        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            
+            ps.setInt(1, id);
+            
+            int filaAfectada = ps.executeUpdate();
+            
+            if(filaAfectada > 0){
+                System.out.println("Vacuna eliminada");
+            }else{
+                System.out.println("No se ha indicado la vacuna a eliminar");
+            }
+            
+            ps.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al ingresar a la tabla Vacunas");
+        }
         
     }
-    
-    
+        
+    public List<Vacuna> listarVacunas(){        
+        ArrayList<Vacuna> listarVacunas = new ArrayList<>();
+        
+        
+        
+        return listarVacunas;
+    }
     
     
 }
