@@ -87,7 +87,33 @@ public class LaboratorioData {
             }
     } 
 
-    public void borrarLaboratorio (int idLab){} 
+    public void borrarLaboratorio (int cuit){
+    String sql = "SELECT  CUIT, nomLaboratorio, pais, domComercial, estado FROM Laboratorio WHERE CUIT = ? AND estado = 1";
+        Laboratorio laboratorio = null; // Lo vuelvo null para que "arranque de cero"
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, cuit);
+            ResultSet buscarId = ps.executeQuery();//pregunto y me devuelve una lista (puede estar vacía, controlar en el if siguiente)
+            // Como me devuelve una única fila va...
+            if (buscarId.next()) { // "Si en el ResultSet hay un elemento, entonces...
+                // Voy seteando cada parámetro con los datos del laboratorio correspondientes al id que se ingresó
+                // Pero para esto, primero creo un objeto laboratorio de tipo Laboratorio seteado en null (antes del try)
+                laboratorio = new Laboratorio(); // inicializamos-definimos
+                // Empiezo a setear:
+                laboratorio.setCuit(buscarId.getInt("CUIT"));
+                laboratorio.setNomLaboratorio(buscarId.getString("nomLaboratorio"));
+                laboratorio.setPais(buscarId.getString("pais"));
+                laboratorio.setDomComercial("domComercial");
+                laboratorio.setEstado(false);             
+            } else { // Si en el Result Set no hay un elemento...
+                JOptionPane.showMessageDialog(null, "No existe un laboratorio con el CUIT ingresado");
+            }
+            // RECORDAR CERRAR EL PREPAREDSTATEMENT!!! 
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla laboratorio");
+        } 
+    } 
 
     public Laboratorio buscarLaboratorioXid (int idLab){
     // creamos el sql  SELECT para buscar

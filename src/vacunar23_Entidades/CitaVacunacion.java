@@ -9,17 +9,19 @@ public class CitaVacunacion {
     private String centroVacunacion; 
     private LocalDate fechaHoraColoca;
     private Vacuna vacuna;
+    private int codRefuerzo;
     private Ciudadano ciudadano;
 
     public CitaVacunacion() {
     }
 
-    public CitaVacunacion(int codCita, LocalDate fechaHoraCita, String centroVacunacion, LocalDate fechaHoraColoca, Vacuna vacuna, Ciudadano ciudadano) {
+    public CitaVacunacion(int codCita, LocalDate fechaHoraCita, String centroVacunacion, LocalDate fechaHoraColoca, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano) {
         this.codCita = codCita;
         this.fechaHoraCita = fechaHoraCita;
         this.centroVacunacion = centroVacunacion;
         this.fechaHoraColoca = fechaHoraColoca;
         this.vacuna = vacuna;
+        this.codRefuerzo = codRefuerzo;
         this.ciudadano = ciudadano;
     }
 
@@ -63,6 +65,16 @@ public class CitaVacunacion {
         this.vacuna = vacuna;
     }
 
+    public int getCodRefuerzo() {
+        return codRefuerzo;
+    }
+
+    public void setCodRefuerzo(int codRefuerzo) {
+        this.codRefuerzo = codRefuerzo;
+    }
+
+    
+    
     public Ciudadano getCiudadano() {
         return ciudadano;
     }
@@ -71,6 +83,8 @@ public class CitaVacunacion {
         this.ciudadano = ciudadano;
     }
 
+    
+    
     @Override
     public String toString() {
         return "CitaVacunacion{" + "codCita=" + codCita + ", fechaHoraCita=" + fechaHoraCita + ", centroVacunacion=" + centroVacunacion + ", fechaHoraColoca=" + fechaHoraColoca + ", vacuna=" + vacuna + ", ciudadano=" + ciudadano + '}';
