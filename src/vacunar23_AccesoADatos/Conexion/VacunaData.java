@@ -12,12 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import vacunar23_Entidades.Laboratorio;
 import vacunar23_Entidades.Vacuna;
 
 public class VacunaData {
     
     private Connection con = null;
     private LaboratorioData lab;
+    private Laboratorio laboratorio;
     
     public VacunaData(){
         con = Conexion.getConexion();
@@ -120,8 +122,30 @@ public class VacunaData {
     }
         
     public List<Vacuna> listarVacunas(){        
-        ArrayList<Vacuna> listarVacunas = new ArrayList<>();
+        ArrayList<Vacuna> listarVacunas = new ArrayList<>();       
+        String sql = "SELECT * FROM vacuna";
         
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet RSetVacunas = ps.executeQuery();
+            
+            while (RSetVacunas.next()) {
+                Vacuna vacuna = new Vacuna();
+                
+                vacuna.setIdVacuna(RSetVacunas.getInt("idVacuna"));
+                vacuna.setNroSerie(RSetVacunas.getInt("nroSerieDosis"));
+                vacuna.setMarca(RSetVacunas.getString("marca"));
+                vacuna.setMedida(RSetVacunas.getDouble("medida"));
+                vacuna.setFechaCaduca(RSetVacunas.getDate("fechaCaduca").toLocalDate()); // NO OLVIDAR "toLocalDate" PARA PARSEAR
+                vacuna.setColocada(RSetVacunas.getBoolean("colocada"));
+                vacuna.setStock(RSetVacunas.getInt("nroSerieDosis"));
+                laboratorio.setIdLaboratorio(RSetVacunas.getInt("idLaboratorio"));
+                System.out.println("Chequeamos la última línea del idLaboratorio: "+laboratorio.getIdLaboratorio());
+                
+            }
+        } catch (Exception e) {
+            
+        }
         
         
         return listarVacunas;
