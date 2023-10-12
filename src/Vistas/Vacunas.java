@@ -74,11 +74,16 @@ public class Vacunas extends javax.swing.JInternalFrame {
 
         jLabel3.setText("Nro. SERIE: ");
 
-        jLabel4.setText("MEDIDA: ");
+        jLabel4.setText("DOSIS (ml): ");
 
         jLabel5.setText("VENCIMIENTO: ");
 
         jbAgregar.setText("Insertar");
+        jbAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbAgregarActionPerformed(evt);
+            }
+        });
 
         jbModificar.setText("Modificar");
 
@@ -167,6 +172,13 @@ public class Vacunas extends javax.swing.JInternalFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
+        // Guardo en una variable cada uno de los datos ingresados en cada textField
+        String laboratorio = jtLaboratorio.getText();
+        String marca = jtMarca.getText();
+        int nroSerie = Integer.parseInt(jtNroSerie.getText());
+    }//GEN-LAST:event_jbAgregarActionPerformed
 
     /*
     Funcionalidades:
