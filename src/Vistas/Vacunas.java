@@ -1,6 +1,9 @@
 
 package Vistas;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
+
 public class Vacunas extends javax.swing.JInternalFrame {
 
     public Vacunas() {
@@ -77,6 +80,9 @@ public class Vacunas extends javax.swing.JInternalFrame {
         jLabel4.setText("DOSIS (ml): ");
 
         jLabel5.setText("VENCIMIENTO: ");
+
+        jcbMedida.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jcbMedida.setName(""); // NOI18N
 
         jbAgregar.setText("Insertar");
         jbAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -178,6 +184,9 @@ public class Vacunas extends javax.swing.JInternalFrame {
         String laboratorio = jtLaboratorio.getText();
         String marca = jtMarca.getText();
         int nroSerie = Integer.parseInt(jtNroSerie.getText());
+        Double dosis = Double.parseDouble(jcbMedida.getSelectedItem()); // No estoy segura si esta es la opción
+        LocalDate fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        
     }//GEN-LAST:event_jbAgregarActionPerformed
 
     /*
