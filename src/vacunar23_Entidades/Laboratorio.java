@@ -21,6 +21,15 @@ public class Laboratorio {
         this.domComercial = domComercial;
         this.estado = estado;
     }
+
+    public Laboratorio(int cuit, String nomLaboratorio, String pais, String domComercial, boolean estado) {
+        this.cuit = cuit;
+        this.nomLaboratorio = nomLaboratorio;
+        this.pais = pais;
+        this.domComercial = domComercial;
+        this.estado = estado;
+    }
+    
     
     public int getIdLaboratorio() {
         return idLaboratorio;

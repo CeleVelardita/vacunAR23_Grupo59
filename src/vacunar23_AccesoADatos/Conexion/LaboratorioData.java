@@ -72,12 +72,12 @@ public class LaboratorioData {
         }    
     }   
 
-    public void modificarLaboratorio (int idLab){
+    public void modificarLaboratorio (int cuit){
         String sql = "UPDATE laboratorio SET estado = 0 WHERE idLaboratorio = ?";
             try {
                
                 PreparedStatement ps = con.prepareStatement(sql);
-                ps.setInt(1, idLab); // le indicamos el id que deseamos manipular
+                ps.setInt(1, cuit); // le indicamos el cuit que deseamos manipular
                 int eliminar = ps.executeUpdate();// realizamos la accion, le da de baja y devuelve un int que guardamos en eliminar
                 if (eliminar == 1) {
                     JOptionPane.showMessageDialog(null, "Laboratorio dado de Baja");
@@ -87,32 +87,28 @@ public class LaboratorioData {
             }
     } 
 
-    public void borrarLaboratorio (int cuit){
-    String sql = "SELECT  CUIT, nomLaboratorio, pais, domComercial, estado FROM Laboratorio WHERE CUIT = ? AND estado = 1";
-        Laboratorio laboratorio = null; // Lo vuelvo null para que "arranque de cero"
+    public void cambiarEstadoLaboratorio (int cuit){
+    String sql = "UPDATE laboratorio SET estado = CASE WHEN estado = 0 THEN 1 ELSE 0 END WHERE CUIT = ?";
+    /*el sql invierte el estado del cuit que le pase, si estado = 1 lo pasa a 0 y sino al revés*/
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, cuit);
-            ResultSet buscarId = ps.executeQuery();//pregunto y me devuelve una lista (puede estar vacía, controlar en el if siguiente)
-            // Como me devuelve una única fila va...
-            if (buscarId.next()) { // "Si en el ResultSet hay un elemento, entonces...
-                // Voy seteando cada parámetro con los datos del laboratorio correspondientes al id que se ingresó
-                // Pero para esto, primero creo un objeto laboratorio de tipo Laboratorio seteado en null (antes del try)
-                laboratorio = new Laboratorio(); // inicializamos-definimos
-                // Empiezo a setear:
-                laboratorio.setCuit(buscarId.getInt("CUIT"));
-                laboratorio.setNomLaboratorio(buscarId.getString("nomLaboratorio"));
-                laboratorio.setPais(buscarId.getString("pais"));
-                laboratorio.setDomComercial("domComercial");
-                laboratorio.setEstado(false);             
-            } else { // Si en el Result Set no hay un elemento...
-                JOptionPane.showMessageDialog(null, "No existe un laboratorio con el CUIT ingresado");
-            }
-            // RECORDAR CERRAR EL PREPAREDSTATEMENT!!! 
+            // Ejecuta el SQL
+            int fila = ps.executeUpdate();
+
+            // Cierra la conexión
             ps.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla laboratorio");
+
+            // Verifica si se actualizó el estado
+             if (fila == 1) {
+                System.out.println("El estado del laboratorio se invirtió correctamente.");
+             } else {
+                System.out.println("No se pudo invertir el estado del laboratorio.");
+            }
+         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "no se logró acceder a la tabla laboratorio");
         } 
+       
     } 
 
     public Laboratorio buscarLaboratorioXid (int idLab){
