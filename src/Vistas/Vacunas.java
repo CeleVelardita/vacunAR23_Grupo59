@@ -3,6 +3,7 @@ package Vistas;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import vacunar23_AccesoADatos.Conexion.VacunaData;
@@ -14,7 +15,9 @@ public class Vacunas extends javax.swing.JInternalFrame {
     private VacunaData vacunaData;
     private Vacuna vacunaActual;
     
-    private DefaultComboBoxModel modeloCombo;
+    private DefaultComboBoxModel modeloCombo; // Lo necesito para agregarle elementos al combo
+    
+    private ArrayList<Vacunas> ListaVacunas; // Lo voy a necesitar para llenar la tabla
 
     public Vacunas() {
         initComponents();
@@ -37,7 +40,7 @@ public class Vacunas extends javax.swing.JInternalFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        jtTablaVacunas = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -58,8 +61,8 @@ public class Vacunas extends javax.swing.JInternalFrame {
         setTitle("Administración de Vacunas");
         setPreferredSize(new java.awt.Dimension(490, 500));
 
-        jTable1.setAutoCreateRowSorter(true);
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        jtTablaVacunas.setAutoCreateRowSorter(true);
+        jtTablaVacunas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -82,15 +85,15 @@ public class Vacunas extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-        jTable1.getTableHeader().setReorderingAllowed(false);
-        jScrollPane1.setViewportView(jTable1);
-        if (jTable1.getColumnModel().getColumnCount() > 0) {
-            jTable1.getColumnModel().getColumn(0).setResizable(false);
-            jTable1.getColumnModel().getColumn(1).setResizable(false);
-            jTable1.getColumnModel().getColumn(2).setResizable(false);
-            jTable1.getColumnModel().getColumn(3).setResizable(false);
-            jTable1.getColumnModel().getColumn(4).setResizable(false);
-            jTable1.getColumnModel().getColumn(5).setResizable(false);
+        jtTablaVacunas.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(jtTablaVacunas);
+        if (jtTablaVacunas.getColumnModel().getColumnCount() > 0) {
+            jtTablaVacunas.getColumnModel().getColumn(0).setResizable(false);
+            jtTablaVacunas.getColumnModel().getColumn(1).setResizable(false);
+            jtTablaVacunas.getColumnModel().getColumn(2).setResizable(false);
+            jtTablaVacunas.getColumnModel().getColumn(3).setResizable(false);
+            jtTablaVacunas.getColumnModel().getColumn(4).setResizable(false);
+            jtTablaVacunas.getColumnModel().getColumn(5).setResizable(false);
         }
 
         jLabel1.setText("LABORATORIO: ");
@@ -233,7 +236,6 @@ public class Vacunas extends javax.swing.JInternalFrame {
                 vacunaActual.setLaboratorio(laboratorio);
 
                 vacunaData.modificarVacuna(vacunaActual);
-
             }
         } catch(NumberFormatException e){
             JOptionPane.showMessageDialog(this, "El campo 'Nro. Serie' solo admite números, sin puntos ni comas");
@@ -282,7 +284,6 @@ public class Vacunas extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JButton jbAgregar;
     private javax.swing.JButton jbEliminar;
     private javax.swing.JButton jbModificar;
@@ -291,5 +292,20 @@ public class Vacunas extends javax.swing.JInternalFrame {
     private javax.swing.JTextField jtLaboratorio;
     private javax.swing.JTextField jtMarca;
     private javax.swing.JTextField jtNroSerie;
+    private javax.swing.JTable jtTablaVacunas;
     // End of variables declaration//GEN-END:variables
+
+
+private void cargarListaVacunas(){
+    
+    ListaVacunas = (ArrayList) vacunaData.listarVacunas();
+    
+    for (Vacunas ListaVacuna : ListaVacunas) {
+        jtTablaVacunas.
+    }
+    
+}
+
+
+
 }
