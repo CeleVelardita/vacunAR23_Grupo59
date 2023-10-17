@@ -150,7 +150,7 @@
                 <Column editable="false" title="Nro. Serie" type="java.lang.Integer"/>
                 <Column editable="false" title="Dosis (ml)" type="java.lang.Double"/>
                 <Column editable="false" title="Vencimiento" type="java.lang.Object"/>
-                <Column editable="true" title="Stock" type="java.lang.Integer"/>
+                <Column editable="true" title="Aplicada" type="java.lang.Boolean"/>
               </Table>
             </Property>
             <Property name="columnModel" type="javax.swing.table.TableColumnModel" editor="org.netbeans.modules.form.editors2.TableColumnModelEditor">

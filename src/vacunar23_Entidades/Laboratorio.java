@@ -13,6 +13,18 @@ public class Laboratorio {
     public Laboratorio() {
     }
    
+    
+    
+    /*--------------------------------------*/
+    // Creo un constructor me permita enviar un argumento de tipo Stirng para la vista de Vacuna
+    
+    public Laboratorio(String nomLaboratorio){
+        this.nomLaboratorio = nomLaboratorio;
+    }
+    /*--------------------------------------*/
+    
+    
+    
     public Laboratorio(int idLaboratorio, int cuit, String nomLaboratorio, String pais, String domComercial, boolean estado) {
         this.idLaboratorio = idLaboratorio;
         this.cuit = cuit;

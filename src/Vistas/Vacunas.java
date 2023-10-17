@@ -3,11 +3,33 @@ package Vistas;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+import vacunar23_AccesoADatos.Conexion.VacunaData;
+import vacunar23_Entidades.Laboratorio;
+import vacunar23_Entidades.Vacuna;
 
 public class Vacunas extends javax.swing.JInternalFrame {
+    
+    private VacunaData vacunaData;
+    private Vacuna vacunaActual;
+    
+    private DefaultComboBoxModel modeloCombo;
 
     public Vacunas() {
         initComponents();
+        vacunaData = new VacunaData();
+        vacunaActual = null;
+        
+        modeloCombo = (DefaultComboBoxModel) jcbMedida.getModel();
+        
+        modeloCombo.addElement("0.3");
+        modeloCombo.addElement("0.5");
+        modeloCombo.addElement("0.9");
+        
+        jcbMedida.setModel(modeloCombo);
+        jcbMedida.repaint();
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -42,11 +64,11 @@ public class Vacunas extends javax.swing.JInternalFrame {
 
             },
             new String [] {
-                "Laboratorio", "Marca", "Nro. Serie", "Dosis (ml)", "Vencimiento", "Stock"
+                "Laboratorio", "Marca", "Nro. Serie", "Dosis (ml)", "Vencimiento", "Aplicada"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Object.class, java.lang.Integer.class
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Object.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, true
@@ -180,12 +202,46 @@ public class Vacunas extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
-        // Guardo en una variable cada uno de los datos ingresados en cada textField
-        String laboratorio = jtLaboratorio.getText();
-        String marca = jtMarca.getText();
-        int nroSerie = Integer.parseInt(jtNroSerie.getText());
-        Double dosis = Double.parseDouble(jcbMedida.getSelectedItem()); // No estoy segura si esta es la opción
-        LocalDate fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        try {
+            // Guardo en una variable cada uno de los datos ingresados en cada textField
+            String lab = jtLaboratorio.getText();
+            Laboratorio laboratorio = new Laboratorio(lab);
+            
+            String marca = jtMarca.getText();
+            int nroSerie = Integer.parseInt(jtNroSerie.getText());
+
+            // Guardo la opción del comboBox en una variable
+            String dosis = (String) jcbMedida.getSelectedItem(); // el combo me devuelve un Object
+            Double dosisSeleccionada = Double.parseDouble(dosis); // Lo parseo a un Double para mandarlo a la base de datos
+
+            LocalDate fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+
+            // Verifico que no queden campos vacíos
+            if (marca.isEmpty() || nroSerie = 0 || dosisSeleccionada = 0.0 || fechaCaducidad == null) {
+                return;
+            }
+
+            if (vacunaActual == null) {
+                vacunaActual = new Vacuna(nroSerie, marca, dosisSeleccionada, fechaCaducidad, false, laboratorio);
+                vacunaData.cargarVacuna(vacunaActual);
+            } else { // si no está nulo, es porque ya está cargada una vacuna con el mismo número de serie
+                vacunaActual.setNroSerie(nroSerie);
+                vacunaActual.setMarca(marca);
+                vacunaActual.setMedida(dosisSeleccionada);
+                vacunaActual.setFechaCaduca(fechaCaducidad);
+                vacunaActual.setColocada(closable); // configurar con el botoncito
+                vacunaActual.setLaboratorio(laboratorio);
+
+                vacunaData.modificarVacuna(vacunaActual);
+
+            }
+        } catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(this, "El campo 'Nro. Serie' solo admite números, sin puntos ni comas");
+        } catch(IllegalArgumentException e){
+            JOptionPane.showMessageDialog(this, "Los campos 'Laboratorio' y 'Marca' no son válidos");
+        }  
+        
+        
         
     }//GEN-LAST:event_jbAgregarActionPerformed
 
