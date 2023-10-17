@@ -28,7 +28,7 @@ public class LaboratorioData {
 ->  para cargar laboratorios
 ->  para modificar un laboratorio ya guardado en la BD    
 ->  para eliminar un laboratorio de la tabla de la BD    
-->  2 para buscar un laboratorio (uno pasandole el idLaboratorio y otro el cuit),
+->  2 para buscar un laboratorio (uno pasandole el nombre del laboratorio y otro el cuit),
     tal vez para obtener o ver qué vacunas hay en stock de ese laboratorio 
 -> un ArrayList que nos dé una lista de laboratorios inscriptos    
 
@@ -72,20 +72,20 @@ public class LaboratorioData {
         }    
     }   
 
-    public void modificarLaboratorio (int cuit){
-        String sql = "UPDATE laboratorio SET estado = 0 WHERE idLaboratorio = ?";
-            try {
-               
-                PreparedStatement ps = con.prepareStatement(sql);
-                ps.setInt(1, cuit); // le indicamos el cuit que deseamos manipular
-                int eliminar = ps.executeUpdate();// realizamos la accion, le da de baja y devuelve un int que guardamos en eliminar
-                if (eliminar == 1) {
-                    JOptionPane.showMessageDialog(null, "Laboratorio dado de Baja");
-                }
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Error al dar de baja el Laboratorio");
-            }
-    } 
+//    public void modificarLaboratorio (int cuit){
+//        String sql = "UPDATE laboratorio SET estado = 0 WHERE idLaboratorio = ?";
+//            try {
+//               
+//                PreparedStatement ps = con.prepareStatement(sql);
+//                ps.setInt(1, cuit); // le indicamos el cuit que deseamos manipular
+//                int eliminar = ps.executeUpdate();// realizamos la accion, le da de baja y devuelve un int que guardamos en eliminar
+//                if (eliminar == 1) {
+//                    JOptionPane.showMessageDialog(null, "Laboratorio dado de Baja");
+//                }
+//            } catch (SQLException ex) {
+//                JOptionPane.showMessageDialog(null, "Error al dar de baja el Laboratorio");
+//            }
+//    } 
 
     public void cambiarEstadoLaboratorio (int cuit){
     String sql = "UPDATE laboratorio SET estado = CASE WHEN estado = 0 THEN 1 ELSE 0 END WHERE CUIT = ?";
@@ -113,25 +113,25 @@ public class LaboratorioData {
 
     public Laboratorio buscarLaboratorioXid (String nomLaboratorio){
     // creamos el sql  SELECT para buscar
-        String sql = "SELECT  idLaboratorio, CUIT, nomLaboratorio, pais, domComercial WHERE nomLaboratorio = ? AND estado = 1";
+        String sql = "SELECT  idLaboratorio, CUIT, nomLaboratorio, pais, domComercial, estado WHERE nomLaboratorio = ? AND estado = 1";
         // NOTA: el ID del laboratorio es un parámetro dinámico
         Laboratorio laboratorio = null; // Lo vuelvo null para que "arranque de cero"
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setString(1, nomLaboratorio);
-            ResultSet buscarId = ps.executeQuery();//pregunto y me devuelve una lista (puede estar vacía, controlar en el if siguiente)
+            ResultSet baseDeDatos = ps.executeQuery();//pregunto y me devuelve una lista (puede estar vacía, controlar en el if siguiente)
             // Como me devuelve una única fila va...
-            if (buscarId.next()) { // "Si en el ResultSet hay un elemento, entonces...
+            if (baseDeDatos.next()) { // "Si en el ResultSet hay un elemento, entonces...
                 // Voy seteando cada parámetro con los datos del laboratorio correspondientes al id que se ingresó
                 // Pero para esto, primero creo un objeto laboratorio de tipo Laboratorio seteado en null (antes del try)
                 laboratorio = new Laboratorio(); // inicializamos-definimos
                 // Empiezo a setear:
-                laboratorio.setIdLaboratorio(buscarId.getInt("IdLaboratorio"));
-                laboratorio.setCuit(buscarId.getInt("CUIT"));
-                laboratorio.setNomLaboratorio(buscarId.getString("nomLaboratorio"));
-                laboratorio.setPais(buscarId.getString("pais"));
-                laboratorio.setDomComercial("domComercial");
-                laboratorio.setEstado(true);
+                laboratorio.setIdLaboratorio(baseDeDatos.getInt("IdLaboratorio"));
+                laboratorio.setCuit(baseDeDatos.getInt("CUIT"));
+                laboratorio.setNomLaboratorio(baseDeDatos.getString("nomLaboratorio"));
+                laboratorio.setPais(baseDeDatos.getString("pais"));
+                laboratorio.setDomComercial(baseDeDatos.getString("domComercial"));
+                laboratorio.setEstado(baseDeDatos.getBoolean("estado"));
             } else { // Si en el Result Set no hay un elemento...
                 JOptionPane.showMessageDialog(null, "No existe un laboratorio con el ID ingresado");
             }
@@ -151,15 +151,15 @@ public class LaboratorioData {
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, cuit);
-            ResultSet buscarCuit = ps.executeQuery(); // Uso el query que significa "CONSULTA" y almaceno la lista que devuelva en resultSet
-            if(buscarCuit.next()){
+            ResultSet baseDeDatos = ps.executeQuery(); // Uso el query que significa "CONSULTA" y almaceno la lista que devuelva en resultSet
+            if(baseDeDatos.next()){
                 laboratorio = new Laboratorio();
-                laboratorio.setIdLaboratorio(buscarCuit.getInt("idLaboratorio"));
-                laboratorio.setCuit(buscarCuit.getInt("CUIT"));
-                laboratorio.setNomLaboratorio(buscarCuit.getString("nomLaboratorio"));
-                laboratorio.setPais(buscarCuit.getString("pais"));
-                laboratorio.setDomComercial(buscarCuit.getString("domComercial"));
-                laboratorio.setEstado(buscarCuit.getBoolean("estado"));            
+                laboratorio.setIdLaboratorio(baseDeDatos.getInt("idLaboratorio"));
+                laboratorio.setCuit(baseDeDatos.getInt("CUIT"));
+                laboratorio.setNomLaboratorio(baseDeDatos.getString("nomLaboratorio"));
+                laboratorio.setPais(baseDeDatos.getString("pais"));
+                laboratorio.setDomComercial(baseDeDatos.getString("domComercial"));
+                laboratorio.setEstado(baseDeDatos.getBoolean("estado"));            
             } else{           
                 JOptionPane.showMessageDialog(null, "No existe un laboratorio con el cuit ingresado");
             }
@@ -172,7 +172,7 @@ public class LaboratorioData {
     }
     
     public List<Laboratorio> listarLaboratorios(){
-        String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial FROM laboratorio WHERE estado = 1";
+        String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial, estado FROM laboratorio WHERE estado = 1";
       // Otra posibilidad es "SELECT * FROM laboratorio WHERE estado = 1", recordar que el * invoca todos los parámetros
       // Creo una lista de laboratorios porque me va a devolver una lista de TODOS los laboratorios que se encuentren activos
         
@@ -190,7 +190,7 @@ public class LaboratorioData {
                 laboratorio.setNomLaboratorio(listaLab.getString("nomLaboratorio"));
                 laboratorio.setPais(listaLab.getString("pais"));
                 laboratorio.setDomComercial(listaLab.getString("domComercial"));
-                laboratorio.setEstado(true);
+                laboratorio.setEstado(listaLab.getBoolean("estado"));
                 // Finalmente a la lista "listaLaboratorios" le agrego (add) ese laboratorio
                 listaLaboratorios.add(laboratorio);
             }            
