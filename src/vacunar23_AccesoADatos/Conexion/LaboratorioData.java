@@ -111,14 +111,14 @@ public class LaboratorioData {
        
     } 
 
-    public Laboratorio buscarLaboratorioXid (int idLab){
+    public Laboratorio buscarLaboratorioXid (String nomLaboratorio){
     // creamos el sql  SELECT para buscar
-        String sql = "SELECT  CUIT, nomLaboratorio, pais, domComercial WHERE idLaboratorio = ? AND estado = 1";
+        String sql = "SELECT  idLaboratorio, CUIT, nomLaboratorio, pais, domComercial WHERE nomLaboratorio = ? AND estado = 1";
         // NOTA: el ID del laboratorio es un parámetro dinámico
         Laboratorio laboratorio = null; // Lo vuelvo null para que "arranque de cero"
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, idLab);
+            ps.setString(1, nomLaboratorio);
             ResultSet buscarId = ps.executeQuery();//pregunto y me devuelve una lista (puede estar vacía, controlar en el if siguiente)
             // Como me devuelve una única fila va...
             if (buscarId.next()) { // "Si en el ResultSet hay un elemento, entonces...
@@ -126,7 +126,7 @@ public class LaboratorioData {
                 // Pero para esto, primero creo un objeto laboratorio de tipo Laboratorio seteado en null (antes del try)
                 laboratorio = new Laboratorio(); // inicializamos-definimos
                 // Empiezo a setear:
-                laboratorio.setIdLaboratorio(idLab);
+                laboratorio.setIdLaboratorio(buscarId.getInt("IdLaboratorio"));
                 laboratorio.setCuit(buscarId.getInt("CUIT"));
                 laboratorio.setNomLaboratorio(buscarId.getString("nomLaboratorio"));
                 laboratorio.setPais(buscarId.getString("pais"));
@@ -146,13 +146,13 @@ public class LaboratorioData {
 
     public Laboratorio buscarLaboratorioXCUIT (int cuit){
         String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial, estado FROM laboratorio WHERE CUIT = ?"; // Le saco la condición para que muestre alumnos activos e inactivos
-        // Seteo alumno en null, luego le cargo los datos del alumno buscado
+        // Seteo laboratorio en null, luego le cargo los datos del laboratorio buscado
         Laboratorio laboratorio = null; // Lo vuelvo null para que "arranque de cero"
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, cuit);
             ResultSet buscarCuit = ps.executeQuery(); // Uso el query que significa "CONSULTA" y almaceno la lista que devuelva en resultSet
-            if(buscarCuit.next()){ // Si se encuentra un alumno con ese dni, entonces... se crea un nuevo objeto alumno y se guardar ahí los datos del alumno encontrado
+            if(buscarCuit.next()){
                 laboratorio = new Laboratorio();
                 laboratorio.setIdLaboratorio(buscarCuit.getInt("idLaboratorio"));
                 laboratorio.setCuit(buscarCuit.getInt("CUIT"));
@@ -161,7 +161,7 @@ public class LaboratorioData {
                 laboratorio.setDomComercial(buscarCuit.getString("domComercial"));
                 laboratorio.setEstado(buscarCuit.getBoolean("estado"));            
             } else{           
-                JOptionPane.showMessageDialog(null, "No existe un alumno con el DNI ingresado");
+                JOptionPane.showMessageDialog(null, "No existe un laboratorio con el cuit ingresado");
             }
         ps.close();    
         } catch (SQLException ex) {
@@ -173,8 +173,8 @@ public class LaboratorioData {
     
     public List<Laboratorio> listarLaboratorios(){
         String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial FROM laboratorio WHERE estado = 1";
-      // Otra posibilidad es "SELECT * FROM alumno WHERE estado = 1", recordar que el * invoca todos los parámetros
-      // Creo una lista de alumnos porque me va a devolver una lista de TODOS los alumnos que se encuentren activos
+      // Otra posibilidad es "SELECT * FROM laboratorio WHERE estado = 1", recordar que el * invoca todos los parámetros
+      // Creo una lista de laboratorios porque me va a devolver una lista de TODOS los laboratorios que se encuentren activos
         
         ArrayList<Laboratorio> listaLaboratorios=new ArrayList<>();
         try {
@@ -182,9 +182,9 @@ public class LaboratorioData {
             ResultSet listaLab = ps.executeQuery();
             // En este caso, a diferencia de los demás,  la lista me devuelve MÁS DE UNA fila, por eso la recorro con un WHILE y NO con un IF
             while (listaLab.next()) {                
-                // Mientras haya elementos en esa fila, le digo que se cree un alumno vacío
+                // Mientras haya elementos en esa fila, le digo que se cree un laboratorio vacío
                 Laboratorio laboratorio = new Laboratorio();
-                // Luego a ese alumno, hay que setearle todos los datos
+                // Luego a ese laboratorio, hay que setearle todos los datos
                 laboratorio.setIdLaboratorio(listaLab.getInt("idLaboratorio"));
                 laboratorio.setCuit(listaLab.getInt("CUIT"));
                 laboratorio.setNomLaboratorio(listaLab.getString("nomLaboratorio"));
@@ -196,7 +196,7 @@ public class LaboratorioData {
             }            
             ps.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla alumnos");
+            JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla laboratorio");
         }
         return listaLaboratorios; 
         }
