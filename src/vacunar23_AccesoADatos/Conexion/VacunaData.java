@@ -40,7 +40,7 @@ public class VacunaData {
     
     // El método cargarVacuna ingresa en la BD la vacuna que se va a colocar el paciente
     public void cargarVacuna(Vacuna vacuna){
-        String sql = "INSERT INTO vacuna (nroSerieDosis, marca, medida, fechaCaduca, coloca, idLaboratorio)"
+        String sql = "INSERT INTO vacuna (nroSerieDosis, marca, medida, fechaCaduca, coloca, CUIT)"
                 + "+ VALUES (?, ?, ?, ?, ?, ?)";
         
         try {
@@ -52,7 +52,7 @@ public class VacunaData {
             ps.setDate(4, Date.valueOf(vacuna.getFechaCaduca()));
             ps.setBoolean(5, vacuna.isColocada());
             
-            ps.setInt(8, vacuna.getLaboratorio().getIdLaboratorio());
+            ps.setInt(6, vacuna.getLaboratorio().getCuit());
             
             int columnaAfectada = ps.executeUpdate();
             
@@ -98,12 +98,12 @@ public class VacunaData {
     }
         
     // El método eliminarVacuna va a eliminar la vacuna según el número de serie... o la marca?
-    public void eliminarVacuna(int id){ // No me cierra eliminar por id, quiero que se elimine al seleccionar una fila de la tabla
-        String sql = "DELETE FROM vacuna WHERE idVacuna = ?";        
+    public void eliminarVacuna(int nroSerieDosis){ // No me cierra eliminar por id, quiero que se elimine al seleccionar una fila de la tabla
+        String sql = "DELETE FROM vacuna WHERE nroSerieDosis = ?";        
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
-            ps.setInt(1, id);
+            ps.setInt(1, nroSerieDosis);
             
             int filaAfectada = ps.executeUpdate();
             

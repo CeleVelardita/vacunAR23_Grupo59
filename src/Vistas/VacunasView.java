@@ -10,16 +10,16 @@ import vacunar23_AccesoADatos.Conexion.VacunaData;
 import vacunar23_Entidades.Laboratorio;
 import vacunar23_Entidades.Vacuna;
 
-public class Vacunas extends javax.swing.JInternalFrame {
+public class VacunasView extends javax.swing.JInternalFrame {
     
     private VacunaData vacunaData;
     private Vacuna vacunaActual;
     
     private DefaultComboBoxModel modeloCombo; // Lo necesito para agregarle elementos al combo
     
-    private ArrayList<Vacunas> ListaVacunas; // Lo voy a necesitar para llenar la tabla
+    private ArrayList<VacunasView> ListaVacunas; // Lo voy a necesitar para llenar la tabla
 
-    public Vacunas() {
+    public VacunasView() {
         initComponents();
         vacunaData = new VacunaData();
         vacunaActual = null;
@@ -220,12 +220,12 @@ public class Vacunas extends javax.swing.JInternalFrame {
             LocalDate fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
             // Verifico que no queden campos vacíos
-            if (marca.isEmpty() || nroSerie = 0 || dosisSeleccionada = 0.0 || fechaCaducidad == null) {
+            /*if (marca.isEmpty() || nroSerie = 0 || dosisSeleccionada = 0.0 || fechaCaducidad == null) {
                 return;
             }
-
+*/
             if (vacunaActual == null) {
-                vacunaActual = new Vacuna(nroSerie, marca, dosisSeleccionada, fechaCaducidad, false, laboratorio);
+                vacunaActual = new Vacuna(nroSerie, marca, dosisSeleccionada, fechaCaducidad, false);
                 vacunaData.cargarVacuna(vacunaActual);
             } else { // si no está nulo, es porque ya está cargada una vacuna con el mismo número de serie
                 vacunaActual.setNroSerie(nroSerie);
@@ -299,11 +299,11 @@ public class Vacunas extends javax.swing.JInternalFrame {
 private void cargarListaVacunas(){
     
     ListaVacunas = (ArrayList) vacunaData.listarVacunas();
-    
-    for (Vacunas ListaVacuna : ListaVacunas) {
+    /*
+    for (VacunasView ListaVacuna : ListaVacunas) {
         jtTablaVacunas.
     }
-    
+    */
 }
 
 
