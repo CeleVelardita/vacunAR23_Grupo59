@@ -40,8 +40,8 @@ public class VacunaData {
     
     // El método cargarVacuna ingresa en la BD la vacuna que se va a colocar el paciente
     public void cargarVacuna(Vacuna vacuna){
-        String sql = "INSERT INTO vacuna (nroSerieDosis, marca, medida, fechaCaduca, coloca, stock, idLaboratorio)"
-                + "+ VALUES (?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO vacuna (nroSerieDosis, marca, medida, fechaCaduca, coloca, CUIT)"
+                + "+ VALUES (?, ?, ?, ?, ?, ?)";
         
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -51,9 +51,8 @@ public class VacunaData {
             ps.setDouble(3, vacuna.getMedida());
             ps.setDate(4, Date.valueOf(vacuna.getFechaCaduca()));
             ps.setBoolean(5, vacuna.isColocada());
-            ps.setInt(6, vacuna.getStock());
             
-            ps.setInt(8, vacuna.getLaboratorio().getIdLaboratorio());
+            ps.setLong(6, vacuna.getLaboratorio().getCuit());
             
             int columnaAfectada = ps.executeUpdate();
             
@@ -75,16 +74,14 @@ public class VacunaData {
     }
      
     public void modificarVacuna(Vacuna vacuna){ // Le mando como parámetro una vacuna de tipo vacuna porque selecciona una fila de la tabla para modificar
-        String sql = "UPDATE vacuna SET nroSerieDosis = ?, marca = ?, medida = ?, fechaCaduda = ?, coloca = ?, stock = ? WHERE idVacuna = ?";
+        String sql = "UPDATE vacuna SET marca = ?, medida = ?, fechaCaduda = ?, coloca = ?, idLaboratorio = ? WHERE nroSerieDosis = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             
-            ps.setInt(1, vacuna.getNroSerie());
-            ps.setString(2, vacuna.getMarca());
-            ps.setDouble(3, vacuna.getMedida());
-            ps.setDate(4, Date.valueOf(vacuna.getFechaCaduca()));
-            ps.setBoolean(5, vacuna.isColocada());
-            ps.setInt(6, vacuna.getStock());
+            ps.setString(1, vacuna.getMarca());
+            ps.setDouble(2, vacuna.getMedida());
+            ps.setDate(3, Date.valueOf(vacuna.getFechaCaduca()));
+            ps.setBoolean(4, vacuna.isColocada());
             
             int filaAfectada = ps.executeUpdate();
             
@@ -101,12 +98,12 @@ public class VacunaData {
     }
         
     // El método eliminarVacuna va a eliminar la vacuna según el número de serie... o la marca?
-    public void eliminarVacuna(int id){ // No me cierra eliminar por id, quiero que se elimine al seleccionar una fila de la tabla
-        String sql = "DELETE FROM vacuna WHERE idVacuna = ?";        
+    public void eliminarVacuna(int nroSerieDosis){ // No me cierra eliminar por id, quiero que se elimine al seleccionar una fila de la tabla
+        String sql = "DELETE FROM vacuna WHERE nroSerieDosis = ?";        
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
-            ps.setInt(1, id);
+            ps.setInt(1, nroSerieDosis);
             
             int filaAfectada = ps.executeUpdate();
             
@@ -139,12 +136,11 @@ public class VacunaData {
                 vacuna.setMedida(RSetVacunas.getDouble("medida"));
                 vacuna.setFechaCaduca(RSetVacunas.getDate("fechaCaduca").toLocalDate()); // NO OLVIDAR "toLocalDate" PARA PARSEAR
                 vacuna.setColocada(RSetVacunas.getBoolean("colocada"));
-                vacuna.setStock(RSetVacunas.getInt("nroSerieDosis"));
                 
                 // Necesito buscar el idLaboratorio, para eso vamos a labData.buscarLaboratorioXid
                 // Luego el RSetVacunas.getInt("idLaboratorio") obtiene el id y se lo pasa al método de labData
                 // Laboratorio laboratorio (carpeta entidades) almacena el id obtenido
-                Laboratorio laboratorio = labData.buscarLaboratorioXid(RSetVacunas.getInt("idLaboratorio"));
+                Laboratorio laboratorio = labData.buscarLaboratorioXCUIT(RSetVacunas.getInt("CUIT"));
                 // Luego se debe setear el id en la tabla "vacuna"
                 vacuna.setLaboratorio(laboratorio);
                 

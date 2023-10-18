@@ -7,20 +7,21 @@ public class Vacuna {
     
     private int idVacuna;
     private Laboratorio laboratorio; // Lo voy a necesitar para vincular con los laboratorios
-    private int stock;
-    
+        
     private int nroSerie;
     private String marca;
     private double medida;
     private LocalDate fechaCaduca;
     private boolean colocada = false;
     
-    public Vacuna(){}
     
-    public Vacuna(int id, Laboratorio lab, int stock, int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada){
-        idVacuna = id;
-        laboratorio = lab;
-        this.stock = stock;
+    /*--------------------------------*/
+    // Creo lo necesario para la vista de Vacunas, para poder acceder al cuit de Laboratorio
+    
+    private int cuit;
+    
+    public Vacuna(int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, int cuit){
+        this.cuit = cuit;
         this.nroSerie = nroSerie;
         this.marca = marca;
         this.medida = medida;
@@ -28,9 +29,31 @@ public class Vacuna {
         this.colocada = colocada;
     }
     
-    public Vacuna(Laboratorio lab, int stock, int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada){
+    public int getCuit(){
+        return cuit;
+    }
+    
+    public void setCuit(int cuit){
+        this.cuit = cuit;
+    }
+    
+    /*--------------------------------*/
+    
+    
+    public Vacuna(){}
+    
+    public Vacuna(int id, int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, Laboratorio lab ){
+        idVacuna = id;
         laboratorio = lab;
-        this.stock = stock;
+        this.nroSerie = nroSerie;
+        this.marca = marca;
+        this.medida = medida;
+        fechaCaduca = fecha;
+        this.colocada = colocada;
+    }
+    
+    public Vacuna(int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, Laboratorio lab){
+        laboratorio = lab;
         this.nroSerie = nroSerie;
         this.marca = marca;
         this.medida = medida;
@@ -45,15 +68,7 @@ public class Vacuna {
     public void setLaboratorio(Laboratorio laboratorio){
         this.laboratorio = laboratorio;
     }
-    
-    public int getStock(){
-        return stock;
-    }
-    
-    public void setStock(int stock){
-        this.stock = stock;
-    }
-    
+        
     public int getIdVacuna() {
         return idVacuna;
     }
