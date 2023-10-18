@@ -111,7 +111,7 @@ public class LaboratorioData {
        
     } 
 
-    public Laboratorio buscarLaboratorioXid (String nomLaboratorio){
+    public Laboratorio buscarLaboratorioXNombre (String nomLaboratorio){
     // creamos el sql  SELECT para buscar
         String sql = "SELECT  idLaboratorio, CUIT, nomLaboratorio, pais, domComercial, estado WHERE nomLaboratorio = ? AND estado = 1";
         // NOTA: el ID del laboratorio es un parámetro dinámico
