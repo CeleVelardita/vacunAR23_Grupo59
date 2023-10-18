@@ -14,9 +14,35 @@ public class Vacuna {
     private LocalDate fechaCaduca;
     private boolean colocada = false;
     
+    
+    /*--------------------------------*/
+    // Creo lo necesario para la vista de Vacunas, para poder acceder al cuit de Laboratorio
+    
+    private int cuit;
+    
+    public Vacuna(int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, int cuit){
+        this.cuit = cuit;
+        this.nroSerie = nroSerie;
+        this.marca = marca;
+        this.medida = medida;
+        fechaCaduca = fecha;
+        this.colocada = colocada;
+    }
+    
+    public int getCuit(){
+        return cuit;
+    }
+    
+    public void setCuit(int cuit){
+        this.cuit = cuit;
+    }
+    
+    /*--------------------------------*/
+    
+    
     public Vacuna(){}
     
-    public Vacuna(int id, int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, Laboratorio lab){
+    public Vacuna(int id, int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, Laboratorio lab ){
         idVacuna = id;
         laboratorio = lab;
         this.nroSerie = nroSerie;

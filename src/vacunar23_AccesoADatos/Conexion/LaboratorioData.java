@@ -42,7 +42,7 @@ public class LaboratorioData {
         // con.prepareStatement(sentencia Sql, le pido que devuelva la lista de las claves generadas ID)
         PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         //Se setean los tipos de datos que quiero enviar, porque llegan el método a través del parámetro "laboratorio"
-        ps.setInt(1, laboratorio.getCuit());
+        ps.setLong(1, laboratorio.getCuit());
         ps.setString(2, laboratorio.getNomLaboratorio());
         ps.setString(3, laboratorio.getPais());       
         ps.setString(4, laboratorio.getDomComercial());
@@ -72,12 +72,12 @@ public class LaboratorioData {
         }    
     }   
 
-    public void modificarLaboratorio (int cuit){
+    public void modificarLaboratorio (long cuit){
         String sql = "UPDATE laboratorio SET estado = 0 WHERE idLaboratorio = ?";
             try {
                
                 PreparedStatement ps = con.prepareStatement(sql);
-                ps.setInt(1, cuit); // le indicamos el cuit que deseamos manipular
+                ps.setLong(1, cuit); // le indicamos el cuit que deseamos manipular
                 int eliminar = ps.executeUpdate();// realizamos la accion, le da de baja y devuelve un int que guardamos en eliminar
                 if (eliminar == 1) {
                     JOptionPane.showMessageDialog(null, "Laboratorio dado de Baja");
@@ -87,12 +87,12 @@ public class LaboratorioData {
             }
     } 
 
-    public void cambiarEstadoLaboratorio (int cuit){
+    public void cambiarEstadoLaboratorio (long cuit){
     String sql = "UPDATE laboratorio SET estado = CASE WHEN estado = 0 THEN 1 ELSE 0 END WHERE CUIT = ?";
     /*el sql invierte el estado del cuit que le pase, si estado = 1 lo pasa a 0 y sino al revés*/
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, cuit);
+            ps.setLong(1, cuit);
             // Ejecuta el SQL
             int fila = ps.executeUpdate();
 
@@ -127,7 +127,7 @@ public class LaboratorioData {
                 laboratorio = new Laboratorio(); // inicializamos-definimos
                 // Empiezo a setear:
                 laboratorio.setIdLaboratorio(buscarId.getInt("IdLaboratorio"));
-                laboratorio.setCuit(buscarId.getInt("CUIT"));
+                laboratorio.setCuit(buscarId.getLong("CUIT"));
                 laboratorio.setNomLaboratorio(buscarId.getString("nomLaboratorio"));
                 laboratorio.setPais(buscarId.getString("pais"));
                 laboratorio.setDomComercial("domComercial");
@@ -145,17 +145,17 @@ public class LaboratorioData {
     } 
 
     public Laboratorio buscarLaboratorioXCUIT (int cuit){
-        String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial, estado FROM laboratorio WHERE CUIT = ?"; // Le saco la condición para que muestre alumnos activos e inactivos
+        String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial, estado FROM laboratorio WHERE CUIT = ?"; 
         // Seteo laboratorio en null, luego le cargo los datos del laboratorio buscado
         Laboratorio laboratorio = null; // Lo vuelvo null para que "arranque de cero"
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, cuit);
+            ps.setLong(1, cuit);
             ResultSet buscarCuit = ps.executeQuery(); // Uso el query que significa "CONSULTA" y almaceno la lista que devuelva en resultSet
             if(buscarCuit.next()){
                 laboratorio = new Laboratorio();
                 laboratorio.setIdLaboratorio(buscarCuit.getInt("idLaboratorio"));
-                laboratorio.setCuit(buscarCuit.getInt("CUIT"));
+                laboratorio.setCuit(buscarCuit.getLong("CUIT"));
                 laboratorio.setNomLaboratorio(buscarCuit.getString("nomLaboratorio"));
                 laboratorio.setPais(buscarCuit.getString("pais"));
                 laboratorio.setDomComercial(buscarCuit.getString("domComercial"));
@@ -186,7 +186,7 @@ public class LaboratorioData {
                 Laboratorio laboratorio = new Laboratorio();
                 // Luego a ese laboratorio, hay que setearle todos los datos
                 laboratorio.setIdLaboratorio(listaLab.getInt("idLaboratorio"));
-                laboratorio.setCuit(listaLab.getInt("CUIT"));
+                laboratorio.setCuit(listaLab.getLong("CUIT"));
                 laboratorio.setNomLaboratorio(listaLab.getString("nomLaboratorio"));
                 laboratorio.setPais(listaLab.getString("pais"));
                 laboratorio.setDomComercial(listaLab.getString("domComercial"));

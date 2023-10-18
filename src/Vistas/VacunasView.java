@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import vacunar23_AccesoADatos.Conexion.LaboratorioData;
 import vacunar23_AccesoADatos.Conexion.VacunaData;
 import vacunar23_Entidades.Laboratorio;
 import vacunar23_Entidades.Vacuna;
@@ -14,15 +15,18 @@ public class VacunasView extends javax.swing.JInternalFrame {
     
     private VacunaData vacunaData;
     private Vacuna vacunaActual;
+    private LaboratorioData labData;
     
     private DefaultComboBoxModel modeloCombo; // Lo necesito para agregarle elementos al combo
     
-    private ArrayList<VacunasView> ListaVacunas; // Lo voy a necesitar para llenar la tabla
+    private ArrayList<Vacuna> ListaVacunas; // Lo voy a necesitar para llenar la tabla
+    private ArrayList<Laboratorio> ListaLaboratorios; // Lo voy a necesitar para el comboBox de laboratorios
 
     public VacunasView() {
         initComponents();
         vacunaData = new VacunaData();
         vacunaActual = null;
+        labData = new LaboratorioData();
         
         modeloCombo = (DefaultComboBoxModel) jcbMedida.getModel();
         
@@ -32,6 +36,10 @@ public class VacunasView extends javax.swing.JInternalFrame {
         
         jcbMedida.setModel(modeloCombo);
         jcbMedida.repaint();
+        
+        ListaLaboratorios = (ArrayList<Laboratorio>)labData.listarLaboratorios();
+        // Explicación de la línea de arriba: Se recuperan de LaboratorioData los laboratotorios cargados activos
+        // Como lo que devuelve es una lista, se castea a un ArrayList
         
     }
 
@@ -46,7 +54,6 @@ public class VacunasView extends javax.swing.JInternalFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jtLaboratorio = new javax.swing.JTextField();
         jtMarca = new javax.swing.JTextField();
         jtNroSerie = new javax.swing.JTextField();
         jcbMedida = new javax.swing.JComboBox<>();
@@ -54,6 +61,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
         jbAgregar = new javax.swing.JButton();
         jbModificar = new javax.swing.JButton();
         jbEliminar = new javax.swing.JButton();
+        jcbLaboratorio = new javax.swing.JComboBox<>();
 
         setClosable(true);
         setIconifiable(true);
@@ -151,8 +159,8 @@ public class VacunasView extends javax.swing.JInternalFrame {
                                         .addComponent(jLabel1)
                                         .addGap(30, 30, 30)))
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jtLaboratorio)
-                                    .addComponent(jtMarca, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)))))
+                                    .addComponent(jtMarca, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
+                                    .addComponent(jcbLaboratorio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(17, 17, 17)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -163,35 +171,32 @@ public class VacunasView extends javax.swing.JInternalFrame {
                         .addComponent(jbModificar)
                         .addGap(62, 62, 62)
                         .addComponent(jbEliminar)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(184, 184, 184)
-                        .addComponent(jcbMedida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jtLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(jtNroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(31, 31, 31)
-                        .addComponent(jLabel4)))
-                .addGap(18, 18, 18)
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jcbLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(22, 22, 22)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jtMarca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jtNroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(jcbMedida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
                     .addComponent(jdcVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
+                .addGap(40, 40, 40)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbAgregar)
                     .addComponent(jbModificar)
@@ -207,8 +212,8 @@ public class VacunasView extends javax.swing.JInternalFrame {
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
         try {
             // Guardo en una variable cada uno de los datos ingresados en cada textField
-            String lab = jtLaboratorio.getText();
-            Laboratorio laboratorio = new Laboratorio(lab);
+            //String lab = jtLaboratorio.getText();
+            //Laboratorio laboratorio = new Laboratorio(lab);
             
             String marca = jtMarca.getText();
             int nroSerie = Integer.parseInt(jtNroSerie.getText());
@@ -225,7 +230,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
             }
 */
             if (vacunaActual == null) {
-                vacunaActual = new Vacuna(nroSerie, marca, dosisSeleccionada, fechaCaducidad, false);
+               // vacunaActual = new Vacuna(nroSerie, marca, 0, fechaCaducidad, closable, WIDTH)
                 vacunaData.cargarVacuna(vacunaActual);
             } else { // si no está nulo, es porque ya está cargada una vacuna con el mismo número de serie
                 vacunaActual.setNroSerie(nroSerie);
@@ -233,7 +238,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
                 vacunaActual.setMedida(dosisSeleccionada);
                 vacunaActual.setFechaCaduca(fechaCaducidad);
                 vacunaActual.setColocada(closable); // configurar con el botoncito
-                vacunaActual.setLaboratorio(laboratorio);
+                //vacunaActual.setLaboratorio(laboratorio);
 
                 vacunaData.modificarVacuna(vacunaActual);
             }
@@ -287,9 +292,9 @@ public class VacunasView extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbAgregar;
     private javax.swing.JButton jbEliminar;
     private javax.swing.JButton jbModificar;
+    private javax.swing.JComboBox<String> jcbLaboratorio;
     private javax.swing.JComboBox<String> jcbMedida;
     private com.toedter.calendar.JDateChooser jdcVencimiento;
-    private javax.swing.JTextField jtLaboratorio;
     private javax.swing.JTextField jtMarca;
     private javax.swing.JTextField jtNroSerie;
     private javax.swing.JTable jtTablaVacunas;
@@ -304,6 +309,15 @@ private void cargarListaVacunas(){
         jtTablaVacunas.
     }
     */
+}
+
+
+private void cargarComboLaboratorios(){
+    jcbLaboratorio.removeAllItems();
+    
+    for (Laboratorio item: ListaLaboratorios) {
+        //jcbLaboratorio.addItem(item);        
+    }
 }
 
 

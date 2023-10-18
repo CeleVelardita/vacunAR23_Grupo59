@@ -52,7 +52,7 @@ public class VacunaData {
             ps.setDate(4, Date.valueOf(vacuna.getFechaCaduca()));
             ps.setBoolean(5, vacuna.isColocada());
             
-            ps.setInt(6, vacuna.getLaboratorio().getCuit());
+            ps.setLong(6, vacuna.getLaboratorio().getCuit());
             
             int columnaAfectada = ps.executeUpdate();
             
@@ -140,7 +140,7 @@ public class VacunaData {
                 // Necesito buscar el idLaboratorio, para eso vamos a labData.buscarLaboratorioXid
                 // Luego el RSetVacunas.getInt("idLaboratorio") obtiene el id y se lo pasa al método de labData
                 // Laboratorio laboratorio (carpeta entidades) almacena el id obtenido
-                Laboratorio laboratorio = labData.buscarLaboratorioXid(RSetVacunas.getInt("idLaboratorio"));
+                Laboratorio laboratorio = labData.buscarLaboratorioXCUIT(RSetVacunas.getInt("CUIT"));
                 // Luego se debe setear el id en la tabla "vacuna"
                 vacuna.setLaboratorio(laboratorio);
                 
