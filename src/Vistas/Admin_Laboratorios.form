@@ -36,12 +36,8 @@
                       <Component id="jScrollPane1" min="-2" pref="591" max="-2" attributes="0"/>
                       <EmptySpace pref="30" max="32767" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="jbDarBaja" max="32767" attributes="0"/>
+                          <Component id="jbDarBaja" pref="121" max="32767" attributes="0"/>
                           <Component id="jbModificar" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jbListarLab" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jSeparator1" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jbBuscarxNombre" alignment="0" max="32767" attributes="0"/>
-                          <Component id="jbBuscarxCuit" alignment="0" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -57,6 +53,11 @@
                       <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Group type="102" attributes="0">
+                              <Component id="jCheckBoxEstado" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
+                              <Component id="jbListarLab" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
                                   <Component id="jtCuit" alignment="0" min="-2" pref="190" max="-2" attributes="0"/>
                                   <Component id="jtPais" alignment="0" min="-2" pref="178" max="-2" attributes="0"/>
@@ -69,7 +70,6 @@
                                   <Component id="jLTitulo" min="-2" max="-2" attributes="0"/>
                                   <Component id="jtNombreLab" min="-2" pref="308" max="-2" attributes="0"/>
                                   <Component id="jtDomicilio" min="-2" pref="275" max="-2" attributes="0"/>
-                                  <Component id="jCheckBoxEstado" alignment="0" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
@@ -124,17 +124,11 @@
                       <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <EmptySpace pref="129" max="32767" attributes="0"/>
-                      <Component id="jbBuscarxCuit" min="-2" pref="38" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jbBuscarxNombre" min="-2" pref="34" max="-2" attributes="0"/>
-                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
+                      <EmptySpace pref="69" max="32767" attributes="0"/>
                       <Component id="jbListarLab" min="-2" pref="37" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                       <Component id="jbModificar" min="-2" pref="37" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                       <Component id="jbDarBaja" min="-2" pref="37" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="14" max="-2" attributes="0"/>
                   </Group>
@@ -292,18 +286,6 @@
     <Component class="javax.swing.JTextField" name="jtPais">
     </Component>
     <Component class="javax.swing.JTextField" name="jtDomicilio">
-    </Component>
-    <Component class="javax.swing.JButton" name="jbBuscarxCuit">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Buscar por CUIT"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="jbBuscarxNombre">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Buscar por Nombre"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JSeparator" name="jSeparator1">
     </Component>
   </SubComponents>
 </Form>
