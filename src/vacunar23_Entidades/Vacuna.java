@@ -18,9 +18,9 @@ public class Vacuna {
     /*--------------------------------*/
     // Creo lo necesario para la vista de Vacunas, para poder acceder al cuit de Laboratorio
     
-    private int cuit;
+    private long cuit;
     
-    public Vacuna(int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, int cuit){
+    public Vacuna(int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, long cuit){
         this.cuit = cuit;
         this.nroSerie = nroSerie;
         this.marca = marca;
@@ -29,11 +29,11 @@ public class Vacuna {
         this.colocada = colocada;
     }
     
-    public int getCuit(){
+    public long getCuit(){
         return cuit;
     }
     
-    public void setCuit(int cuit){
+    public void setCuit(long cuit){
         this.cuit = cuit;
     }
     

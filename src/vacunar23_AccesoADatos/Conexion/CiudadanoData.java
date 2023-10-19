@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import vacunar23_Entidades.Ciudadano;
 
 public class CiudadanoData {
@@ -46,6 +47,10 @@ public class CiudadanoData {
                 if (id.next()) {
                     ciudadano.setIdCiudadano(id.getInt("idCiudadano")); //Va el 1 porque le indico la columna que quiero utilizar, también podría ir el nombre
                     // de la columna entre "" tal cual está en la BD
+                    
+                    
+                    /*-----------------------------*/
+                    // Para probar en el main
                     System.out.println("Paciente cargado exitosamente");
                     System.out.println("-------------------------");
                     System.out.println("Chequeamos:");
@@ -56,6 +61,10 @@ public class CiudadanoData {
                     System.out.println(ciudadano.getPatologia());
                     System.out.println(ciudadano.getAmbitoTrabajo());
                     System.out.println("También mostramos el id: " + ciudadano.getIdCiudadano());
+                    /*------------------------------*/
+                    
+                    
+                    JOptionPane.showMessageDialog(null, "Paciente cargado exitosamente");
                 }
             }
             

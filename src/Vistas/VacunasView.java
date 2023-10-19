@@ -225,10 +225,12 @@ public class VacunasView extends javax.swing.JInternalFrame {
             LocalDate fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
             // Verifico que no queden campos vacíos
-            /*if (marca.isEmpty() || nroSerie = 0 || dosisSeleccionada = 0.0 || fechaCaducidad == null) {
-                return;
+            if (marca.isEmpty() ||fechaCaducidad == null) {
+                if( nroSerie == 0 || dosisSeleccionada == 0.0){
+                   return; 
+                }                
             }
-*/
+
             if (vacunaActual == null) {
                // vacunaActual = new Vacuna(nroSerie, marca, 0, fechaCaducidad, closable, WIDTH)
                 vacunaData.cargarVacuna(vacunaActual);

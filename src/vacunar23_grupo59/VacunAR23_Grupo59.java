@@ -25,16 +25,19 @@ public class VacunAR23_Grupo59 {
         datos.buscarCiudadano(22111555);
         */
         
+        String numerito = "12345678901";
+        long num = Long.parseLong(numerito);
         
-        Laboratorio lab = new Laboratorio(301112223,"Pirulito" , "Argentina", "Avenida Siempreviva 123", true);
-        
+        //Laboratorio lab = new Laboratorio(num,"Pirulito" , "Argentina", "Avenida Siempreviva 123", true);
+        Laboratorio lab = new Laboratorio();
+        LaboratorioData labData = new LaboratorioData();
+        //labData.cargarLaboratorio(lab);        
         
         
         String fecha = "2030-07-20";
         LocalDate fechaCaduca = LocalDate.parse(fecha);
         
-        Laboratorio datos = new Laboratorio();
-        long cuit = datos.getCuit();
+        long cuit = lab.getCuit();
                 
         Vacuna pichicata = new Vacuna(112233,"Sputnik V" ,0.5 , fechaCaduca, false, cuit);
                 

@@ -70,6 +70,8 @@ public class VacunaData {
             
         } catch (SQLException ex) {
             System.out.println("Error al acceder a la tabla de vacunas: "+ex.getMessage());
+        } catch (NullPointerException ex){
+            System.out.println("NullPointerException");
         }
     }
      
