@@ -6,19 +6,24 @@ import vacunar23_Entidades.Laboratorio;
 
 public class admin_lab_BuscarxNombre extends javax.swing.JInternalFrame {
 
-    LaboratorioData buscar_labData=new LaboratorioData();
-    Laboratorio lab= new Laboratorio();
+    LaboratorioData buscar_labData=new LaboratorioData();//para acceder al metodo buscar
+    Laboratorio lab= new Laboratorio();//para guardar los datos del laboratorio que necesite (es mi modelo)
     
     private Admin_Laboratorios jframePrincipal;
 
    
     
-    
+     //constructor de ésta clase
     public admin_lab_BuscarxNombre() {
         initComponents();
     }
     
-    
+    //el siguiente método permite el vínculo con la ventana principal
+    /*
+        en el envento del boton buscar por cuit pondremos:
+        admin_lab_BuscarxCuit buscarCuit = new admin_lab_BuscarxCuit(this); 
+        y si éste método no está aquí no habrá referencia y dará error esa línea anterior
+    */
      public admin_lab_BuscarxNombre(Admin_Laboratorios jframePrincipal) {
         this.jframePrincipal = jframePrincipal;
         
@@ -76,14 +81,12 @@ public class admin_lab_BuscarxNombre extends javax.swing.JInternalFrame {
 
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
         String nombre= jtNombre.getText();
-        lab = buscar_labData.buscarLaboratorioXNombre(nombre);
+        lab = buscar_labData.buscarLaboratorioXNombre(nombre);//almaceno el lab que encuentre el méotodo de laboratorioData
+        //verifico en el if si encontró un lab para cerrar esta ventana e imprimir el lab encontrado en la tabla
         if(lab!=null){
-            this.dispose();
-            // Obtén una referencia al JFrame principal
-            jframePrincipal = obtenerReferenciaAlJFramePrincipal();
-
             // Llama al método para actualizar la JTable en el JFrame principal
-            jframePrincipal.actualizarJTable(lab);
+            jframePrincipal.actualizarJTable(lab);//método de la ventana principal que actualiza la tabla
+            this.dispose();//cierra ésta ventana en caso de encontrar el laboratorio
         }
     }//GEN-LAST:event_jbBuscarActionPerformed
 
@@ -93,4 +96,10 @@ public class admin_lab_BuscarxNombre extends javax.swing.JInternalFrame {
     private javax.swing.JLabel jlIngreseNombre;
     private javax.swing.JTextField jtNombre;
     // End of variables declaration//GEN-END:variables
+
+    
+public Laboratorio getLaboratorioEncontrado() {
+    return lab;
+}
+
 }
