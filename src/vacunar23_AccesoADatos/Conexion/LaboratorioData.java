@@ -144,7 +144,7 @@ public class LaboratorioData {
         return laboratorio;        
     } 
 
-    public Laboratorio buscarLaboratorioXCUIT (int cuit){
+    public Laboratorio buscarLaboratorioXCUIT (long cuit){
         String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial, estado FROM laboratorio WHERE CUIT = ?"; 
         // Seteo laboratorio en null, luego le cargo los datos del laboratorio buscado
         Laboratorio laboratorio = null; // Lo vuelvo null para que "arranque de cero"
