@@ -25,8 +25,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
     public VacunasView() {
         initComponents();
         vacunaData = new VacunaData();
-        vacunaActual = null;
-        labData = new LaboratorioData();
+        vacunaActual = null;        
         
         modeloCombo = (DefaultComboBoxModel) jcbMedida.getModel();
         
@@ -37,6 +36,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
         jcbMedida.setModel(modeloCombo);
         jcbMedida.repaint();
         
+        labData = new LaboratorioData();
         ListaLaboratorios = (ArrayList<Laboratorio>)labData.listarLaboratorios();
         // Explicación de la línea de arriba: Se recuperan de LaboratorioData los laboratotorios cargados activos
         // Como lo que devuelve es una lista, se castea a un ArrayList
@@ -316,9 +316,9 @@ private void cargarListaVacunas(){
 
 private void cargarComboLaboratorios(){
     jcbLaboratorio.removeAllItems();
-    
+        
     for (Laboratorio item: ListaLaboratorios) {
-        //jcbLaboratorio.addItem(item);        
+        jcbLaboratorio.addItem(item.getNomLaboratorio());        
     }
 }
 
