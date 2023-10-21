@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import vacunar23_Entidades.Laboratorio;
 import vacunar23_Entidades.Vacuna;
 
@@ -31,6 +32,9 @@ public class VacunaData {
     - Eliminar vacuna    
     - Listar vacunas
     
+    - Agregar un método que me permita comparar el idLaboratorio ingresado y compararlo con los id de la tabla de vacunas
+    
+    
     - Buscar vacuna por id... mmm no sé
     - Buscar vacuna por laboratorio
     - Buscar vacuna por marca
@@ -39,40 +43,44 @@ public class VacunaData {
     
     
     // El método cargarVacuna ingresa en la BD la vacuna que se va a colocar el paciente
-    public void cargarVacuna(Vacuna vacuna){
-        String sql = "INSERT INTO vacuna (nroSerieDosis, marca, medida, fechaCaduca, coloca, CUIT)"
-                + "+ VALUES (?, ?, ?, ?, ?, ?)";
-        
-        try {
-            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            
-            ps.setInt(1, vacuna.getNroSerie());
-            ps.setString(2, vacuna.getMarca());
-            ps.setDouble(3, vacuna.getMedida());
-            ps.setDate(4, Date.valueOf(vacuna.getFechaCaduca()));
-            ps.setBoolean(5, vacuna.isColocada());
-            
-            ps.setLong(6, vacuna.getLaboratorio().getCuit());
-            
-            int columnaAfectada = ps.executeUpdate();
-            
-            if(columnaAfectada > 0){
-                ResultSet id = ps.getGeneratedKeys();
-                if(id.next()){
-                    System.out.println("La vacuna fue cargada exitosamente");
-                    
-                } else{
-                    System.out.println("No se ha cargado ninguna vacuna");
+    public void cargarVacuna(Vacuna vacuna){        
+
+            String sql = "INSERT INTO vacuna (nroSerieDosis, marca, medida, fechaCaduca, colocada, nombreLab, idLaboratorio)"
+                    + " VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+            try {
+                PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+                ps.setInt(1, vacuna.getNroSerie());
+                ps.setString(2, vacuna.getMarca());
+                ps.setDouble(3, vacuna.getMedida());
+                ps.setDate(4, Date.valueOf(vacuna.getFechaCaduca()));
+                ps.setBoolean(5, vacuna.isColocada());
+                ps.setString(6, vacuna.getNombreLab());
+                ps.setInt(7, vacuna.getLaboratorio().getIdLaboratorio());
+
+                int columnaAfectada = ps.executeUpdate();
+
+                if (columnaAfectada > 0) {
+                    ResultSet id = ps.getGeneratedKeys();
+                    if (id.next()) {
+                        System.out.println("La vacuna fue cargada exitosamente");
+
+                    } else {
+                        System.out.println("No se ha cargado ninguna vacuna");
+                    }
                 }
+
+                ps.close();
+
+            } catch (SQLException ex) {
+                JOptionPane.showConfirmDialog(null, "Error al acceder a la tabla de vacunas");
+                System.out.println("Error al acceder a la tabla de vacunas: " + ex.getMessage());
+            } catch (NullPointerException ex) {
+                System.out.println(ex.getStackTrace());
+                System.out.println("NullPointerException " + ex.getMessage());
+                JOptionPane.showMessageDialog(null, "Error al guardar la vacuna");
             }
-            
-            ps.close();
-            
-        } catch (SQLException ex) {
-            System.out.println("Error al acceder a la tabla de vacunas: "+ex.getMessage());
-        } catch (NullPointerException ex){
-            System.out.println("NullPointerException");
-        }
     }
      
     public void modificarVacuna(Vacuna vacuna){ // Le mando como parámetro una vacuna de tipo vacuna porque selecciona una fila de la tabla para modificar
@@ -162,4 +170,70 @@ public class VacunaData {
     }
     
     
+    
+    
+    /*------- Necesito un método que me permita obtener solamente el nombre del Laboratorio correspondiente del id seleccionado--------*/
+    
+    public String nombreLab(int id){
+            
+        String sql = "SELECT nomLaboratorio FROM laboratorio WHERE idLaboratorio = ?"; 
+        // Seteo laboratorio en null, luego le cargo los datos del laboratorio buscado
+        Laboratorio laboratorio = null; 
+        
+        String nombreLab = null; // Declaro esta variable de retorno acá para poder usarla dentro del try/catch y el if
+        
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet buscarId = ps.executeQuery(); // Uso el query que significa "CONSULTA" y almaceno la lista que devuelva en resultSet
+            
+            if(buscarId.next()){
+                laboratorio = new Laboratorio();                
+                nombreLab = buscarId.getString("nomLaboratorio");              
+            } else{     
+                nombreLab = null;
+                JOptionPane.showMessageDialog(null, "No existe un laboratorio con el id ingresado");
+            }
+            
+        ps.close();    
+        } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla laboratorio");
+            System.out.println(ex.getMessage());
+        } catch(NullPointerException ex){
+            nombreLab = null;
+            JOptionPane.showConfirmDialog(null, "No se pudo acceder a la tabla laboratorio");
+            System.out.println("No existe un laboratorio con el id ingresado");
+        }
+        
+        //System.out.println("Chequeando qué nombre se guardó ---> "+nombreLab);
+        
+        return nombreLab;        
+
+    }
+    
+    /* El método de abajo fue una de las primeras tentativas para obtener el nombre del laboratorio a partir del id ingresado
+    public void otroMetodo(){
+        String sql = "SELECT nomLaboratorio FROM laboratorio JOIN vacuna ON laboratorio.idLaboratorio = vacuna.idLaboratorio WHERE laboratorio.idLaboratorio = ?";
+       
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet buscaId = ps.executeQuery();
+            
+            if (buscaId.next()) {
+                
+                Vacuna vacuna = new Vacuna();              
+                vacuna.setNombreLab(buscaId.getString("nomLaboratorio"));
+                
+            } else{
+                System.out.println("No existe en la BD el laboratorio indicado");
+            }
+             
+            ps.close();
+
+        } catch (SQLException ex) {
+            JOptionPane.showConfirmDialog(null, "Error al acceder al nombre del Laboratorio");
+        }
+    }
+    */
 }

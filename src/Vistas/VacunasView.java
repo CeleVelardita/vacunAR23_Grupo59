@@ -211,9 +211,13 @@ public class VacunasView extends javax.swing.JInternalFrame {
 
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
         try {
-            // Guardo en una variable cada uno de los datos ingresados en cada textField
-            //String lab = jtLaboratorio.getText();
-            //Laboratorio laboratorio = new Laboratorio(lab);
+            
+            Laboratorio laboratorio = rescatandoAlSoldadoRian(); // lo voy a necesitar luego
+
+           // Guardo en una variable cada uno de los datos ingresados en cada textField
+            
+            // Utilizo el método creado para acceder al nombre del laboratorio seleccionado
+            String nombreLab = laboratorio.getNomLaboratorio();
             
             String marca = jtMarca.getText();
             int nroSerie = Integer.parseInt(jtNroSerie.getText());
@@ -224,8 +228,16 @@ public class VacunasView extends javax.swing.JInternalFrame {
 
             LocalDate fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 
+            
+            
+            
+            ///-------> Me falta rescatar la elección de "aplicada" <---------
+            
+            
+            
+            
             // Verifico que no queden campos vacíos
-            if (marca.isEmpty() ||fechaCaducidad == null) {
+            if (nombreLab.isEmpty() || marca.isEmpty() ||fechaCaducidad == null) {
                 if( nroSerie == 0 || dosisSeleccionada == 0.0){
                    return; 
                 }                
@@ -239,8 +251,8 @@ public class VacunasView extends javax.swing.JInternalFrame {
                 vacunaActual.setMarca(marca);
                 vacunaActual.setMedida(dosisSeleccionada);
                 vacunaActual.setFechaCaduca(fechaCaducidad);
-                vacunaActual.setColocada(closable); // configurar con el botoncito
-                //vacunaActual.setLaboratorio(laboratorio);
+                vacunaActual.setColocada(false); // configurar con el botoncito
+                vacunaActual.setLaboratorio(laboratorio); // No estoy segura
 
                 vacunaData.modificarVacuna(vacunaActual);
             }
@@ -249,8 +261,6 @@ public class VacunasView extends javax.swing.JInternalFrame {
         } catch(IllegalArgumentException e){
             JOptionPane.showMessageDialog(this, "Los campos 'Laboratorio' y 'Marca' no son válidos");
         }  
-        
-        
         
     }//GEN-LAST:event_jbAgregarActionPerformed
 
@@ -284,6 +294,21 @@ public class VacunasView extends javax.swing.JInternalFrame {
     
     
 
+    private Laboratorio rescatandoAlSoldadoRian() {
+        Laboratorio lab = null;
+        //String nombre = null;
+        if (jcbLaboratorio != null) {
+            lab = (Laboratorio) jcbLaboratorio.getSelectedItem();
+            //nombre = (String) lab.getNomLaboratorio();
+        }
+        //return nombre;
+        return lab;
+        
+        // Según yo, a partir de acá puedo acceder a todos los métodos de laboratorio
+        // No tengo certezas pero tampoco dudas
+    }
+    
+    
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -303,24 +328,26 @@ public class VacunasView extends javax.swing.JInternalFrame {
     // End of variables declaration//GEN-END:variables
 
 
-private void cargarListaVacunas(){
-    
-    ListaVacunas = (ArrayList) vacunaData.listarVacunas();
-    /*
+    private void cargarListaVacunas() {
+
+        ListaVacunas = (ArrayList) vacunaData.listarVacunas();
+        /*
     for (VacunasView ListaVacuna : ListaVacunas) {
         jtTablaVacunas.
     }
-    */
-}
-
-
-private void cargarComboLaboratorios(){
-    jcbLaboratorio.removeAllItems();
-        
-    for (Laboratorio item: ListaLaboratorios) {
-        jcbLaboratorio.addItem(item.getNomLaboratorio());        
+         */
     }
-}
+
+    private void cargarComboLaboratorios() {
+        jcbLaboratorio.removeAllItems();
+
+        for (Laboratorio item : ListaLaboratorios) {
+            jcbLaboratorio.addItem(item.getNomLaboratorio());
+        }
+    }
+
+    
+
 
 
 

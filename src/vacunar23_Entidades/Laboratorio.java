@@ -3,12 +3,11 @@ package vacunar23_Entidades;
 
 public class Laboratorio {
     private int idLaboratorio;
-    private long cuit;
+    private long cuit;  
     private String nomLaboratorio;
     private String pais; 
     private String domComercial;
     private boolean estado;
-    
     
     public Laboratorio() {
     }
@@ -16,10 +15,10 @@ public class Laboratorio {
     
     
     /*--------------------------------------*/
-    // Creo un constructor me permita enviar un argumento de tipo Stirng para la vista de Vacuna
+    // Creo un constructor me permita enviar un argumento de tipo int para la vista de Vacuna
     
-    public Laboratorio(String nomLaboratorio){
-        this.nomLaboratorio = nomLaboratorio;
+    public Laboratorio(int idLab){
+        idLaboratorio = idLab;
     }
     /*--------------------------------------*/
     

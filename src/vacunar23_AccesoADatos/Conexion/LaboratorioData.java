@@ -171,6 +171,38 @@ public class LaboratorioData {
          return laboratorio;    
     }
     
+    
+    /*---------------------------- Cele ------------------------*/
+    
+     public Laboratorio buscarLaboratorioxID (int id){
+        String sql = "SELECT nomLaboratorio FROM laboratorio WHERE idLaboratorio = ?"; 
+        // Seteo laboratorio en null, luego le cargo los datos del laboratorio buscado
+        Laboratorio laboratorio = null; // Lo vuelvo null para que "arranque de cero"
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet buscarId = ps.executeQuery(); // Uso el query que significa "CONSULTA" y almaceno la lista que devuelva en resultSet
+            if(buscarId.next()){
+                laboratorio = new Laboratorio();                
+                laboratorio.setNomLaboratorio(buscarId.getString("nomLaboratorio"));
+            } else{           
+                JOptionPane.showMessageDialog(null, "No existe un laboratorio con el id ingresado");
+            }
+        ps.close();    
+        } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla laboratorio");
+            System.out.println(ex.getMessage());
+        }
+         return laboratorio;    
+    }    
+    
+    /*--------------------------------------------------------------------------------------------------*/
+     
+     
+     
+     
+     
+    
     public List<Laboratorio> listarLaboratorios(){
         String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial FROM laboratorio WHERE estado = 1";
       // Otra posibilidad es "SELECT * FROM laboratorio WHERE estado = 1", recordar que el * invoca todos los parámetros

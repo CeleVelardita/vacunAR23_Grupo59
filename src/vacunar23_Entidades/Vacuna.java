@@ -14,35 +14,27 @@ public class Vacuna {
     private LocalDate fechaCaduca;
     private boolean colocada = false;
     
+    private String nombreLab = "";
     
-    /*--------------------------------*/
-    // Creo lo necesario para la vista de Vacunas, para poder acceder al cuit de Laboratorio
     
-    private long cuit;
     
-    public Vacuna(int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, long cuit){
-        this.cuit = cuit;
-        this.nroSerie = nroSerie;
-        this.marca = marca;
-        this.medida = medida;
-        fechaCaduca = fecha;
-        this.colocada = colocada;
+ 
+    /*------------*/
+    // Constructor para poder cargar en la tabla de vacuna el nombre del laboratorio que le corresponde
+
+    
+    public Vacuna(String nombreLab){
+        this.nombreLab = nombreLab;
     }
     
-    public long getCuit(){
-        return cuit;
-    }
+    /*-----------*/
     
-    public void setCuit(long cuit){
-        this.cuit = cuit;
-    }
     
-    /*--------------------------------*/
     
     
     public Vacuna(){}
     
-    public Vacuna(int id, int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, Laboratorio lab ){
+    public Vacuna(int id, int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, String nombreLab, Laboratorio lab ){
         idVacuna = id;
         laboratorio = lab;
         this.nroSerie = nroSerie;
@@ -50,15 +42,17 @@ public class Vacuna {
         this.medida = medida;
         fechaCaduca = fecha;
         this.colocada = colocada;
+        this.nombreLab = nombreLab;
     }
     
-    public Vacuna(int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, Laboratorio lab){
-        laboratorio = lab;
+    public Vacuna(int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, String nombreLab, Laboratorio lab){
         this.nroSerie = nroSerie;
         this.marca = marca;
         this.medida = medida;
         fechaCaduca = fecha;
         this.colocada = colocada;
+        laboratorio = lab;
+        this.nombreLab = nombreLab;
     }
 
     public Laboratorio getLaboratorio(){
@@ -115,6 +109,14 @@ public class Vacuna {
 
     public void setColocada(boolean colocada) {
         this.colocada = colocada;
+    }
+    
+    public String getNombreLab(){
+        return nombreLab;
+    }
+    
+    public void setNombreLab(String nombreLab){
+        this.nombreLab = nombreLab;
     }
 
     @Override
