@@ -43,16 +43,16 @@ public class VacunAR23_Grupo59 {
         
         /*---------------Cargar Laboratorio--------------*/
         
-        // -> NOTA: Para poder cargar un número de tipo long, primero hay que ingresarlo como un String y luego parsearlo
-        String numerito = "12345678923";
-        long num = Long.parseLong(numerito);
+        /// -> NOTA: Para poder cargar un número de tipo long, primero hay que ingresarlo como un String y luego parsearlo
+        //String numerito = "12345678923";
+        //long num = Long.parseLong(numerito);
         
         //Laboratorio lab = new Laboratorio(num,"Pirulito" , "Argentina", "Avenida Siempreviva 123", true);
         
-        // Cargamos el laboratorio        
+        /// Cargamos el laboratorio        
         //labData.cargarLaboratorio(lab);        
         
-        // Buscamos por CUIT
+        /// Buscamos por CUIT
         //labData.buscarLaboratorioXCUIT(num);
         //System.out.println(lab.getIdLaboratorio());
         //System.out.println(lab.getCuit());
@@ -65,16 +65,18 @@ public class VacunAR23_Grupo59 {
         
         /*---------------Cargar Vacuna---------------*/
         
-        // -> NOTA: Para poder cargar una fecha de tipo LocalDate, primero hay que ingresarla como un String y luego parsearla
-        String fecha = "2025-11-20";
-        LocalDate fechaCaduca = LocalDate.parse(fecha);
+        /// CARGA DE VACUNA
         
-        // Ingreso manualmente el id, simulando ser un comboBox
-        int id = 3;
-        Laboratorio laboratorio = new Laboratorio(id);
+        /// -> NOTA: Para poder cargar una fecha de tipo LocalDate, primero hay que ingresarla como un String y luego parsearla
+        //String fecha = "2025-11-20";
+        //LocalDate fechaCaduca = LocalDate.parse(fecha);
+        
+        /// Ingreso manualmente el id, simulando ser un comboBox
+        //int id = 3;
+        //Laboratorio laboratorio = new Laboratorio(id);
            
-        String nombre = vacuData.nombreLab(id); //Guardo el nombre del Laboratorio
-        
+        //String nombre = vacuData.nombreLab(id); //Guardo el nombre del Laboratorio
+        /*
         if (nombre != null) {
             Vacuna vacuna = new Vacuna(2222,"Pfitzer" ,0.3 , fechaCaduca, false, nombre, laboratorio);
            
@@ -85,6 +87,10 @@ public class VacunAR23_Grupo59 {
         }else{
             System.out.println("No se ha encontrado ningún laboratorio");
         }
+        */
+        
+        
+        /// MODIFICACIÓN DE VACUNA
         
     }
     

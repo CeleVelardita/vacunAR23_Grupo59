@@ -65,10 +65,10 @@ public class VacunaData {
                     ResultSet id = ps.getGeneratedKeys();
                     if (id.next()) {
                         System.out.println("La vacuna fue cargada exitosamente");
-
+                        JOptionPane.showMessageDialog(null, "La vacuna fue cargada exitosamente");
                     } else {
-                        System.out.println("No se ha cargado ninguna vacuna");
-                    }
+                        System.out.println("No se ha cargado ninguna vacuna"); 
+                    JOptionPane.showMessageDialog(null, "No se ha cargado ninguna vacuna");}
                 }
 
                 ps.close();
