@@ -121,7 +121,7 @@
                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jcbAplicada" alignment="3" min="-2" pref="16" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace pref="17" max="32767" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jbAgregar" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="jbModificar" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -268,9 +268,6 @@
       <BindingProperties>
         <BindingProperty name="selectedItem" source="jcbLaboratorio" target="jcbLaboratorio" targetPath="selectedItem" updateStrategy="0" immediately="false"/>
       </BindingProperties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jcbLaboratorioActionPerformed"/>
-      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;Laboratorio&gt;"/>
       </AuxValues>

@@ -172,6 +172,7 @@ public class LaboratorioData {
     }
     
     
+    
     /*---------------------------- Cele ------------------------*/
     
      public Laboratorio buscarLaboratorioxID (int id){
@@ -194,13 +195,11 @@ public class LaboratorioData {
             System.out.println(ex.getMessage());
         }
          return laboratorio;    
-    }    
-    
+    }  
+     
+     
     /*--------------------------------------------------------------------------------------------------*/
-     
-     
-     
-     
+          
      
     
     public List<Laboratorio> listarLaboratorios(){

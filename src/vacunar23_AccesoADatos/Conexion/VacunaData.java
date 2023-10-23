@@ -146,12 +146,17 @@ public class VacunaData {
                 vacuna.setMedida(RSetVacunas.getDouble("medida"));
                 vacuna.setFechaCaduca(RSetVacunas.getDate("fechaCaduca").toLocalDate()); // NO OLVIDAR "toLocalDate" PARA PARSEAR
                 vacuna.setColocada(RSetVacunas.getBoolean("colocada"));
+                vacuna.setNombreLab(RSetVacunas.getString("nombreLab"));
                 
-                // Necesito buscar el idLaboratorio, para eso vamos a labData.buscarLaboratorioXid
+                System.out.println("linea 151");
+                System.out.println("Tira error abajo");
+                                
+                // Necesito buscar el idLaboratorio, para eso vamos a labData.buscarLaboratorioXID
                 // Luego el RSetVacunas.getInt("idLaboratorio") obtiene el id y se lo pasa al método de labData
                 // Laboratorio laboratorio (carpeta entidades) almacena el id obtenido
-                Laboratorio laboratorio = labData.buscarLaboratorioXCUIT(RSetVacunas.getInt("CUIT"));
+                Laboratorio laboratorio = labData.buscarLaboratorioXNombre(RSetVacunas.getString("nomLaboratorio"));
                 // Luego se debe setear el id en la tabla "vacuna"
+                System.out.println("linea 156");
                 vacuna.setLaboratorio(laboratorio);
                 
                 System.out.println("Chequeamos la última línea del idLaboratorio: "+laboratorio.getIdLaboratorio());
@@ -211,29 +216,8 @@ public class VacunaData {
 
     }
     
-    /* El método de abajo fue una de las primeras tentativas para obtener el nombre del laboratorio a partir del id ingresado
-    public void otroMetodo(){
-        String sql = "SELECT nomLaboratorio FROM laboratorio JOIN vacuna ON laboratorio.idLaboratorio = vacuna.idLaboratorio WHERE laboratorio.idLaboratorio = ?";
-       
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
-            ResultSet buscaId = ps.executeQuery();
-            
-            if (buscaId.next()) {
-                
-                Vacuna vacuna = new Vacuna();              
-                vacuna.setNombreLab(buscaId.getString("nomLaboratorio"));
-                
-            } else{
-                System.out.println("No existe en la BD el laboratorio indicado");
-            }
-             
-            ps.close();
-
-        } catch (SQLException ex) {
-            JOptionPane.showConfirmDialog(null, "Error al acceder al nombre del Laboratorio");
-        }
-    }
-    */
+    /*---------------------------------------------------------------------------------------------------------------------------------*/
+    
+    
+    
 }

@@ -92,6 +92,9 @@ public class VacunAR23_Grupo59 {
         
         /// MODIFICACIÓN DE VACUNA
         
+        
+        vacuData.listarVacunas();
+        
     }
     
 }

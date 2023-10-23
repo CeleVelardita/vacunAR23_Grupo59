@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 import vacunar23_AccesoADatos.Conexion.LaboratorioData;
 import vacunar23_AccesoADatos.Conexion.VacunaData;
 import vacunar23_Entidades.Laboratorio;
@@ -19,16 +20,22 @@ public class VacunasView extends javax.swing.JInternalFrame {
     private Laboratorio lab;
     private LaboratorioData labData;    
     
-    private DefaultComboBoxModel modeloComboDosis; // Lo necesito para agregarle elementos al combo
+    private DefaultComboBoxModel modeloComboDosis; // Lo necesito para agregarle elementos al comboDosis
     
-    private ArrayList<Vacuna> ListaVacunas; // Lo voy a necesitar para llenar la tabla
+    private List<Vacuna> ListaVacunas; // Lo voy a necesitar para llenar la tabla
     private List<Laboratorio> ListaLaboratorios; // Lo voy a necesitar para el comboBox de laboratorios
 
+    private DefaultTableModel tablaVacunas;
+    
     public VacunasView() {
         initComponents();
         vacunaData = new VacunaData();
         vacunaActual = null;  
                              
+        tablaVacunas = (DefaultTableModel) jtTablaVacunas.getModel();
+        
+        cargarListaVacunas();
+        
         cargarComboLaboratorios();
         
         cargarComboDosis(); 
@@ -128,12 +135,6 @@ public class VacunasView extends javax.swing.JInternalFrame {
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jcbLaboratorio, org.jdesktop.beansbinding.ObjectProperty.create(), jcbLaboratorio, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
 
-        jcbLaboratorio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jcbLaboratorioActionPerformed(evt);
-            }
-        });
-
         jLabel6.setText("APLICADA:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -210,7 +211,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jcbAplicada, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbAgregar)
                     .addComponent(jbModificar)
@@ -263,7 +264,6 @@ public class VacunasView extends javax.swing.JInternalFrame {
             /// Verifico que no queden campos vacíos
             if (lab == null || marca.isEmpty() || nroSerie == 0 || dosisSeleccionada == 0.0 || fechaCaducidad == null) {
                 JOptionPane.showMessageDialog(this, "No pueden haber campos vacíos");
-                limpiarCampos();
                 return;
             } else { /// Si los campos no están vacíos...                   
 
@@ -291,37 +291,26 @@ public class VacunasView extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Los campos 'Laboratorio' y 'Marca' no son válidos");
         }             
         
-    }//GEN-LAST:event_jbAgregarActionPerformed
-
-    private void jcbLaboratorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jcbLaboratorioActionPerformed
         
-    }//GEN-LAST:event_jcbLaboratorioActionPerformed
+    }//GEN-LAST:event_jbAgregarActionPerformed
 
     /*
     Funcionalidades:
-    - Botón insertar: chequea que los campos no estén vacíos y que cada uno sea válido 
-    según el tipo de parámetro que puede recibir. Si está todo ok, agrega una fila en la tabla
+    
     - Botón modifica: verifica que los campos hayan sido completados mediante la selección de una fila
     de la tabla, caso contrario, dará un mensaje del estilo "debe seleccionar una de las filas de la tabla", 
     luego chequea que los datos sean válidos y modifica
+    
     - Botón eliminar: verifica de igual manera que el botón modificar. Agregar mensaje de confirmación de la operación,
     ya que la fila será eliminada de la tabla, no dada de baja.
     
-    - Al ingresar el nombre del laboratorio, se verificará con la BD de los laboratorios activos, si el indicado
-    se encuentra en convenio con el vacunatorio o no. En caso negativo, aparecerá un cartel del estilo "Actualmente el laboratorio
-    indicado se encuentra dado de baja"
-    
-    - En el comboBox de medida, cargar las 3 opciones de medida posible para las vacunas. Antes de seleccionar alguna
-    debe estar vacío.
-    
+        
     - En la fecha de vencimiento NO permitir colocar una fecha anterior mínimo, a un día posterior del día de la carga de datos
     
     - Agregar botón/ícono para buscar vacuna ingresando solo nombre o laboratorio, una vez encontrado, mostrar la tabla solo con esos datos
     y en caso de no encontrarlo imprimir un mensaje por pantalla. Si el usuario no ingresa ni laboratorio ni la marca, imprimir un mensaje 
     que indique lo necesario para poder realizar la búsqueda
     
-    NOTA: en el stock quiero agregar un jSpinner, investigar cómo y de qué manera puedo enviarle lo seteado
-    a la base de datos, debe ser la única columna editable
         
     */
     
@@ -345,8 +334,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
         jcbLaboratorio.addItem(null);
                 
         for (Laboratorio item : ListaLaboratorios) {
-            //comboBoxModel.addElement(item);
-            jcbLaboratorio.addItem(item); //no me queda claro por qué no funciona
+            jcbLaboratorio.addItem(item); 
         }        
     }
 
@@ -380,11 +368,11 @@ public class VacunasView extends javax.swing.JInternalFrame {
     private void cargarListaVacunas() { // CARGO LA TABLA
 
         ListaVacunas = (ArrayList) vacunaData.listarVacunas();
-        /*
-    for (VacunasView ListaVacuna : ListaVacunas) {
-        jtTablaVacunas.
-    }
-         */
+
+        for (Vacuna i : ListaVacunas) {
+            tablaVacunas.addRow(new Object[]{i.getNombreLab(), i.getMarca(), i.getNroSerie(), i.getMedida(), i.getFechaCaduca(), i.isColocada()});
+        }
+
     }
     
     
