@@ -46,7 +46,7 @@ public class VacunaData {
     public void cargarVacuna(Vacuna vacuna){        
 
             String sql = "INSERT INTO vacuna (nroSerieDosis, marca, medida, fechaCaduca, colocada, idLaboratorio)"
-                    + " VALUES (?, ?, ?, ?, ?, ?, ?)";
+                    + " VALUES (?, ?, ?, ?, ?, ?)";
 
             try {
                 PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -83,16 +83,15 @@ public class VacunaData {
     }
      
     public void modificarVacuna(Vacuna vacuna){ // Le mando como parámetro una vacuna de tipo vacuna porque selecciona una fila de la tabla para modificar
-        String sql = "UPDATE vacuna SET nroSerieDosis = ?, marca = ?, medida = ?, fechaCaduda = ?, colocada = ?, idLaboratorio = ?";
+        String sql = "UPDATE vacuna SET marca = ?, medida = ?, fechaCaduda = ?, colocada = ?, idLaboratorio = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             
-            ps.setInt(1, vacuna.getNroSerie());
-            ps.setString(2, vacuna.getMarca());
-            ps.setDouble(3, vacuna.getMedida());
-            ps.setDate(4, Date.valueOf(vacuna.getFechaCaduca()));
-            ps.setBoolean(5, vacuna.isColocada());
-            ps.setInt(6, vacuna.getLaboratorio().getIdLaboratorio());
+            ps.setString(1, vacuna.getMarca());
+            ps.setDouble(2, vacuna.getMedida());
+            ps.setDate(3, Date.valueOf(vacuna.getFechaCaduca()));
+            ps.setBoolean(4, vacuna.isColocada());
+            ps.setInt(5, vacuna.getLaboratorio().getIdLaboratorio());
             
             int filaAfectada = ps.executeUpdate();
             
@@ -159,7 +158,7 @@ public class VacunaData {
                 vacuna.setColocada(RSetVacunas.getBoolean("colocada"));
                 
                 //Necesito setear un laboratorio para enviarselo a la tabla de vacunas y de ahí obtener los datos que necesito
-                laboratorio.setIdLaboratorio(RSetVacunas.getInt("idLaboratorio")); // Hace referencia a la sentencia sql, pero también puede ser IdLaboratorio
+                laboratorio.setIdLaboratorio(RSetVacunas.getInt("idLaboratorio")); 
                 laboratorio.setCuit(RSetVacunas.getLong("CUIT"));
                 laboratorio.setNomLaboratorio(RSetVacunas.getString("nomLaboratorio"));
                 laboratorio.setPais(RSetVacunas.getString("pais"));
@@ -168,7 +167,7 @@ public class VacunaData {
                 
                 vacuna.setLaboratorio(laboratorio); // Creo que el laboratorio con todos sus datos y se lo paso a la vacuna, de ahí puedo obtener el nombre y el idLaboratorio
                 
-                System.out.println(vacuna.getLaboratorio().getNomLaboratorio()); // Me devuelve el nombre del Laboratorio
+                //System.out.println(vacuna.getLaboratorio().getNomLaboratorio()); // Me devuelve el nombre del Laboratorio
                 
                 listarVacunas.add(vacuna);                
             }
@@ -182,50 +181,47 @@ public class VacunaData {
         return listarVacunas;
     }
     
-    
-    
-    
-    /*------- Necesito un método que me permita obtener solamente el nombre del Laboratorio correspondiente del id seleccionado--------*/
-    
-    public String nombreLab(int id){
-            
-        String sql = "SELECT nomLaboratorio FROM laboratorio WHERE idLaboratorio = ?"; 
-        // Seteo laboratorio en null, luego le cargo los datos del laboratorio buscado
-        Laboratorio laboratorio = null; 
+    public Vacuna buscarPorNroSerie(int nroSerie){
+        Vacuna vacuna = null;
+        try{
+        String sql = "SELECT idVacuna, nroSerieDosis, marca, medida, fechaCaduca, colocada,\n"
+                + "vacuna.idLaboratorio, CUIT, nomLaboratorio, pais, domComercial, estado\n"
+                + "FROM vacuna\n"
+                + "JOIN laboratorio\n"
+                + "ON vacuna.idLaboratorio=laboratorio.idLaboratorio\n"
+                + "WHERE nroSerieDosis = ?";
         
-        String nombreLab = null; // Declaro esta variable de retorno acá para poder usarla dentro del try/catch y el if
-        
-        try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, id);
-            ResultSet buscarId = ps.executeQuery(); // Uso el query que significa "CONSULTA" y almaceno la lista que devuelva en resultSet
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, nroSerie);
+            System.out.println("a ver si pasa por acá");
+            ResultSet rs = ps.executeQuery();
             
-            if(buscarId.next()){
-                laboratorio = new Laboratorio();                
-                nombreLab = buscarId.getString("nomLaboratorio");              
-            } else{     
-                nombreLab = null;
-                JOptionPane.showMessageDialog(null, "No existe un laboratorio con el id ingresado");
+            if (rs.next()) {
+                vacuna = new Vacuna();
+                Laboratorio laboratorio = new Laboratorio();
+                
+                vacuna.setIdVacuna(rs.getInt("idVacuna"));
+                vacuna.setNroSerie(rs.getInt("nroSerieDosis"));
+                vacuna.setMarca(rs.getString("marca"));
+                vacuna.setMedida(rs.getDouble("medida"));
+                vacuna.setFechaCaduca(rs.getDate("fechaCaduca").toLocalDate());
+                vacuna.setColocada(rs.getBoolean("colocada"));
+                
+                laboratorio.setIdLaboratorio(rs.getInt("idLaboratorio"));
+                laboratorio.setCuit(rs.getLong("CUIT"));
+                laboratorio.setNomLaboratorio(rs.getString("nomLaboratorio"));
+                laboratorio.setPais(rs.getString("pais"));
+                laboratorio.setDomComercial(rs.getString("domComercial"));
+                laboratorio.setEstado(rs.getBoolean("estado"));
+                
+                vacuna.setLaboratorio(laboratorio);
+                
             }
-            
-        ps.close();    
         } catch (SQLException ex) {
-           JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla laboratorio");
-            System.out.println(ex.getMessage());
-        } catch(NullPointerException ex){
-            nombreLab = null;
-            JOptionPane.showConfirmDialog(null, "No se pudo acceder a la tabla laboratorio");
-            System.out.println("No existe un laboratorio con el id ingresado");
+            
         }
-        
-        //System.out.println("Chequeando qué nombre se guardó ---> "+nombreLab);
-        
-        return nombreLab;        
-
+        return vacuna;
     }
-    
-    /*---------------------------------------------------------------------------------------------------------------------------------*/
-    
-    
+        
     
 }

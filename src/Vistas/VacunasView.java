@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.control.ComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -150,6 +151,11 @@ public class VacunasView extends javax.swing.JInternalFrame {
         });
 
         jbEliminar.setText("Elimiar");
+        jbEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbEliminarActionPerformed(evt);
+            }
+        });
 
         org.jdesktop.beansbinding.Binding binding = org.jdesktop.beansbinding.Bindings.createAutoBinding(org.jdesktop.beansbinding.AutoBinding.UpdateStrategy.READ_WRITE, jcbLaboratorio, org.jdesktop.beansbinding.ObjectProperty.create(), jcbLaboratorio, org.jdesktop.beansbinding.BeanProperty.create("selectedItem"));
         bindingGroup.addBinding(binding);
@@ -283,21 +289,23 @@ public class VacunasView extends javax.swing.JInternalFrame {
             if (lab == null || marca.isEmpty() || nroSerie == 0 || dosisSeleccionada == 0.0 || fechaCaducidad == null) {
                 JOptionPane.showMessageDialog(this, "No pueden haber campos vacíos");
                 return;
-            } else { /// Si los campos no están vacíos...                   
+            } else { /// Si los campos no están vacíos...  
+                
+                
+                /*-----------------------------------------*/
+                // Chequeo si el numSerie no existe en mi BD
+                int nroExistente = vacunaData.buscarPorNroSerie(nroSerie).getNroSerie();
+                
+                /*-----------------------------------------*/
+                
 
-                if (vacunaActual == null) {
+                if (vacunaActual == null && (nroExistente != nroSerie)) {
                     vacunaActual = new Vacuna(nroSerie, marca, dosisSeleccionada, fechaCaducidad, aplicada, lab);
                     vacunaData.cargarVacuna(vacunaActual);
                     limpiarCampos();
-                } else { // si no está nulo, es porque ya está cargada una vacuna con el mismo número de serie
-                    vacunaActual.setNroSerie(nroSerie);
-                    vacunaActual.setMarca(marca);
-                    vacunaActual.setMedida(dosisSeleccionada);
-                    vacunaActual.setFechaCaduca(fechaCaducidad);
-                    vacunaActual.setColocada(aplicada);
-                    vacunaActual.setLaboratorio(lab); 
-
-                    vacunaData.modificarVacuna(vacunaActual);
+                } else if (nroSerie == nroExistente){ // si no está nulo, es porque ya está cargada una vacuna con el mismo número de serie
+                    JOptionPane.showMessageDialog(this, "Ya existe una vacuna con el número de serie ingresado.");
+                    limpiarCampos();                    
                 }
             }
 
@@ -308,12 +316,15 @@ public class VacunasView extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Los campos 'Laboratorio' y 'Marca' no son válidos");
         }             
         
-        
     }//GEN-LAST:event_jbAgregarActionPerformed
 
     
     /// ---------- BOTÓN MODIFICAR ----------
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
+        
+        int filaSeleccionada = jtTablaVacunas.getSelectedRow();
+        
+        if(filaSeleccionada != -1){
         
         Double dosisSeleccionada = 0.0;
         LocalDate fechaCaducidad = null;
@@ -366,7 +377,9 @@ public class VacunasView extends javax.swing.JInternalFrame {
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this, "Los campos 'Laboratorio' y 'Marca' no son válidos");
         }        
-        
+        } else{
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila haciendo doble click para modificar");
+        }
        
     }//GEN-LAST:event_jbModificarActionPerformed
 
@@ -407,18 +420,25 @@ public class VacunasView extends javax.swing.JInternalFrame {
             jtMarca.setText(jtTablaVacunas.getValueAt(fila, 1).toString());
             jtNroSerie.setText(jtTablaVacunas.getValueAt(fila, 2).toString());
             jtNroSerie.setEditable(false); // Restrinjo su contenido para que NO sea editable
+            //String dosis = (String) jtTablaVacunas.getValueAt(fila, 3);
+            //double dosisSeleccionada = Double.parseDouble(dosis);
+            jcbMedida.setSelectedItem(jtTablaVacunas.getValueAt(fila, 3));
             
-        } else{
-            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila haciendo doble click para modificar");
+        } else if (evt.getClickCount() == 1) {
+            System.out.println("No hace nada :) porque hizo un solo click");
         }
+
     }//GEN-LAST:event_jtTablaVacunasMousePressed
+
+    private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
+        
+       // JTable tabla = (JTable) 
+        
+    }//GEN-LAST:event_jbEliminarActionPerformed
 
     /*
     Funcionalidades:
     
-    - Botón modifica: verifica que los campos hayan sido completados mediante la selección de una fila
-    de la tabla, caso contrario, dará un mensaje del estilo "debe seleccionar una de las filas de la tabla", 
-    luego chequea que los datos sean válidos y modifica
     
     - Botón eliminar: verifica de igual manera que el botón modificar. Agregar mensaje de confirmación de la operación,
     ya que la fila será eliminada de la tabla, no dada de baja.
@@ -426,11 +446,6 @@ public class VacunasView extends javax.swing.JInternalFrame {
         
     - En la fecha de vencimiento NO permitir colocar una fecha anterior mínimo, a un día posterior del día de la carga de datos
     
-    - Agregar botón/ícono para buscar vacuna ingresando solo nombre o laboratorio, una vez encontrado, mostrar la tabla solo con esos datos
-    y en caso de no encontrarlo imprimir un mensaje por pantalla. Si el usuario no ingresa ni laboratorio ni la marca, imprimir un mensaje 
-    que indique lo necesario para poder realizar la búsqueda
-    
-        
     */
     
     
