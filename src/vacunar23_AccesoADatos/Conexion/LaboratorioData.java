@@ -113,8 +113,8 @@ public class LaboratorioData {
 
     public Laboratorio buscarLaboratorioXNombre (String nomLaboratorio){
     // creamos el sql  SELECT para buscar
-        String sql = "SELECT  idLaboratorio, CUIT, nomLaboratorio, pais, domComercial WHERE nomLaboratorio = ? AND estado = 1";
-        // NOTA: el ID del laboratorio es un parámetro dinámico
+        String sql = "SELECT  idLaboratorio, CUIT, nomLaboratorio, pais, domComercial FROM laboratorio WHERE nomLaboratorio = ? AND estado = 1";        
+    // NOTA: el ID del laboratorio es un parámetro dinámico
         Laboratorio laboratorio = null; // Lo vuelvo null para que "arranque de cero"
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -176,7 +176,7 @@ public class LaboratorioData {
     /*---------------------------- Cele ------------------------*/
     
      public Laboratorio buscarLaboratorioxID (int id){
-        String sql = "SELECT nomLaboratorio FROM laboratorio WHERE idLaboratorio = ?"; 
+        String sql = "SELECT * FROM laboratorio WHERE idLaboratorio = ?"; 
         // Seteo laboratorio en null, luego le cargo los datos del laboratorio buscado
         Laboratorio laboratorio = null; // Lo vuelvo null para que "arranque de cero"
         try {
@@ -185,7 +185,12 @@ public class LaboratorioData {
             ResultSet buscarId = ps.executeQuery(); // Uso el query que significa "CONSULTA" y almaceno la lista que devuelva en resultSet
             if(buscarId.next()){
                 laboratorio = new Laboratorio();                
+                laboratorio.setIdLaboratorio(buscarId.getInt("idLaboratorio"));
+                laboratorio.setCuit(buscarId.getLong("CUIT"));
                 laboratorio.setNomLaboratorio(buscarId.getString("nomLaboratorio"));
+                laboratorio.setPais(buscarId.getString("pais"));
+                laboratorio.setDomComercial(buscarId.getString("domComercial"));
+                laboratorio.setEstado(buscarId.getBoolean("estado"));
             } else{           
                 JOptionPane.showMessageDialog(null, "No existe un laboratorio con el id ingresado");
             }

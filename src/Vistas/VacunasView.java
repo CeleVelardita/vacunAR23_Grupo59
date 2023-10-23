@@ -1,12 +1,15 @@
 
 package Vistas;
 
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import vacunar23_AccesoADatos.Conexion.LaboratorioData;
 import vacunar23_AccesoADatos.Conexion.VacunaData;
@@ -42,6 +45,12 @@ public class VacunasView extends javax.swing.JInternalFrame {
         jcbMedida.setSelectedItem(null);
        
         jdcVencimiento.setDate(null);
+        
+        
+        // No entiendo para qué sirve la línea de abajo
+        //jtTablaVacunas.addMouseListener(new MouseAdapter() {
+          //});
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -71,7 +80,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Administración de Vacunas");
-        setPreferredSize(new java.awt.Dimension(490, 500));
+        setPreferredSize(new java.awt.Dimension(490, 600));
 
         jtTablaVacunas.setAutoCreateRowSorter(true);
         jtTablaVacunas.setModel(new javax.swing.table.DefaultTableModel(
@@ -98,6 +107,11 @@ public class VacunasView extends javax.swing.JInternalFrame {
             }
         });
         jtTablaVacunas.getTableHeader().setReorderingAllowed(false);
+        jtTablaVacunas.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jtTablaVacunasMousePressed(evt);
+            }
+        });
         jScrollPane1.setViewportView(jtTablaVacunas);
         if (jtTablaVacunas.getColumnModel().getColumnCount() > 0) {
             jtTablaVacunas.getColumnModel().getColumn(0).setResizable(false);
@@ -129,6 +143,11 @@ public class VacunasView extends javax.swing.JInternalFrame {
         });
 
         jbModificar.setText("Modificar");
+        jbModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbModificarActionPerformed(evt);
+            }
+        });
 
         jbEliminar.setText("Elimiar");
 
@@ -182,7 +201,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
                         .addComponent(jbModificar)
                         .addGap(68, 68, 68)
                         .addComponent(jbEliminar)))
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -211,7 +230,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(jcbAplicada, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbAgregar)
                     .addComponent(jbModificar)
@@ -229,7 +248,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
     
     /// ---------- BOTÓN INSERTAR ----------
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
-        String nombreLab = null;
+        //String nombreLab = null;
         Double dosisSeleccionada = 0.0;
         LocalDate fechaCaducidad = null;
         try {
@@ -237,7 +256,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
             Laboratorio lab = laboratorioSeleccionado();
             // Utilizo el método creado para acceder al nombre y al id del laboratorio seleccionado
             if(lab != null){
-            nombreLab = lab.getNomLaboratorio();
+            //nombreLab = lab.getNomLaboratorio();
             int id = lab.getIdLaboratorio();           
             }
             
@@ -257,8 +276,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
                fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
             }
             
-            Boolean aplicada = jcbAplicada.isSelected();
-            
+            Boolean aplicada = jcbAplicada.isSelected();       
             
             
             /// Verifico que no queden campos vacíos
@@ -268,7 +286,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
             } else { /// Si los campos no están vacíos...                   
 
                 if (vacunaActual == null) {
-                    vacunaActual = new Vacuna(nroSerie, marca, dosisSeleccionada, fechaCaducidad, aplicada, nombreLab, lab);
+                    vacunaActual = new Vacuna(nroSerie, marca, dosisSeleccionada, fechaCaducidad, aplicada, lab);
                     vacunaData.cargarVacuna(vacunaActual);
                     limpiarCampos();
                 } else { // si no está nulo, es porque ya está cargada una vacuna con el mismo número de serie
@@ -277,8 +295,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
                     vacunaActual.setMedida(dosisSeleccionada);
                     vacunaActual.setFechaCaduca(fechaCaducidad);
                     vacunaActual.setColocada(aplicada);
-                    vacunaActual.setNombreLab(lab.getNomLaboratorio());
-                    vacunaActual.setLaboratorio(lab); // No estoy segura
+                    vacunaActual.setLaboratorio(lab); 
 
                     vacunaData.modificarVacuna(vacunaActual);
                 }
@@ -293,6 +310,108 @@ public class VacunasView extends javax.swing.JInternalFrame {
         
         
     }//GEN-LAST:event_jbAgregarActionPerformed
+
+    
+    /// ---------- BOTÓN MODIFICAR ----------
+    private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
+        
+        Double dosisSeleccionada = 0.0;
+        LocalDate fechaCaducidad = null;
+        try {
+            /// Se guardan los datos de cada campo en su variable correpondiente
+            Laboratorio lab = laboratorioSeleccionado();
+            // Utilizo el método creado para acceder al nombre y al id del laboratorio seleccionado
+            if (lab != null) {
+                int id = lab.getIdLaboratorio();
+            }
+
+            String marca = jtMarca.getText();
+            int nroSerie = Integer.parseInt(jtNroSerie.getText());
+
+            // Guardo la opción del comboBoxDosis en una variable
+            if (jcbMedida.getSelectedItem() != null) {
+                String dosis = (String) jcbMedida.getSelectedItem(); // el combo me devuelve un Object
+                dosisSeleccionada = Double.parseDouble(dosis); // Lo parseo a un Double para mandarlo a la base de datos
+            } else {
+                dosisSeleccionada = 0.0;
+            }
+
+            if (jdcVencimiento.getDate() != null) {
+                fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            }
+
+            Boolean aplicada = jcbAplicada.isSelected();
+
+            /// Verifico que no queden campos vacíos
+            if (lab == null || marca.isEmpty() || nroSerie == 0 || dosisSeleccionada == 0.0 || fechaCaducidad == null) {
+                JOptionPane.showMessageDialog(this, "No pueden haber campos vacíos");
+                return;
+            } else {
+                
+                vacunaActual.setNroSerie(nroSerie);
+                vacunaActual.setMarca(marca);
+                vacunaActual.setMedida(dosisSeleccionada);
+                vacunaActual.setFechaCaduca(fechaCaducidad);
+                vacunaActual.setColocada(aplicada);
+                vacunaActual.setLaboratorio(lab);
+
+                vacunaData.modificarVacuna(vacunaActual);
+                
+                limpiarCampos();
+
+            }
+        } catch (NumberFormatException e) {
+            e.getStackTrace();
+            JOptionPane.showMessageDialog(this, "El campo 'Nro. Serie' está vacío o contiene carácteres inválidos " + e.getMessage());
+        } catch (IllegalArgumentException e) {
+            JOptionPane.showMessageDialog(this, "Los campos 'Laboratorio' y 'Marca' no son válidos");
+        }        
+        
+       
+    }//GEN-LAST:event_jbModificarActionPerformed
+
+    
+    /// ---------- DOBLE CLICK SOBRE UNA FILA DE LA TABLA ----------
+    private void jtTablaVacunasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtTablaVacunasMousePressed
+        
+        // Este evento me permite hacer doble click sobre una fila de la tabla y automáticamente setear los campos para
+        // la edición y modificación de los datos
+        JTable tabla = (JTable) evt.getSource();
+        Point coordenadasTabla = evt.getPoint();
+        
+        /*-----------------------------------------------------------------------------
+                   EXPLICACIÓN DE LAS LÍNEAS DE ARRIBA
+        
+        JTable tabla = (JTable) evt.getSource();
+        Esta línea obtiene la fuente del evento llamado evt (por defecto al crear el evento de tipo "MousePressed".
+        Esta fuente de evento, se almacena en la variable "tabla" de tipo JTable, por eso debo castear el objeto fuente a un "JTable".
+        Una vez hecho esto, puedo acceder a las propiedades y métodos específicos de "JTable".
+        
+        Point coordenadasTabla = evt.getPoint();
+        Esta línea obtiene las coordenadas del punto en el que ocurrió el evento (en qué parte de la tabla se hizo doble click).
+        Permite determinar en qué fila se hizo click almacenando la información en la variable "coordenadasTabla".
+        
+        -------------------------------------------------------------------------------*/
+        
+        // Se guarda el número de la fila seleccionada en un int
+        int fila = tabla.rowAtPoint(coordenadasTabla);
+        // int fila = jtTablaVacunas.getSellectedRow();
+        
+        
+        if(evt.getClickCount() == 2){ // el "== 2" indica que se hizo doble click, también puedo especificar la cantidad de click's que quiera
+            
+            // SETEAR NOMBRE LABORATORIO - DOSIS - FECHA CADUCA - COLOCADA
+            
+            
+            
+            jtMarca.setText(jtTablaVacunas.getValueAt(fila, 1).toString());
+            jtNroSerie.setText(jtTablaVacunas.getValueAt(fila, 2).toString());
+            jtNroSerie.setEditable(false); // Restrinjo su contenido para que NO sea editable
+            
+        } else{
+            JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila haciendo doble click para modificar");
+        }
+    }//GEN-LAST:event_jtTablaVacunasMousePressed
 
     /*
     Funcionalidades:
@@ -368,11 +487,10 @@ public class VacunasView extends javax.swing.JInternalFrame {
     private void cargarListaVacunas() { // CARGO LA TABLA
 
         ListaVacunas = (ArrayList) vacunaData.listarVacunas();
-
+                
         for (Vacuna i : ListaVacunas) {
-            tablaVacunas.addRow(new Object[]{i.getNombreLab(), i.getMarca(), i.getNroSerie(), i.getMedida(), i.getFechaCaduca(), i.isColocada()});
+            tablaVacunas.addRow(new Object[]{i.getLaboratorio().getNomLaboratorio(), i.getMarca(), i.getNroSerie(), i.getMedida(), i.getFechaCaduca(), i.isColocada()});
         }
-
     }
     
     

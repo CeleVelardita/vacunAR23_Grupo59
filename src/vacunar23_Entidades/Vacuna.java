@@ -14,27 +14,11 @@ public class Vacuna {
     private LocalDate fechaCaduca;
     private boolean colocada = false;
     
-    private String nombreLab = "";
     
-    
-    
- 
-    /*------------*/
-    // Constructor para poder cargar en la tabla de vacuna el nombre del laboratorio que le corresponde
-
-    
-    public Vacuna(String nombreLab){
-        this.nombreLab = nombreLab;
-    }
-    
-    /*-----------*/
-    
-    
-    
-    
+        
     public Vacuna(){}
     
-    public Vacuna(int id, int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, String nombreLab, Laboratorio lab ){
+    public Vacuna(int id, int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, Laboratorio lab ){
         idVacuna = id;
         laboratorio = lab;
         this.nroSerie = nroSerie;
@@ -42,17 +26,17 @@ public class Vacuna {
         this.medida = medida;
         fechaCaduca = fecha;
         this.colocada = colocada;
-        this.nombreLab = nombreLab;
+        //this.nombreLab = nombreLab;
     }
     
-    public Vacuna(int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, String nombreLab, Laboratorio lab){
+    public Vacuna(int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, Laboratorio lab){
         this.nroSerie = nroSerie;
         this.marca = marca;
         this.medida = medida;
         fechaCaduca = fecha;
         this.colocada = colocada;
         laboratorio = lab;
-        this.nombreLab = nombreLab;
+        //this.nombreLab = nombreLab;
     }
 
     public Laboratorio getLaboratorio(){
@@ -111,14 +95,6 @@ public class Vacuna {
         this.colocada = colocada;
     }
     
-    public String getNombreLab(){
-        return nombreLab;
-    }
-    
-    public void setNombreLab(String nombreLab){
-        this.nombreLab = nombreLab;
-    }
-
     @Override
     public String toString() { // SE PUEDE MEJORAR SEGÚN LO QUE QUIERA MOSTRAR, ESTO ES SOLO UNA PRUEBA
         return marca + " - " + laboratorio + ":\n" + nroSerie + "\n " + medida +"\n " + fechaCaduca;

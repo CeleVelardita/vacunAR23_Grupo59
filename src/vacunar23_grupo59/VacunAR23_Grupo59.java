@@ -3,6 +3,7 @@ package vacunar23_grupo59;
 
 import java.sql.Connection;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import jdk.nashorn.internal.codegen.CompilerConstants;
 import vacunar23_AccesoADatos.Conexion.CiudadanoData;
 import vacunar23_AccesoADatos.Conexion.Conexion;
@@ -93,7 +94,11 @@ public class VacunAR23_Grupo59 {
         /// MODIFICACIÓN DE VACUNA
         
         
-        vacuData.listarVacunas();
+        ArrayList<Vacuna> listaVacuna = new ArrayList();
+        listaVacuna = (ArrayList<Vacuna>) vacuData.listarVacunas();
+        listaVacuna.forEach(vacuna ->System.out.println(vacuna.toString()));
+        
+        //vacuData.listarVacunas();
         
     }
     
