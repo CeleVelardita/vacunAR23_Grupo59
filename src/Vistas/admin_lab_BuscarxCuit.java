@@ -6,10 +6,10 @@ import vacunar23_Entidades.Laboratorio;
 
 public class admin_lab_BuscarxCuit extends javax.swing.JInternalFrame {
     //Declaración de atributos
-    private LaboratorioData buscar_labData=new LaboratorioData();//para acceder al metodo buscar
-    private Laboratorio lab= new Laboratorio();//para guardar los datos del laboratorio que necesite (es mi modelo)
+    LaboratorioData buscar_labData=new LaboratorioData();//para acceder al metodo buscar
+    Laboratorio lab= new Laboratorio();//para guardar los datos del laboratorio que necesite (es mi modelo)
     
-    private Admin_Laboratorio_Principal jframePrincipal; //para hacer referencia a la ventana principal de laboratorio
+    private Admin_Laboratorio_Principal jframePrincipal; //para ahcer referencia a la ventana principal de laboratorio
 
     
     public admin_lab_BuscarxCuit() {
@@ -87,8 +87,7 @@ public class admin_lab_BuscarxCuit extends javax.swing.JInternalFrame {
     ///Botón Buscar
     private void jbBuscarCuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarCuitActionPerformed
         String cuit= jtCuit.getText();
-        long cuitparseado = Long.parseLong(cuit);//parseo porque el método espera un lon y no un string
-        lab = buscar_labData.buscarLaboratorioXCUIT(cuitparseado);//almaceno el lab que encuentre el méotodo de laboratorioData        
+        lab = buscar_labData.buscarLaboratorioXNombre(cuit);//almaceno el lab que encuentre el méotodo de laboratorioData        
         //verifico en el if si encontró un lab para cerrar esta ventana e imprimir el lab encontrado en la tabla
 
         if(lab!=null){
