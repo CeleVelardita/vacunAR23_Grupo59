@@ -7,8 +7,8 @@ import vacunar23_Entidades.Laboratorio;
 public class admin_lab_BuscarxNombre extends javax.swing.JInternalFrame {
 
     //Declaración de atributos
-    LaboratorioData buscar_labData=new LaboratorioData();//para acceder al metodo buscar
-    Laboratorio lab= new Laboratorio();//para guardar los datos del laboratorio que necesite (es mi modelo)
+    private LaboratorioData buscar_labData=new LaboratorioData();//para acceder al metodo buscar
+    private Laboratorio lab= new Laboratorio();//para guardar los datos del laboratorio que necesite (es mi modelo)
     
     private Admin_Laboratorio_Principal jframePrincipal; //para ahcer referencia a la ventana principal de laboratorio
 
@@ -24,8 +24,7 @@ public class admin_lab_BuscarxNombre extends javax.swing.JInternalFrame {
         y si éste método no está aquí no habrá referencia y dará error esa línea anterior
     */
      public admin_lab_BuscarxNombre(Admin_Laboratorio_Principal jframePrincipal) {
-        this.jframePrincipal = jframePrincipal;
-        
+        this.jframePrincipal = jframePrincipal;        
     }
 
     
