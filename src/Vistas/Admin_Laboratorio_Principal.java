@@ -252,7 +252,52 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     
     ///Botón Agregar
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
-        agregarLaboratorio();      
+        //Botón Agregar agregará un laboratorio nuevo o modificara, por ende, usa 2 métodos: cargarLaboratorio() y modificarLaboratorio()
+        
+        //Obtenemos los valores ingresador por el usuario:    
+        try{            
+            //verificamos que no queden campos vacíos en los JTextField
+            if (jtNombreLab.getText().isEmpty() || jtPais.getText().isEmpty() || jtDomicilio.getText().isEmpty() || jtCuit.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "No puede haber campos vacíos");
+                return; //return sale del método
+            }
+
+            //declaro atributos y almaceno en ellos lo ingresado en los jtextfield y jcheckbox para manipularlos            
+            String nombreLab = jtNombreLab.getText();
+            int cuit = Integer.getInteger(jtCuit.getText()); //tendrá Exception
+            String pais = jtPais.getText();
+            String domicilio = jtDomicilio.getText();
+            Boolean estado = jCheckBoxEstado.isSelected();
+            
+            //cargo éstos datos en el constructor de laboratorio
+            lab = new Laboratorio(cuit,nombreLab, pais, domicilio, estado); //constructor creado en laboratorio(Entidades)
+            
+            //verifico que éste laboratorio no se encuentre en la lista
+            //pido la lista de laboratorios para comparar con el ingresado (podria crear un metodo buscar en labdata también)
+            
+            ListaLaboratorios = (ArrayList<Laboratorio>) labData.listarLaboratorios();
+            boolean resultado=false;
+            for(Laboratorio labor:ListaLaboratorios){
+                resultado= lab.equals(labor);
+                if(resultado==true){
+                    return;
+                }
+            }
+            
+            //si return == true es porque el laboratorio ya existe y debo modificarlo sino se agrega 
+            if(resultado==true){
+                labData.modificarLaboratorio(lab);
+            }else{
+                labData.cargarLaboratorio(lab);
+            }
+            
+            
+            limpiarCampos();//limpio los campos textfield
+            ListarLaboratorios ();//actualiza la tabla           
+        }catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "el CUIT son sólo 11 dígitos");
+        }
+        
     }//GEN-LAST:event_jbAgregarActionPerformed
 
     ///Botón Listar Laboratorios
@@ -264,15 +309,12 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     ///Botón Modificar
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
         /*
-        1ero usuario debe elegir un laboratorio de la lista sino avisa por cartel ésto.
-        //seleccionado el laboratorio:
-             guardamos el cuit del laboratorio seleccionado en la tabla
-             mandamos el cuit al método cargarLaboratorio de laboratorioData
-        */
-        
-        extraerLabdeTabla();//extrae 
-        agregarLaboratorio();//modifica y guarda
-        ListarLaboratorios ();//actualiza la tabla
+        Este botón sólo carga los datos del laboratorio seleccionado de la tabla 
+        hacia los campos editables para luego ser agregados/modificados por
+        el botón Agregar
+        */        
+        extraerLabdeTabla();//extrae laboratorio de la tabla
+      
     }//GEN-LAST:event_jbModificarActionPerformed
 
     private void jbBuscarXCuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarXCuitActionPerformed
@@ -284,12 +326,11 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbBuscarXCuitActionPerformed
 
     private void jbBuscarXNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarXNombreActionPerformed
-                admin_lab_BuscarxNombre buscarNombreFrame = new admin_lab_BuscarxNombre(this); // Pasa una referencia al JFrame principal
+        admin_lab_BuscarxNombre buscarNombreFrame = new admin_lab_BuscarxNombre(this); // Pasa una referencia al JFrame principal
         // Agrego al jpEscritorioLab 
         jpEscritorioLab.add(buscarNombreFrame);
         // hago visible la ventana buscarXNombre
         buscarNombreFrame.setVisible(true);
-
     }//GEN-LAST:event_jbBuscarXNombreActionPerformed
 
     
@@ -357,43 +398,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         jtDomicilio.setText("");
         jCheckBoxEstado.setEnabled(false);
     }
-    
-    /*-----Carga un Laboratorio a la BD-----*/
-    private void agregarLaboratorio(){
-        try{
-            
-            //verificamos que no queden campos vacíos en los JTextField
-            if (jtNombreLab.getText().isEmpty() || jtPais.getText().isEmpty() || jtDomicilio.getText().isEmpty() || jtCuit.getText().isEmpty()) {
-                JOptionPane.showMessageDialog(null, "No puede haber campos vacíos");
-                return; //return sale del método
-            }
-
-            //declaro atributos y almaceno en ellos lo ingresado en los jtextfield y jcheckbox para manipularlos            
-            String nombreLab = jtNombreLab.getText();
-            int cuit = Integer.getInteger(jtCuit.getText()); //tendrá Exception
-            String pais = jtPais.getText();
-            String domicilio = jtDomicilio.getText();
-            Boolean estado = jCheckBoxEstado.isSelected();
-            
-            //seteamos los JTextField y jcheckbox
-            limpiarCampos();
-            
-            //carga del laboratorio
-            if(lab == null){
-                 // Si lab es nulo significa que está en blanco/vacío
-                // le pasamos a lab (que es el modelo de laboratorio) los datos rescatados ingresados por el usuario
-                lab = new Laboratorio(cuit,nombreLab, pais, domicilio, estado); //constructor creado en laboratorio(Entidades)
-                // una vez listo el modelo con sus datos debemos mandarlo al método de laboratorioData que carga laboratorios
-                //para acceder al método de laboratorioData necesito el objeto de esa clase labData declarado anteriormente en este código
-                labData.cargarLaboratorio(lab);
-            }else{
-                System.out.println("problemas en el contenido de lab - laboratorio");
-            }            
-        }catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "el CUIT son sólo 11 dígitos");
-        }
-    }
-    
+        
     /*-----Carga la Lista de Laboratorios de la BD a la tabla-----*/
     private void ListarLaboratorios(){
         /*
@@ -415,7 +420,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         */
         
 
-        // Obtener la lista de materias
+        // Obtener la lista de laboratorios
         ListaLaboratorios = (ArrayList<Laboratorio>) labData.listarLaboratorios();
 
 
@@ -465,7 +470,5 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
 
     }
 
-    
-    
-    
+   
 }
