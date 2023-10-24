@@ -42,7 +42,7 @@ public class LaboratorioData {
         // con.prepareStatement(sentencia Sql, le pido que devuelva la lista de las claves generadas ID)
         PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
         //Se setean los tipos de datos que quiero enviar, porque llegan el método a través del parámetro "laboratorio"
-        ps.setInt(1, laboratorio.getCuit());
+        ps.setLong(1, laboratorio.getCuit());
         ps.setString(2, laboratorio.getNomLaboratorio());
         ps.setString(3, laboratorio.getPais());       
         ps.setString(4, laboratorio.getDomComercial());
@@ -72,12 +72,12 @@ public class LaboratorioData {
         }    
     }   
 
-    public void modificarLaboratorio (int idLab){
+    public void modificarLaboratorio (long cuit){
         String sql = "UPDATE laboratorio SET estado = 0 WHERE idLaboratorio = ?";
             try {
                
                 PreparedStatement ps = con.prepareStatement(sql);
-                ps.setInt(1, idLab); // le indicamos el id que deseamos manipular
+                ps.setLong(1, cuit); // le indicamos el cuit que deseamos manipular
                 int eliminar = ps.executeUpdate();// realizamos la accion, le da de baja y devuelve un int que guardamos en eliminar
                 if (eliminar == 1) {
                     JOptionPane.showMessageDialog(null, "Laboratorio dado de Baja");
@@ -87,42 +87,38 @@ public class LaboratorioData {
             }
     } 
 
-    public void borrarLaboratorio (int cuit){
-    String sql = "SELECT  CUIT, nomLaboratorio, pais, domComercial, estado FROM Laboratorio WHERE CUIT = ? AND estado = 1";
-        Laboratorio laboratorio = null; // Lo vuelvo null para que "arranque de cero"
+    public void cambiarEstadoLaboratorio (long cuit){
+    String sql = "UPDATE laboratorio SET estado = CASE WHEN estado = 0 THEN 1 ELSE 0 END WHERE CUIT = ?";
+    /*el sql invierte el estado del cuit que le pase, si estado = 1 lo pasa a 0 y sino al revés*/
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, cuit);
-            ResultSet buscarId = ps.executeQuery();//pregunto y me devuelve una lista (puede estar vacía, controlar en el if siguiente)
-            // Como me devuelve una única fila va...
-            if (buscarId.next()) { // "Si en el ResultSet hay un elemento, entonces...
-                // Voy seteando cada parámetro con los datos del laboratorio correspondientes al id que se ingresó
-                // Pero para esto, primero creo un objeto laboratorio de tipo Laboratorio seteado en null (antes del try)
-                laboratorio = new Laboratorio(); // inicializamos-definimos
-                // Empiezo a setear:
-                laboratorio.setCuit(buscarId.getInt("CUIT"));
-                laboratorio.setNomLaboratorio(buscarId.getString("nomLaboratorio"));
-                laboratorio.setPais(buscarId.getString("pais"));
-                laboratorio.setDomComercial("domComercial");
-                laboratorio.setEstado(false);             
-            } else { // Si en el Result Set no hay un elemento...
-                JOptionPane.showMessageDialog(null, "No existe un laboratorio con el CUIT ingresado");
-            }
-            // RECORDAR CERRAR EL PREPAREDSTATEMENT!!! 
+            ps.setLong(1, cuit);
+            // Ejecuta el SQL
+            int fila = ps.executeUpdate();
+
+            // Cierra la conexión
             ps.close();
-        } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla laboratorio");
+
+            // Verifica si se actualizó el estado
+             if (fila == 1) {
+                System.out.println("El estado del laboratorio se invirtió correctamente.");
+             } else {
+                System.out.println("No se pudo invertir el estado del laboratorio.");
+            }
+         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "no se logró acceder a la tabla laboratorio");
         } 
+       
     } 
 
-    public Laboratorio buscarLaboratorioXid (int idLab){
+    public Laboratorio buscarLaboratorioXNombre (String nomLaboratorio){
     // creamos el sql  SELECT para buscar
-        String sql = "SELECT  CUIT, nomLaboratorio, pais, domComercial WHERE idLaboratorio = ? AND estado = 1";
-        // NOTA: el ID del laboratorio es un parámetro dinámico
+        String sql = "SELECT  idLaboratorio, CUIT, nomLaboratorio, pais, domComercial FROM laboratorio WHERE nomLaboratorio = ? AND estado = 1";        
+    // NOTA: el ID del laboratorio es un parámetro dinámico
         Laboratorio laboratorio = null; // Lo vuelvo null para que "arranque de cero"
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, idLab);
+            ps.setString(1, nomLaboratorio);
             ResultSet buscarId = ps.executeQuery();//pregunto y me devuelve una lista (puede estar vacía, controlar en el if siguiente)
             // Como me devuelve una única fila va...
             if (buscarId.next()) { // "Si en el ResultSet hay un elemento, entonces...
@@ -130,8 +126,8 @@ public class LaboratorioData {
                 // Pero para esto, primero creo un objeto laboratorio de tipo Laboratorio seteado en null (antes del try)
                 laboratorio = new Laboratorio(); // inicializamos-definimos
                 // Empiezo a setear:
-                laboratorio.setIdLaboratorio(idLab);
-                laboratorio.setCuit(buscarId.getInt("CUIT"));
+                laboratorio.setIdLaboratorio(buscarId.getInt("IdLaboratorio"));
+                laboratorio.setCuit(buscarId.getLong("CUIT"));
                 laboratorio.setNomLaboratorio(buscarId.getString("nomLaboratorio"));
                 laboratorio.setPais(buscarId.getString("pais"));
                 laboratorio.setDomComercial("domComercial");
@@ -148,24 +144,24 @@ public class LaboratorioData {
         return laboratorio;        
     } 
 
-    public Laboratorio buscarLaboratorioXCUIT (int cuit){
-        String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial, estado FROM laboratorio WHERE CUIT = ?"; // Le saco la condición para que muestre alumnos activos e inactivos
-        // Seteo alumno en null, luego le cargo los datos del alumno buscado
+    public Laboratorio buscarLaboratorioXCUIT (long cuit){
+        String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial, estado FROM laboratorio WHERE CUIT = ?"; 
+        // Seteo laboratorio en null, luego le cargo los datos del laboratorio buscado
         Laboratorio laboratorio = null; // Lo vuelvo null para que "arranque de cero"
         try {
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, cuit);
+            ps.setLong(1, cuit);
             ResultSet buscarCuit = ps.executeQuery(); // Uso el query que significa "CONSULTA" y almaceno la lista que devuelva en resultSet
-            if(buscarCuit.next()){ // Si se encuentra un alumno con ese dni, entonces... se crea un nuevo objeto alumno y se guardar ahí los datos del alumno encontrado
+            if(buscarCuit.next()){
                 laboratorio = new Laboratorio();
                 laboratorio.setIdLaboratorio(buscarCuit.getInt("idLaboratorio"));
-                laboratorio.setCuit(buscarCuit.getInt("CUIT"));
+                laboratorio.setCuit(buscarCuit.getLong("CUIT"));
                 laboratorio.setNomLaboratorio(buscarCuit.getString("nomLaboratorio"));
                 laboratorio.setPais(buscarCuit.getString("pais"));
                 laboratorio.setDomComercial(buscarCuit.getString("domComercial"));
                 laboratorio.setEstado(buscarCuit.getBoolean("estado"));            
             } else{           
-                JOptionPane.showMessageDialog(null, "No existe un alumno con el DNI ingresado");
+                JOptionPane.showMessageDialog(null, "No existe un laboratorio con el cuit ingresado");
             }
         ps.close();    
         } catch (SQLException ex) {
@@ -175,10 +171,46 @@ public class LaboratorioData {
          return laboratorio;    
     }
     
+    
+    
+    /*---------------------------- Cele ------------------------*/
+    
+     public Laboratorio buscarLaboratorioxID (int id){
+        String sql = "SELECT * FROM laboratorio WHERE idLaboratorio = ?"; 
+        // Seteo laboratorio en null, luego le cargo los datos del laboratorio buscado
+        Laboratorio laboratorio = null; // Lo vuelvo null para que "arranque de cero"
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, id);
+            ResultSet buscarId = ps.executeQuery(); // Uso el query que significa "CONSULTA" y almaceno la lista que devuelva en resultSet
+            if(buscarId.next()){
+                laboratorio = new Laboratorio();                
+                laboratorio.setIdLaboratorio(buscarId.getInt("idLaboratorio"));
+                laboratorio.setCuit(buscarId.getLong("CUIT"));
+                laboratorio.setNomLaboratorio(buscarId.getString("nomLaboratorio"));
+                laboratorio.setPais(buscarId.getString("pais"));
+                laboratorio.setDomComercial(buscarId.getString("domComercial"));
+                laboratorio.setEstado(buscarId.getBoolean("estado"));
+            } else{           
+                JOptionPane.showMessageDialog(null, "No existe un laboratorio con el id ingresado");
+            }
+        ps.close();    
+        } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla laboratorio");
+            System.out.println(ex.getMessage());
+        }
+         return laboratorio;    
+    }  
+     
+     
+    /*--------------------------------------------------------------------------------------------------*/
+          
+     
+    
     public List<Laboratorio> listarLaboratorios(){
         String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial FROM laboratorio WHERE estado = 1";
-      // Otra posibilidad es "SELECT * FROM alumno WHERE estado = 1", recordar que el * invoca todos los parámetros
-      // Creo una lista de alumnos porque me va a devolver una lista de TODOS los alumnos que se encuentren activos
+      // Otra posibilidad es "SELECT * FROM laboratorio WHERE estado = 1", recordar que el * invoca todos los parámetros
+      // Creo una lista de laboratorios porque me va a devolver una lista de TODOS los laboratorios que se encuentren activos
         
         ArrayList<Laboratorio> listaLaboratorios=new ArrayList<>();
         try {
@@ -186,11 +218,11 @@ public class LaboratorioData {
             ResultSet listaLab = ps.executeQuery();
             // En este caso, a diferencia de los demás,  la lista me devuelve MÁS DE UNA fila, por eso la recorro con un WHILE y NO con un IF
             while (listaLab.next()) {                
-                // Mientras haya elementos en esa fila, le digo que se cree un alumno vacío
+                // Mientras haya elementos en esa fila, le digo que se cree un laboratorio vacío
                 Laboratorio laboratorio = new Laboratorio();
-                // Luego a ese alumno, hay que setearle todos los datos
+                // Luego a ese laboratorio, hay que setearle todos los datos
                 laboratorio.setIdLaboratorio(listaLab.getInt("idLaboratorio"));
-                laboratorio.setCuit(listaLab.getInt("CUIT"));
+                laboratorio.setCuit(listaLab.getLong("CUIT"));
                 laboratorio.setNomLaboratorio(listaLab.getString("nomLaboratorio"));
                 laboratorio.setPais(listaLab.getString("pais"));
                 laboratorio.setDomComercial(listaLab.getString("domComercial"));
@@ -200,7 +232,7 @@ public class LaboratorioData {
             }            
             ps.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla alumnos");
+            JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla laboratorio");
         }
         return listaLaboratorios; 
         }

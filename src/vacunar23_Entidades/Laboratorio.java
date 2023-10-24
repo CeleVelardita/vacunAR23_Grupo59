@@ -3,17 +3,28 @@ package vacunar23_Entidades;
 
 public class Laboratorio {
     private int idLaboratorio;
-    private int cuit;
+    private long cuit;  
     private String nomLaboratorio;
     private String pais; 
     private String domComercial;
     private boolean estado;
     
-    
     public Laboratorio() {
     }
    
-    public Laboratorio(int idLaboratorio, int cuit, String nomLaboratorio, String pais, String domComercial, boolean estado) {
+    
+    
+    /*--------------------------------------*/
+    // Creo un constructor me permita enviar un argumento de tipo int para la vista de Vacuna
+    
+    public Laboratorio(int idLab){
+        idLaboratorio = idLab;
+    }
+    /*--------------------------------------*/
+    
+    
+    
+    public Laboratorio(int idLaboratorio, long cuit, String nomLaboratorio, String pais, String domComercial, boolean estado) {
         this.idLaboratorio = idLaboratorio;
         this.cuit = cuit;
         this.nomLaboratorio = nomLaboratorio;
@@ -21,6 +32,15 @@ public class Laboratorio {
         this.domComercial = domComercial;
         this.estado = estado;
     }
+
+    public Laboratorio(long cuit, String nomLaboratorio, String pais, String domComercial, boolean estado) {
+        this.cuit = cuit;
+        this.nomLaboratorio = nomLaboratorio;
+        this.pais = pais;
+        this.domComercial = domComercial;
+        this.estado = estado;
+    }
+    
     
     public int getIdLaboratorio() {
         return idLaboratorio;
@@ -30,11 +50,11 @@ public class Laboratorio {
         this.idLaboratorio = idLaboratorio;
     }
 
-    public int getCuit() {
+    public long getCuit() {
         return cuit;
     }
 
-    public void setCuit(int cuit) {
+    public void setCuit(long cuit) {
         this.cuit = cuit;
     }
 
@@ -74,7 +94,7 @@ public class Laboratorio {
     
     @Override
     public String toString() {
-        return "Laboratorio{" + "idLaboratorio=" + idLaboratorio + ", cuit=" + cuit + ", nomLaboratorio=" + nomLaboratorio + ", pais=" + pais + ", domComercial=" + domComercial + '}';
+        return nomLaboratorio;
     }
    
 }

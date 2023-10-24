@@ -6,18 +6,38 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 import vacunar23_Entidades.Ciudadano;
+
 
 public class CiudadanoData {
     
     // Creamos un atributo de tipo Connection para poder conectar cada método con la base de datos (BD)
     private Connection con = null;
     
+    private List<Ciudadano> listaCiudadanos;
+    
+    /*------------ MÉTODOS NECESARIOS -----------
+    
+    - Agregar ciudadano
+    - Modificar ciudadano
+    - Borrar ciudadano
+    - Listar ciudadano (todos)
+    
+    - Buscar por dni
+    - Listar por ámbito de trabajo
+        
+    ----------------------------------------------*/
+    
     public CiudadanoData(){
         // Establecemos la conexión con la BD
         con = Conexion.getConexion();
+        
+        listaCiudadanos = new ArrayList<>();
     }    
     
     public void guardarCiudadano(Ciudadano ciudadano){
@@ -46,6 +66,10 @@ public class CiudadanoData {
                 if (id.next()) {
                     ciudadano.setIdCiudadano(id.getInt("idCiudadano")); //Va el 1 porque le indico la columna que quiero utilizar, también podría ir el nombre
                     // de la columna entre "" tal cual está en la BD
+                    
+                    
+                    /*-----------------------------*/
+                    // Para probar en el main
                     System.out.println("Paciente cargado exitosamente");
                     System.out.println("-------------------------");
                     System.out.println("Chequeamos:");
@@ -56,6 +80,10 @@ public class CiudadanoData {
                     System.out.println(ciudadano.getPatologia());
                     System.out.println(ciudadano.getAmbitoTrabajo());
                     System.out.println("También mostramos el id: " + ciudadano.getIdCiudadano());
+                    /*------------------------------*/
+                    
+                    
+                    JOptionPane.showMessageDialog(null, "Paciente cargado exitosamente");
                 }
             }
             
@@ -65,7 +93,86 @@ public class CiudadanoData {
             System.out.println("Error al cargar datos: "+ex.getMessage());
         }        
     }
+    
+    public void modificarCiudadano(Ciudadano ciudadano){
+        try {
+            String sql ="UPDATE ciudadano SET dni = ?, nombreCompleto = ?, email = ?, celular = ?, patologia = ?, ambitoTrabajo = ? WHERE dni = ?";
             
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, ciudadano.getDni());
+            ps.setString(2, ciudadano.getNombreCompleto());
+            ps.setString(3, ciudadano.getEmail());
+            ps.setString(4, ciudadano.getCelular());
+            ps.setString(5, ciudadano.getPatologia());
+            ps.setString(6, ciudadano.getAmbitoTrabajo());
+            
+            /// EJECUCIÓN DE LA SENTENCIA:
+            /// ps.executeUpdate(); ---> Se utiliza en INSERT, UPDATE, DELETE
+            /// ps.executeQuery(); ----> Se utiliza en SELECT
+            
+            int filaAfectada = ps.executeUpdate();
+            
+            if (filaAfectada > 0) {
+                ResultSet lista = ps.getGeneratedKeys();
+                if (lista.next()) {
+                    JOptionPane.showMessageDialog(null, "¡Modificación Exitosa!");
+                }
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla 'Ciudadano'" + ex.getMessage());
+        } catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "Error en el formato de los campos ingresados. ");
+        }
+        
+    }
+    
+    public List<Ciudadano> listarCiudadanos(){
+        try {
+            String sql = "SELECT * FROM ciudadano";
+            
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet listaCiu = ps.executeQuery();
+            
+            while (listaCiu.next()) {                
+                Ciudadano ciudadano = new Ciudadano();
+                
+                ciudadano.setIdCiudadano(listaCiu.getInt("idCiudadano"));
+                ciudadano.setNombreCompleto(listaCiu.getString("nombreCompleto"));
+                ciudadano.setDni(listaCiu.getInt("dni"));
+                ciudadano.setEmail(listaCiu.getString("email"));
+                ciudadano.setPatologia(listaCiu.getString("patologia"));
+                ciudadano.setCelular(listaCiu.getString("celular"));
+                ciudadano.setAmbitoTrabajo(listaCiu.getString("ambitoTrabajo"));
+                
+                listaCiudadanos.add(ciudadano);
+            }
+            
+            ps.close();
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla de ciudadano");
+        }
+        return listaCiudadanos;
+    }
+    
+    public List<Ciudadano> listarCiudadanosPorTrabajo(String ambTrab){
+        try {
+            String sql = "SELECT * FROM ciudadano WHERE ambitoTrabajo = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ResultSet ciuPorTrab = ps.executeQuery();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(CiudadanoData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+     
+    public void borrarCiudadano(int dni){
+        
+    }
+    
     public Ciudadano buscarCiudadano(int dni){
         String sql = "SELECT * FROM ciudadano WHERE dni = ?";
         
@@ -100,12 +207,10 @@ public class CiudadanoData {
             System.out.println("Error al acceder a la Base de Datos 'Ciudadano': "+ex.getMessage());
         }
         
-     
-        
         return ciudadano;
     }
     
-    // Hacer método para listar ciudadanos, evaluar si va un List o un TreeSet o algo así
+    
     
     
     
