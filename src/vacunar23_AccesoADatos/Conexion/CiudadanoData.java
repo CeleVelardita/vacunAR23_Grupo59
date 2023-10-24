@@ -20,6 +20,7 @@ public class CiudadanoData {
     private Connection con = null;
     
     private List<Ciudadano> listaCiudadanos;
+    private List<Ciudadano> listaCiudadanosTrabajo;
     
     /*------------ MÉTODOS NECESARIOS -----------
     
@@ -38,6 +39,7 @@ public class CiudadanoData {
         con = Conexion.getConexion();
         
         listaCiudadanos = new ArrayList<>();
+        listaCiudadanosTrabajo = new ArrayList<>();
     }    
     
     public void guardarCiudadano(Ciudadano ciudadano){
@@ -166,7 +168,7 @@ public class CiudadanoData {
         } catch (SQLException ex) {
             Logger.getLogger(CiudadanoData.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+        return listaCiudadanosTrabajo;
     }
      
     public void borrarCiudadano(int dni){

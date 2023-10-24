@@ -427,17 +427,21 @@ public class VacunasView extends javax.swing.JInternalFrame {
         if(evt.getClickCount() == 2){ // el "== 2" indica que se hizo doble click, también puedo especificar la cantidad de click's que quiera
             
             // SETEAR NOMBRE LABORATORIO - DOSIS - FECHA CADUCA - COLOCADA
-            /*
+            
             nombreLabTabla = jtTablaVacunas.getValueAt(fila, 0).toString();
-            setearComboLab(nombreLabTabla);
-            */
-            Object objetoSeleccionado = jtTablaVacunas.getValueAt(fila, 0);
+            
+            lab = labData.buscarLaboratorioXNombre(nombreLabTabla);
+            
+            jcbLaboratorio.setSelectedItem(lab);
+            jcbLaboratorio.setVisible(true);
+            
+            /*Object objetoSeleccionado = jtTablaVacunas.getValueAt(fila, 0);
             
             
             if (modeloComboLaboratorios.getIndexOf(objetoSeleccionado) != -1) {
                 modeloComboLaboratorios.setSelectedItem(objetoSeleccionado);
             }
-            
+            */
             
             /*
              // Obtén el valor de la fila seleccionada en la tabla.
@@ -500,20 +504,20 @@ public class VacunasView extends javax.swing.JInternalFrame {
     }
             
     private void cargarComboLaboratorios() {
-        modeloComboLaboratorios = (DefaultComboBoxModel) jcbLaboratorio.getModel();
-        // ARREGLAR TODOS LOS COMBOS DE LABORATORIO
+        //modeloComboLaboratorios = (DefaultComboBoxModel) jcbLaboratorio.getModel();
+       
         
         // Para el comboBox necesito los métodos de laboratorioData
         labData = new LaboratorioData();        
         // Llamo a la lista de laboratorios               
         ListaLaboratorios = labData.listarLaboratorios();
                 
-        //jcbLaboratorio.addItem(null);
-        modeloComboLaboratorios.addElement(null);
+        jcbLaboratorio.addItem(null);
+        //modeloComboLaboratorios.addElement(null);
         
         for (Laboratorio item : ListaLaboratorios) {
-            //jcbLaboratorio.addItem(item); 
-            modeloComboLaboratorios.addElement(item);
+            jcbLaboratorio.addItem(item); 
+            //modeloComboLaboratorios.addElement(item);
         }        
     }
 
@@ -552,8 +556,8 @@ public class VacunasView extends javax.swing.JInternalFrame {
     }
     
     
-    
     /*
+    
     private Laboratorio setearComboLab(String nom){
         String nombre;
         
