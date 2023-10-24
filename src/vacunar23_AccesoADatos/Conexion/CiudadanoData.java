@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -16,6 +18,8 @@ public class CiudadanoData {
     
     // Creamos un atributo de tipo Connection para poder conectar cada método con la base de datos (BD)
     private Connection con = null;
+    
+    private List<Ciudadano> listaCiudadanos;
     
     /*------------ MÉTODOS NECESARIOS -----------
     
@@ -32,6 +36,8 @@ public class CiudadanoData {
     public CiudadanoData(){
         // Establecemos la conexión con la BD
         con = Conexion.getConexion();
+        
+        listaCiudadanos = new ArrayList<>();
     }    
     
     public void guardarCiudadano(Ciudadano ciudadano){
@@ -120,7 +126,53 @@ public class CiudadanoData {
         }
         
     }
+    
+    public List<Ciudadano> listarCiudadanos(){
+        try {
+            String sql = "SELECT * FROM ciudadano";
             
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet listaCiu = ps.executeQuery();
+            
+            while (listaCiu.next()) {                
+                Ciudadano ciudadano = new Ciudadano();
+                
+                ciudadano.setIdCiudadano(listaCiu.getInt("idCiudadano"));
+                ciudadano.setNombreCompleto(listaCiu.getString("nombreCompleto"));
+                ciudadano.setDni(listaCiu.getInt("dni"));
+                ciudadano.setEmail(listaCiu.getString("email"));
+                ciudadano.setPatologia(listaCiu.getString("patologia"));
+                ciudadano.setCelular(listaCiu.getString("celular"));
+                ciudadano.setAmbitoTrabajo(listaCiu.getString("ambitoTrabajo"));
+                
+                listaCiudadanos.add(ciudadano);
+            }
+            
+            ps.close();
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla de ciudadano");
+        }
+        return listaCiudadanos;
+    }
+    
+    public List<Ciudadano> listarCiudadanosPorTrabajo(String ambTrab){
+        try {
+            String sql = "SELECT * FROM ciudadano WHERE ambitoTrabajo = ?";
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ResultSet ciuPorTrab = ps.executeQuery();
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(CiudadanoData.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+     
+    public void borrarCiudadano(int dni){
+        
+    }
+    
     public Ciudadano buscarCiudadano(int dni){
         String sql = "SELECT * FROM ciudadano WHERE dni = ?";
         
@@ -155,10 +207,10 @@ public class CiudadanoData {
             System.out.println("Error al acceder a la Base de Datos 'Ciudadano': "+ex.getMessage());
         }
         
-     
-        
         return ciudadano;
     }
+    
+    
     
     
     

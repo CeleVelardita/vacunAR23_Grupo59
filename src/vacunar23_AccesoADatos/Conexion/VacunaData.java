@@ -21,6 +21,8 @@ public class VacunaData {
     private Laboratorio laboratorio;
     private LaboratorioData labData;
 
+    Vacuna vacuna = null;
+    
     public VacunaData() {
         con = Conexion.getConexion();
     }
@@ -179,7 +181,7 @@ public class VacunaData {
     }
 
     public Vacuna buscarPorNroSerie(int nroSerie) {
-        Vacuna vacuna = null;
+        
         try {
             String sql = "SELECT idVacuna, nroSerieDosis, marca, medida, fechaCaduca, colocada,\n"
                     + "vacuna.idLaboratorio, CUIT, nomLaboratorio, pais, domComercial, estado\n"
@@ -190,10 +192,11 @@ public class VacunaData {
 
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, nroSerie);
-            System.out.println("a ver si pasa por acá");
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
+                System.out.println("Entra en el if");
+                System.out.println(rs);
                 vacuna = new Vacuna();
                 Laboratorio laboratorio = new Laboratorio();
 
@@ -212,11 +215,34 @@ public class VacunaData {
                 laboratorio.setEstado(rs.getBoolean("estado"));
 
                 vacuna.setLaboratorio(laboratorio);
-
+                
+                
+                /*---------- PRUEBA PARA EL MAIN -------------
+                System.out.println("Vacuna y Laboratorio seteados");
+                System.out.println(vacuna.getFechaCaduca());
+                System.out.println(vacuna.getNroSerie());
+                System.out.println(vacuna.getMarca());
+                System.out.println(vacuna.getMedida());
+                System.out.println(vacuna.isColocada());
+                System.out.println(vacuna.getIdVacuna());
+                -----------------------------------------------*/
+                
+                
+                
+            } else{
+                // si no encuentra ninguna vacuna con ese número de serie, significa que el mismo está disponible
+                vacuna = null;
             }
+            
+            rs.close();
         } catch (SQLException ex) {
-
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla de vacunas");
+        } catch (NullPointerException ex) {
+            System.out.println(ex.getMessage());
+            System.out.println(ex.getLocalizedMessage());
+            System.out.println(ex.getStackTrace());
         }
+
         return vacuna;
     }
 
