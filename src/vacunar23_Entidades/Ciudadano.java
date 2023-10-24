@@ -12,6 +12,18 @@ public class Ciudadano {
     private String patologia = null;
     private String ambitoTrabajo;
     
+    // ver si agregamos domicilio o distrito de residencia
+
+    public Ciudadano(int idCiudadano, int dni, String nombreCompleto, String email, String celular, String ambitoTrabajo) {
+        this.idCiudadano = idCiudadano;
+        this.dni = dni;
+        this.nombreCompleto = nombreCompleto;
+        this.email = email;
+        this.celular = celular;
+        this.ambitoTrabajo = ambitoTrabajo;
+    }
+    
+    
     public Ciudadano(){}
     
     public Ciudadano(int dni, String nombre, String email, String cel, String patologia, String ambTrab) {

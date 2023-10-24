@@ -11,10 +11,23 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import vacunar23_Entidades.Ciudadano;
 
+
 public class CiudadanoData {
     
     // Creamos un atributo de tipo Connection para poder conectar cada método con la base de datos (BD)
     private Connection con = null;
+    
+    /*------------ MÉTODOS NECESARIOS -----------
+    
+    - Agregar ciudadano
+    - Modificar ciudadano
+    - Borrar ciudadano
+    - Listar ciudadano (todos)
+    
+    - Buscar por dni
+    - Listar por ámbito de trabajo
+        
+    ----------------------------------------------*/
     
     public CiudadanoData(){
         // Establecemos la conexión con la BD
@@ -74,6 +87,39 @@ public class CiudadanoData {
             System.out.println("Error al cargar datos: "+ex.getMessage());
         }        
     }
+    
+    public void modificarCiudadano(Ciudadano ciudadano){
+        try {
+            String sql ="UPDATE ciudadano SET dni = ?, nombreCompleto = ?, email = ?, celular = ?, patologia = ?, ambitoTrabajo = ? WHERE dni = ?";
+            
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, ciudadano.getDni());
+            ps.setString(2, ciudadano.getNombreCompleto());
+            ps.setString(3, ciudadano.getEmail());
+            ps.setString(4, ciudadano.getCelular());
+            ps.setString(5, ciudadano.getPatologia());
+            ps.setString(6, ciudadano.getAmbitoTrabajo());
+            
+            /// EJECUCIÓN DE LA SENTENCIA:
+            /// ps.executeUpdate(); ---> Se utiliza en INSERT, UPDATE, DELETE
+            /// ps.executeQuery(); ----> Se utiliza en SELECT
+            
+            int filaAfectada = ps.executeUpdate();
+            
+            if (filaAfectada > 0) {
+                ResultSet lista = ps.getGeneratedKeys();
+                if (lista.next()) {
+                    JOptionPane.showMessageDialog(null, "¡Modificación Exitosa!");
+                }
+            }
+            
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla 'Ciudadano'" + ex.getMessage());
+        } catch (NumberFormatException ex){
+            JOptionPane.showMessageDialog(null, "Error en el formato de los campos ingresados. ");
+        }
+        
+    }
             
     public Ciudadano buscarCiudadano(int dni){
         String sql = "SELECT * FROM ciudadano WHERE dni = ?";
@@ -113,8 +159,6 @@ public class CiudadanoData {
         
         return ciudadano;
     }
-    
-    // Hacer método para listar ciudadanos, evaluar si va un List o un TreeSet o algo así
     
     
     

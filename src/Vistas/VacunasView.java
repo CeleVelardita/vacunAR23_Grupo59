@@ -31,6 +31,9 @@ public class VacunasView extends javax.swing.JInternalFrame {
 
     private DefaultTableModel tablaVacunas;
     
+    private Double dosisSeleccionada = 0.0;
+    private LocalDate fechaCaducidad = null;
+    
     public VacunasView() {
         initComponents();
         vacunaData = new VacunaData();
@@ -255,8 +258,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
     /// ---------- BOTÓN INSERTAR ----------
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
         //String nombreLab = null;
-        Double dosisSeleccionada = 0.0;
-        LocalDate fechaCaducidad = null;
+                
         try {
             /// Se guardan los datos de cada campo en su variable correpondiente
             Laboratorio lab = laboratorioSeleccionado();
@@ -396,7 +398,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
                    EXPLICACIÓN DE LAS LÍNEAS DE ARRIBA
         
         JTable tabla = (JTable) evt.getSource();
-        Esta línea obtiene la fuente del evento llamado evt (por defecto al crear el evento de tipo "MousePressed".
+        Esta línea obtiene la fuente del evento llamado evt (por defecto al crear el evento de tipo "MousePressed").
         Esta fuente de evento, se almacena en la variable "tabla" de tipo JTable, por eso debo castear el objeto fuente a un "JTable".
         Una vez hecho esto, puedo acceder a las propiedades y métodos específicos de "JTable".
         
@@ -488,11 +490,9 @@ public class VacunasView extends javax.swing.JInternalFrame {
         
         if (jcbLaboratorio.getSelectedItem() != null) {
             lab = (Laboratorio) jcbLaboratorio.getSelectedItem();
-            //nombre = (String) lab.getNomLaboratorio();
         } else{
             lab = null;
         }
-        //return nombre;
         return lab;
         
         // Según yo, a partir de acá puedo acceder a todos los métodos de laboratorio
