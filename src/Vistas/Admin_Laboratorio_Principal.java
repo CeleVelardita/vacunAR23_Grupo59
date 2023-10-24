@@ -1,6 +1,7 @@
 
 package Vistas;
 
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -87,14 +88,42 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         jLEstado.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
         jLEstado.setText("Activo: ");
 
+        jtNombreLab.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtNombreLabKeyTyped(evt);
+            }
+        });
+
+        jtCuit.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtCuitKeyTyped(evt);
+            }
+        });
+
+        jtPais.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtPaisKeyTyped(evt);
+            }
+        });
+
+        jTListadoLab.setAutoCreateRowSorter(true);
+        jTListadoLab.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jTListadoLab.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Nombre de la Empresa", "Cuit", "País", "Domicilio Comercial", "Contrato/Estado"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         jScrollPane1.setViewportView(jTListadoLab);
 
         jbAgregar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -105,6 +134,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             }
         });
 
+        jbBuscarXCuit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jbBuscarXCuit.setText("Buscar por Cuit");
         jbBuscarXCuit.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -112,6 +142,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             }
         });
 
+        jbBuscarXNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jbBuscarXNombre.setText("Buscar por Nombre");
         jbBuscarXNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -119,6 +150,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             }
         });
 
+        jbListarLab.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jbListarLab.setText("Listar Laboratorios");
         jbListarLab.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -126,6 +158,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             }
         });
 
+        jbModificar.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jbModificar.setText("Modificar");
         jbModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -133,6 +166,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             }
         });
 
+        jbDarBaja.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jbDarBaja.setText("Dar de Baja/Alta");
 
         javax.swing.GroupLayout jpEscritorioLabLayout = new javax.swing.GroupLayout(jpEscritorioLab);
@@ -161,8 +195,8 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
                                 .addComponent(jbAgregar, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jpEscritorioLabLayout.createSequentialGroup()
                         .addGap(28, 28, 28)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 542, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(78, 78, 78)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61)
                         .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jbBuscarXCuit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -228,7 +262,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
                         .addComponent(jbModificar)
                         .addGap(34, 34, 34)
                         .addComponent(jbDarBaja)))
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -247,7 +281,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     
     
     
-    /*-----------------------------EVENTOS-------------------------------------*/
+    /*-----------------------------EVENTOS de ACCIÓN-------------------------------------*/
     
     
     ///Botón Agregar
@@ -333,6 +367,31 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         buscarNombreFrame.setVisible(true);
     }//GEN-LAST:event_jbBuscarXNombreActionPerformed
 
+    /*-----------------------------EVENTOS de CONTROL-------------------------------------*/    
+    
+    private void jtNombreLabKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtNombreLabKeyTyped
+        char letra = evt.getKeyChar();
+        if (!Character.isLetter(letra) && letra != KeyEvent.VK_BACK_SPACE && letra != KeyEvent.VK_SPACE) {
+            evt.consume();  // Rechaza el carácter si no es una letra, espacio o retroceso
+        }
+    }//GEN-LAST:event_jtNombreLabKeyTyped
+
+    private void jtCuitKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtCuitKeyTyped
+        char letra=evt.getKeyChar();
+        if (!Character.isDigit(letra) && letra != KeyEvent.VK_BACK_SPACE) {
+            // Rechaza el carácter si no es un dígito o un retroceso
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtCuitKeyTyped
+
+    private void jtPaisKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtPaisKeyTyped
+        char letra = evt.getKeyChar();
+        if (!Character.isLetter(letra) && letra != KeyEvent.VK_BACK_SPACE && letra != KeyEvent.VK_SPACE) {
+            evt.consume();  // Rechaza el carácter si no es una letra, espacio o retroceso
+        }
+    }//GEN-LAST:event_jtPaisKeyTyped
+
+    
     
     
 
@@ -367,7 +426,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     
     
     
-    /*----------MÉTODOS----------*/
+    /*---------------------MÉTODOS---------------------*/
     
     
     /*-----cabeceras de la tabla-----*/
