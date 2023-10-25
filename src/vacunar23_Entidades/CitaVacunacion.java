@@ -10,12 +10,13 @@ public class CitaVacunacion {
     private LocalDate fechaHoraColoca;
     private Vacuna vacuna;
     private int codRefuerzo;
-    private Ciudadano ciudadano;
+    private Ciudadano ciudadano;       
+    private String estado;
 
     public CitaVacunacion() {
     }
 
-    public CitaVacunacion(int codCita, LocalDate fechaHoraCita, String centroVacunacion, LocalDate fechaHoraColoca, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano) {
+    public CitaVacunacion(int codCita, LocalDate fechaHoraCita, String centroVacunacion, LocalDate fechaHoraColoca, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano, String estado) {
         this.codCita = codCita;
         this.fechaHoraCita = fechaHoraCita;
         this.centroVacunacion = centroVacunacion;
@@ -23,6 +24,7 @@ public class CitaVacunacion {
         this.vacuna = vacuna;
         this.codRefuerzo = codRefuerzo;
         this.ciudadano = ciudadano;
+        this.estado = estado;
     }
 
     public int getCodCita() {
@@ -81,6 +83,14 @@ public class CitaVacunacion {
 
     public void setCiudadano(Ciudadano ciudadano) {
         this.ciudadano = ciudadano;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 
     

@@ -35,36 +35,37 @@ public class LaboratorioData {
 */    
     public void cargarLaboratorio (Laboratorio laboratorio){
         //creamos el texto sql INSERT para la BD
-        String sql = "INSERT INTO laboratorio ( CUIT, nomLaboratorio, pais, domComercial) VALUES (?,?,?,?)";
+        String sql = "INSERT INTO laboratorio ( CUIT, nomLaboratorio, pais, domComercial, estado ) VALUES (?,?,?,?,?)";
         
         try{
-        // Se genera el objeto prepareStatement el cual va a enviar esa sentencia a la BD
-        // con.prepareStatement(sentencia Sql, le pido que devuelva la lista de las claves generadas ID)
-        PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        //Se setean los tipos de datos que quiero enviar, porque llegan el método a través del parámetro "laboratorio"
-        ps.setLong(1, laboratorio.getCuit());
-        ps.setString(2, laboratorio.getNomLaboratorio());
-        ps.setString(3, laboratorio.getPais());       
-        ps.setString(4, laboratorio.getDomComercial());
+            // Se genera el objeto prepareStatement el cual va a enviar esa sentencia a la BD
+            // con.prepareStatement(sentencia Sql, le pido que devuelva la lista de las claves generadas ID)
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            //Se setean los tipos de datos que quiero enviar, porque llegan el método a través del parámetro "laboratorio"
+            ps.setLong(1, laboratorio.getCuit());
+            ps.setString(2, laboratorio.getNomLaboratorio());
+            ps.setString(3, laboratorio.getPais());       
+            ps.setString(4, laboratorio.getDomComercial());
+            ps.setBoolean(5, laboratorio.isEstado());
 
-        
-        // Una vez que se envían todas las sentencias se ejecutan
-        ps.executeUpdate();
-        
-        // Luego se pide la clave generada al alumno
-        // Devuelve una tabla, en este caso con una sola columna que es la de ID, con tantas filas
-        // como alumnos haya cargado        
-        ResultSet claveLaboratorio = ps.getGeneratedKeys();
-        
-        // En este caso le manda un solo Laboratorio por lo que no es necesario recorrer la lista con un while
-        // el next me indica que pasa al siguiente renglón, entonces significa que lo pudo agregar
-        if (claveLaboratorio.next()){
-            laboratorio.setIdLaboratorio(claveLaboratorio.getInt(1));
-            JOptionPane.showMessageDialog(null, "Laboratorio Ingresado Correctamente");
-        }
-        ps.close();
-        // Cierro el método prepareStatement 
-            
+
+            // Una vez que se envían todas las sentencias se ejecutan
+            ps.executeUpdate();
+
+            // Luego se pide la clave generada al alumno
+            // Devuelve una tabla, en este caso con una sola columna que es la de ID, con tantas filas
+            // como alumnos haya cargado        
+            ResultSet claveLaboratorio = ps.getGeneratedKeys();
+
+            // En este caso le manda un solo Laboratorio por lo que no es necesario recorrer la lista con un while
+            // el next me indica que pasa al siguiente renglón, entonces significa que lo pudo agregar
+            if (claveLaboratorio.next()){
+                laboratorio.setIdLaboratorio(claveLaboratorio.getInt(1));
+                JOptionPane.showMessageDialog(null, "Laboratorio Ingresado Correctamente");
+            }
+
+            // Cierro el método prepareStatement 
+            ps.close();  
         }catch (SQLException ex){
             JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla laboratorio de la BD");
         }catch (NumberFormatException ex){
@@ -72,18 +73,26 @@ public class LaboratorioData {
         }    
     }   
 
-    public void modificarLaboratorio (long cuit){
-        String sql = "UPDATE laboratorio SET estado = 0 WHERE idLaboratorio = ?";
-            try {
-               
+    public void modificarLaboratorio (Laboratorio lab){
+        String sql = "UPDATE laboratorio SET CUIT= ?, nomLaboratorio= ?, pais= ?, domComercial= ?, estado= ? WHERE idLaboratorio= ?";
+            try {               
                 PreparedStatement ps = con.prepareStatement(sql);
-                ps.setLong(1, cuit); // le indicamos el cuit que deseamos manipular
-                int eliminar = ps.executeUpdate();// realizamos la accion, le da de baja y devuelve un int que guardamos en eliminar
-                if (eliminar == 1) {
-                    JOptionPane.showMessageDialog(null, "Laboratorio dado de Baja");
+                //Se setean los tipos de datos que quiero enviar, porque llegan el método a través del parámetro lab 
+                ps.setLong(1, lab.getCuit());
+                ps.setString(2, lab.getNomLaboratorio());
+                ps.setString(3, lab.getPais());       
+                ps.setString(4, lab.getDomComercial());
+                ps.setBoolean(5, lab.isEstado());
+                // Por último se setea el ID
+                ps.setInt(6, lab.getIdLaboratorio());
+                int intDevuelto = ps.executeUpdate();                
+                if (intDevuelto == 1) {
+                    JOptionPane.showMessageDialog(null, "Laboratorio Modificado exitosamente");
                 }
+                // Cierra la conexión
+                ps.close();
             } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Error al dar de baja el Laboratorio");
+                JOptionPane.showMessageDialog(null, "Error al intentar modificar el Laboratorio");
             }
     } 
 
@@ -96,15 +105,14 @@ public class LaboratorioData {
             // Ejecuta el SQL
             int fila = ps.executeUpdate();
 
-            // Cierra la conexión
-            ps.close();
-
             // Verifica si se actualizó el estado
              if (fila == 1) {
                 System.out.println("El estado del laboratorio se invirtió correctamente.");
              } else {
                 System.out.println("No se pudo invertir el estado del laboratorio.");
             }
+             // Cierra la conexión
+             ps.close();
          } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "no se logró acceder a la tabla laboratorio");
         } 
@@ -204,9 +212,7 @@ public class LaboratorioData {
      
      
     /*--------------------------------------------------------------------------------------------------*/
-          
-     
-    
+  
     public List<Laboratorio> listarLaboratorios(){
         String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial FROM laboratorio WHERE estado = 1";
       // Otra posibilidad es "SELECT * FROM laboratorio WHERE estado = 1", recordar que el * invoca todos los parámetros
