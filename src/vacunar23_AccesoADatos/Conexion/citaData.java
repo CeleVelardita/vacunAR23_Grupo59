@@ -8,17 +8,36 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import vacunar23_Entidades.CitaVacunacion;
+import vacunar23_Entidades.Ciudadano;
+import vacunar23_Entidades.Vacuna;
 
 
 public class citaData {
-    private Connection con = null;//objeto de clase Connection para usar su método getConexion        
+    //declaraciones
+    private Connection con = null;//objeto de clase Connection para usar su método getConexion      
+    private CitaVacunacion cita;
+    private List<CitaVacunacion> listaCitas;
+    private Ciudadano ciudadano;
+    private Vacuna vacuna;
+    
+    //-----Constructor
     public citaData() {
+        //inicializamos
         con = Conexion.getConexion();//  creamos el méotodo en con
+        cita=null;
+        listaCitas= null;
+        ciudadano=null;
+        vacuna=null;
+        
     }
+    
+    
+    
     
     /*
     métodos para esta clase:
@@ -63,4 +82,43 @@ public class citaData {
         
     }
     
+    public void modificarCita(CitaVacunacion citaVacunacion){
+        try{
+            //formulamos la petición
+            String sql ="UPDATE citavacunacion SET idCiudadano= ?, codRefuerzo= ?, fechaHoraCita= ?, centroVacunacion= ? ,fechaHoraColoca= ? WHERE codCita= ? ";
+            //conectamos con la tabla y le mandamos la petición sql
+            PreparedStatement ps= con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            
+            //seteamos el contenido deseado siguiendo el orden de la consulta en sql 0,1,2,3....
+            ps.setInt(0, citaVacunacion.getCodCita());
+            ps.setInt(1, citaVacunacion.getCiudadano().getIdCiudadano());
+            ps.setInt(2, citaVacunacion.getCodRefuerzo());
+            ps.setDate(4, Date.valueOf(citaVacunacion.getFechaHoraCita()));
+            ps.setString(5, citaVacunacion.getCentroVacunacion());
+            ps.setDate(6, Date.valueOf(citaVacunacion.getFechaHoraColoca()));
+            ps.setInt(7, citaVacunacion.getVacuna().getIdVacuna());         
+            
+            
+        }catch(){
+            
+        }
+    }
+    
+    public void darDeBajaCita(){
+        
+    }
+    
+    public List<CitaVacunacion> listarCitas(){
+     return listaCitas;   
+    }
+
+    public void buscarCItaXDNI(int dni){
+        
+    }
+    
+    public void buscarCitaXFecha(){
+        
+    }
+
+
 }
