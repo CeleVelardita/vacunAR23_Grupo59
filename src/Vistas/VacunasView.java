@@ -3,10 +3,12 @@ package Vistas;
 
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
+import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import javafx.scene.control.ComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -24,19 +26,22 @@ public class VacunasView extends javax.swing.JInternalFrame {
     private Laboratorio lab;
     private LaboratorioData labData;    
     
-    private DefaultComboBoxModel modeloComboDosis; // Lo necesito para agregarle elementos al comboDosis
-    private DefaultComboBoxModel modeloComboLaboratorios;    
+    private DefaultComboBoxModel<String> modeloComboDosis; // Lo necesito para agregarle elementos al comboDosis
+    private DefaultComboBoxModel<Laboratorio> modeloComboLaboratorios;    
     
     private List<Vacuna> ListaVacunas; // Lo voy a necesitar para llenar la tabla
     private List<Laboratorio> ListaLaboratorios; // Lo voy a necesitar para el comboBox de laboratorios
 
     private DefaultTableModel tablaVacunas;
     
+    private Double dosisTabla;
     private Double dosisSeleccionada = 0.0;
     private LocalDate fechaCaducidad = null;
     
     private String nombreLabTabla;
     private String nombreLabCombo;
+    
+    private int filaSeleccionada;
     
     public VacunasView() {
         initComponents();
@@ -50,6 +55,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
         cargarComboLaboratorios();
         
         cargarComboDosis(); 
+        
         jcbMedida.setSelectedItem(null);
        
         jdcVencimiento.setDate(null);
@@ -337,7 +343,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
     /// ---------- BOTÓN MODIFICAR ----------
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
         
-        int filaSeleccionada = jtTablaVacunas.getSelectedRow();
+        filaSeleccionada = jtTablaVacunas.getSelectedRow();
 
         if (filaSeleccionada != -1) {
 
@@ -346,7 +352,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
                 Laboratorio lab = laboratorioSeleccionado();
                 // Utilizo el método creado para acceder al nombre y al id del laboratorio seleccionado
                 if (lab != null) {
-                    int id = lab.getIdLaboratorio();
+                    int id = lab.getIdLaboratorio();                    
                 }
 
                 String marca = jtMarca.getText();
@@ -365,23 +371,25 @@ public class VacunasView extends javax.swing.JInternalFrame {
                 }
 
                 Boolean aplicada = jcbAplicada.isSelected();
-
+                
                 /// Verifico que no queden campos vacíos
                 if (lab == null || marca.isEmpty() || dosisSeleccionada == 0.0 || fechaCaducidad == null) {
                     JOptionPane.showMessageDialog(this, "No pueden haber campos vacíos");
                     return;
                 } else {
+                    vacunaActual = vacunaData.buscarPorNroSerie(nroSerie);
+                    
+                        vacunaActual.setNroSerie(nroSerie);
+                        vacunaActual.setMarca(marca);
+                        System.out.println(nroSerie);
+                        vacunaActual.setMedida(dosisSeleccionada);
+                        vacunaActual.setFechaCaduca(fechaCaducidad);
+                        vacunaActual.setColocada(aplicada);
+                        vacunaActual.setLaboratorio(lab);
+                        
+                        vacunaData.modificarVacuna(vacunaActual);
 
-                    vacunaActual.setNroSerie(nroSerie);
-                    vacunaActual.setMarca(marca);
-                    vacunaActual.setMedida(dosisSeleccionada);
-                    vacunaActual.setFechaCaduca(fechaCaducidad);
-                    vacunaActual.setColocada(aplicada);
-                    vacunaActual.setLaboratorio(lab);
-
-                    vacunaData.modificarVacuna(vacunaActual);
-
-                    limpiarCampos();
+                        limpiarCampos();                  
 
                 }
             } catch (NumberFormatException e) {
@@ -428,46 +436,20 @@ public class VacunasView extends javax.swing.JInternalFrame {
             
             // SETEAR NOMBRE LABORATORIO - DOSIS - FECHA CADUCA - COLOCADA
             
-            nombreLabTabla = jtTablaVacunas.getValueAt(fila, 0).toString();
-            
-            lab = labData.buscarLaboratorioXNombre(nombreLabTabla);
-            
-            jcbLaboratorio.setSelectedItem(lab);
-            jcbLaboratorio.setVisible(true);
-            
-            /*Object objetoSeleccionado = jtTablaVacunas.getValueAt(fila, 0);
-            
-            
-            if (modeloComboLaboratorios.getIndexOf(objetoSeleccionado) != -1) {
-                modeloComboLaboratorios.setSelectedItem(objetoSeleccionado);
-            }
-            */
-            
-            /*
-             // Obtén el valor de la fila seleccionada en la tabla.
-                        Object selectedValue = table.getValueAt(selectedRow, 0); // Supongamos que está en la columna 0.
-
-                        // Verifica si el valor existe en el JComboBox.
-                        if (comboBox.getModel().getIndexOf(selectedValue) != -1) {
-                            comboBox.setSelectedItem(selectedValue);
-                        }
-            
-            */
-            
-            
-            
-            
-            
-            
-            
-            
+            setearComboLab(fila);
             
             jtMarca.setText(jtTablaVacunas.getValueAt(fila, 1).toString());
             jtNroSerie.setText(jtTablaVacunas.getValueAt(fila, 2).toString());
             jtNroSerie.setEditable(false); // Restrinjo su contenido para que NO sea editable
-            //String dosis = (String) jtTablaVacunas.getValueAt(fila, 3);
-            //double dosisSeleccionada = Double.parseDouble(dosis);
-            jcbMedida.setSelectedItem(jtTablaVacunas.getValueAt(fila, 3));
+            
+            setearComboDosis(fila);
+            
+            LocalDate fecha = (LocalDate) jtTablaVacunas.getValueAt(fila, 4);
+            jdcVencimiento.setDate(Date.valueOf(fecha));
+            
+            Boolean aplicacion = (Boolean) jtTablaVacunas.getValueAt(fila, 5);
+            jcbAplicada.setSelected(aplicacion);
+                        
             
         } else if (evt.getClickCount() == 1) {
             System.out.println("No hace nada :) porque hizo un solo click");
@@ -475,20 +457,22 @@ public class VacunasView extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jtTablaVacunasMousePressed
 
+    ///----------- BOTÓN ELIMINAR -----------
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         
-       // JTable tabla = (JTable) 
+        filaSeleccionada = jtTablaVacunas.getSelectedRow();
+        
+        if(filaSeleccionada != -1){
+            String valor = jtTablaVacunas.getValueAt(filaSeleccionada, 2).toString();
+            int numSerie = Integer.parseInt(valor);
+            vacunaData.eliminarVacuna(numSerie);
+        }       
         
     }//GEN-LAST:event_jbEliminarActionPerformed
 
     /*
     Funcionalidades:
-    
-    
-    - Botón eliminar: verifica de igual manera que el botón modificar. Agregar mensaje de confirmación de la operación,
-    ya que la fila será eliminada de la tabla, no dada de baja.
-    
-        
+       
     - En la fecha de vencimiento NO permitir colocar una fecha anterior mínimo, a un día posterior del día de la carga de datos
     
     */
@@ -522,7 +506,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
     }
 
     private void cargarComboDosis(){
-        modeloComboDosis = (DefaultComboBoxModel) jcbMedida.getModel();
+        modeloComboDosis = (DefaultComboBoxModel<String>) jcbMedida.getModel();
         
         modeloComboDosis.addElement(null);
         modeloComboDosis.addElement("0.3");
@@ -553,24 +537,83 @@ public class VacunasView extends javax.swing.JInternalFrame {
         for (Vacuna i : ListaVacunas) {
             tablaVacunas.addRow(new Object[]{i.getLaboratorio().getNomLaboratorio(), i.getMarca(), i.getNroSerie(), i.getMedida(), i.getFechaCaduca(), i.isColocada()});
         }
+    }    
+    
+    private void setearComboLab(int fila) {
+        // Recupero el nombre del laboratorio de la fila que seleccioné y lo guardo en una variable
+        nombreLabTabla = jtTablaVacunas.getValueAt(fila, 0).toString();
+        // Envío ese nombre a labData para obtener el Laboratorio al que pertenece y lo guardo en una variable de tipo Laboratorio
+        lab = labData.buscarLaboratorioXNombre(nombreLabTabla);
+        // Casteo mi combo a un DefaultComboBoxModel para poder acceder a todos los método del jComboBox
+        modeloComboLaboratorios = (DefaultComboBoxModel<Laboratorio>) jcbLaboratorio.getModel();
+        // Recupero la cantidad de objetos que tiene mi combo para recorer uno por uno mediante un for
+        int elementos = modeloComboLaboratorios.getSize();
+
+        // System.out.println(elementos);
+
+        for (int i = 0; i < elementos; i++) {
+            // instancio un objeto de tipo Laboratorio donde voy a guardar cada elemento del combo para comparar
+            Laboratorio laboratorio = modeloComboLaboratorios.getElementAt(i);
+            // Hago una comparación entre el objeto que tiene el combo y el objeto de la tabla
+            if (lab.equals(laboratorio)) {
+                // Si su contenido es el mismo, entonces el combo es seteado con ese objeto
+                jcbLaboratorio.setSelectedItem(lab);
+                break;
+            }
+        }
+        
+        /*------------------------------------------------------------------
+                                  IMPORTANTE
+        
+        NO olvidar que para el contenido de dos OBJETOS se debe implementar
+        el método .equals();
+        
+        --------------------------------------------------------------------*/
+        
     }
     
-    
-    /*
-    
-    private Laboratorio setearComboLab(String nom){
-        String nombre;
+    private void setearComboDosis(int fila){
         
-        lab = labData.buscarLaboratorioXNombre(nom); // Busca el laboratorio con el nombre pasado
-                
-        nombre = lab.getNomLaboratorio(); // Guarda el nombre del laboratorio encontrado
+        // Guardo en un object el objeto recuperado de la tabla
+        Object obj = jtTablaVacunas.getValueAt(fila, 3);
         
+        jcbMedida.setSelectedItem(obj);
+        /*
+        // Casteo el modelo de la tabla para acceder a todos los métodos del comboBox
+        modeloComboDosis = (DefaultComboBoxModel<String>) jcbMedida.getModel();
+        // Obtengo la cantidad de elementos del combo
+        int elementos = modeloComboDosis.getSize();
+        // Recorro el combo con un if y hago la comparación entre objetos para poder
+        // setear SIN agregar elementos al combo
+        for (int i = 0; i < elementos; i++) {            
+             Object otroObj = modeloComboDosis.getElementAt(i);             
+            if(obj.equals(otroObj)){
+                // Le seteo el objeto que guardé en la primer línea del método
+                jcbMedida.setSelectedItem(obj);
+                break;
+            }
+
+        }
+*/
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+/*
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        final Object otraDosis = (Object) obj;
         
-         
-        
-        
-        
-        return ;
+        return Objects.equals(obj., obj)
     }
     */
     

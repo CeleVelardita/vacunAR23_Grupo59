@@ -83,7 +83,7 @@ public class VacunaData {
     }
 
     public void modificarVacuna(Vacuna vacuna) { // Le mando como parámetro una vacuna de tipo vacuna porque selecciona una fila de la tabla para modificar
-        String sql = "UPDATE vacuna SET marca = ?, medida = ?, fechaCaduda = ?, colocada = ?, idLaboratorio = ?";
+        String sql = "UPDATE vacuna SET marca = ?, medida = ?, fechaCaduca = ?, colocada = ?, idLaboratorio = ? WHERE nroSerieDosis = ?";
         try {
             PreparedStatement ps = con.prepareStatement(sql);
 
@@ -92,19 +92,17 @@ public class VacunaData {
             ps.setDate(3, Date.valueOf(vacuna.getFechaCaduca()));
             ps.setBoolean(4, vacuna.isColocada());
             ps.setInt(5, vacuna.getLaboratorio().getIdLaboratorio());
+            ps.setInt(6, vacuna.getNroSerie());
 
             int filaAfectada = ps.executeUpdate();
 
             if (filaAfectada > 0) {
-                ResultSet id = ps.getGeneratedKeys();
-                if (id.next()) {
-                    System.out.println("¡Modificación exitosa!");
-                    JOptionPane.showMessageDialog(null, "¡Modificación exitosa!");
-                }
-
+                System.out.println("¡Modificación exitosa!");
+                JOptionPane.showMessageDialog(null, "¡Modificación exitosa!");
             }
+
         } catch (SQLException ex) {
-            System.out.println("No se ha podido ingresar a la tabla de Vacunas");
+            System.out.println("No se ha podido ingresar a la tabla de Vacunas" + ex.getMessage());
             JOptionPane.showMessageDialog(null, "No se ha podido ingresar a la tabla de Vacunas");
         } catch (NumberFormatException ex) {
             System.out.println("NullPointerException " + ex.getMessage());
@@ -124,13 +122,22 @@ public class VacunaData {
 
             if (filaAfectada == 1) {
                 System.out.println("Vacuna eliminada");
+                
+                int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro que quiere eliminar la vacuna seleccionada?", "Eliminar Vacuna", JOptionPane.YES_NO_OPTION);
+                if (respuesta == JOptionPane.YES_OPTION) {
+                    JOptionPane.showMessageDialog(null, "Vacuna eliminada");
+                } else{
+                    System.out.println("No hace nada porque dijo que no :)");
+                }                
             } else {
                 System.out.println("No se ha indicado la vacuna a eliminar");
+                JOptionPane.showMessageDialog(null, "No se ha indicado la vacuna a eliminar. Por favor seleccione una fila de la tabla.");
             }
 
             ps.close();
         } catch (SQLException ex) {
             System.out.println("Error al ingresar a la tabla Vacunas");
+            JOptionPane.showMessageDialog(null, "Error al ingresar a la tabla de Vacunas");
         }
     }
 

@@ -26,7 +26,6 @@ public class Vacuna {
         this.medida = medida;
         fechaCaduca = fecha;
         this.colocada = colocada;
-        //this.nombreLab = nombreLab;
     }
     
     public Vacuna(int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, Laboratorio lab){
@@ -36,7 +35,6 @@ public class Vacuna {
         fechaCaduca = fecha;
         this.colocada = colocada;
         laboratorio = lab;
-        //this.nombreLab = nombreLab;
     }
 
     public Laboratorio getLaboratorio(){
