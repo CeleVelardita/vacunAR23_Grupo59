@@ -2,12 +2,13 @@
 package vacunar23_Entidades;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class CitaVacunacion {
     private int codCita;
-    private LocalDate fechaHoraCita;
+    private LocalDate fechaHoraCita;//fecha
     private String centroVacunacion; 
-    private LocalDate fechaHoraColoca;
+    private LocalTime horarioTurno;//horario
     private Vacuna vacuna;
     private int codRefuerzo;
     private Ciudadano ciudadano;       
@@ -16,17 +17,17 @@ public class CitaVacunacion {
     public CitaVacunacion() {
     }
 
-    public CitaVacunacion(int codCita, LocalDate fechaHoraCita, String centroVacunacion, LocalDate fechaHoraColoca, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano, String estado) {
+    public CitaVacunacion(int codCita, LocalDate fechaHoraCita, String centroVacunacion, LocalTime horarioTurno, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano, String estado) {
         this.codCita = codCita;
         this.fechaHoraCita = fechaHoraCita;
         this.centroVacunacion = centroVacunacion;
-        this.fechaHoraColoca = fechaHoraColoca;
+        this.horarioTurno = horarioTurno;
         this.vacuna = vacuna;
         this.codRefuerzo = codRefuerzo;
         this.ciudadano = ciudadano;
         this.estado = estado;
     }
-
+    
     public int getCodCita() {
         return codCita;
     }
@@ -51,12 +52,12 @@ public class CitaVacunacion {
         this.centroVacunacion = centroVacunacion;
     }
 
-    public LocalDate getFechaHoraColoca() {
-        return fechaHoraColoca;
+    public LocalTime getHorarioTurno() {
+        return horarioTurno;
     }
 
-    public void setFechaHoraColoca(LocalDate fechaHoraColoca) {
-        this.fechaHoraColoca = fechaHoraColoca;
+    public void setHorarioTurno(LocalTime horarioTurno) {
+        this.horarioTurno = horarioTurno;
     }
 
     public Vacuna getVacuna() {
@@ -97,7 +98,7 @@ public class CitaVacunacion {
     
     @Override
     public String toString() {
-        return "CitaVacunacion{" + "codCita=" + codCita + ", fechaHoraCita=" + fechaHoraCita + ", centroVacunacion=" + centroVacunacion + ", fechaHoraColoca=" + fechaHoraColoca + ", vacuna=" + vacuna + ", ciudadano=" + ciudadano + '}';
+        return "CitaVacunacion{" + "codCita=" + codCita + ", fechaHoraCita=" + fechaHoraCita + ", centroVacunacion=" + centroVacunacion + ", fechaHoraColoca=" + horarioTurno + ", vacuna=" + vacuna + ", ciudadano=" + ciudadano + '}';
     }
 
    
