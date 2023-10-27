@@ -64,27 +64,24 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jScrollPane1" min="-2" pref="631" max="-2" attributes="0"/>
                       </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
+                          <Component id="jB_AGREGAR" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
+                          <Component id="jB_MODIFICAR" min="-2" max="-2" attributes="0"/>
+                          <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                          <Component id="jB_ELIMINAR" min="-2" max="-2" attributes="0"/>
+                      </Group>
                   </Group>
                   <EmptySpace min="0" pref="27" max="32767" attributes="0"/>
               </Group>
               <Group type="102" alignment="1" attributes="0">
                   <EmptySpace max="32767" attributes="0"/>
-                  <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="jB_AGREGAR" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
-                          <Component id="jB_MODIFICAR" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
-                          <Component id="jB_ELIMINAR" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                          <Component id="jB_CITAS" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
-                      </Group>
-                      <Group type="102" alignment="1" attributes="0">
-                          <Component id="jL_TITULO" min="-2" pref="339" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
-                      </Group>
+                  <Group type="103" groupAlignment="1" attributes="0">
+                      <Component id="jB_CITAS" min="-2" max="-2" attributes="0"/>
+                      <Component id="jL_TITULO" min="-2" pref="339" max="-2" attributes="0"/>
                   </Group>
+                  <EmptySpace min="-2" pref="137" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -123,16 +120,22 @@
                       <Component id="jL_ETIQUETA_email" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jT_email" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace min="-2" pref="39" max="-2" attributes="0"/>
-                  <Component id="jScrollPane1" min="-2" pref="108" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                  <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jB_ELIMINAR" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jB_CITAS" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jB_AGREGAR" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jB_MODIFICAR" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Group type="102" attributes="0">
+                          <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
+                          <Component id="jScrollPane1" min="-2" pref="108" max="-2" attributes="0"/>
+                      </Group>
+                      <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="28" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jB_AGREGAR" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jB_MODIFICAR" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jB_ELIMINAR" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jB_CITAS" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
                   </Group>
-                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
