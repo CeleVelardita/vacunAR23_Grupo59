@@ -3,7 +3,7 @@ package Vistas;
 
 public class CiudadanoView extends javax.swing.JFrame {
 
-    private DefaulTableModel modelo = new DefaulTableModel ();
+    private DefaulTableModel modelo = new DefaulTableModel ();   //falta importar
     
     public CiudadanoView() {
         initComponents();
@@ -192,13 +192,31 @@ public class CiudadanoView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jbAgregarActionPerformed (java.awt.event.ActionEvent evt);
+    
+    try {  
+    
+    Integer DNI = Integer.parseInt (jT_DNI.gettext ()); 
+    String nomApellido = jT_nomApellido.getText ();
+    
+    // si el usuario no llena el campo de nombre y apellido, salta este mensaje, e impide que quede vacio.
+    if (nomApellido.isEmpty()) {
+        JOptionPane.showMessageDialog (this, "Este campo no puede quedar vacio. Por favor ingrese su nombre y apellido");
+    }
+    
+    String patologia = jT_patologia.getText(); 
+    combobox             // necesito ayuda con este comboBox
+            
+    Integer celular = Integer.parseInt (jt_Celular.getText() );
+    String email = jT_email.getText (); 
+    
+  } catch (NumberFormatException nfe)
+       JOptionPane.showMessageDialog (this, "Debe ingresar un DNI valido");
     
     
+   //--------------------------------------------------------------------------------------------------------------------- 
     
-    
-    
-    
-    
+       
     private void jT_CelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jT_CelularActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jT_CelularActionPerformed
