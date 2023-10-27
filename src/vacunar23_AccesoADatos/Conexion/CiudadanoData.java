@@ -129,6 +129,7 @@ public class CiudadanoData {
         
     }
     
+    
     public List<Ciudadano> listarCiudadanos(){
         try {
             String sql = "SELECT * FROM ciudadano";
@@ -158,6 +159,28 @@ public class CiudadanoData {
         return listaCiudadanos;
     }
     
+     public void eliminarCiudadano (int idCiudadano ) { 
+        String sql = "DELETE FROM Ciudadano WHERE ------- = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+
+            ps.setInt(1, idCiudadano);
+
+            int filaAfectada = ps.executeUpdate();
+
+             if (filaAfectada == 1) {
+                System.out.println("Ciudadano eliminado");
+            } else {
+                System.out.println("No se ha indicado el ciudadano a eliminar");
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al ingresar a la tabla ciudadano");
+        }
+    }
+    
+    
     public List<Ciudadano> listarCiudadanosPorTrabajo(String ambTrab){
         try {
             String sql = "SELECT * FROM ciudadano WHERE ambitoTrabajo = ?";
@@ -165,15 +188,21 @@ public class CiudadanoData {
             
             ResultSet ciuPorTrab = ps.executeQuery();
             
+            
+            
+            
+            
+            
+            
+            
+            
         } catch (SQLException ex) {
             Logger.getLogger(CiudadanoData.class.getName()).log(Level.SEVERE, null, ex);
         }
         return listaCiudadanosTrabajo;
     }
      
-    public void borrarCiudadano(int dni){
-        
-    }
+   
     
     public Ciudadano buscarCiudadano(int dni){
         String sql = "SELECT * FROM ciudadano WHERE dni = ?";
@@ -217,3 +246,7 @@ public class CiudadanoData {
     
     
 }
+
+    
+  
+    
