@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="jPanel1" alignment="1" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Component id="jPanel1" alignment="0" max="32767" attributes="0"/>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="jPanel1">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace min="-2" pref="62" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="jL_ETIQUETA_DNI" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jL_ETIQUETA_Patologia" min="-2" max="-2" attributes="0"/>
+                      <Component id="jL_ETIQUETA_NombreApellido" min="-2" max="-2" attributes="0"/>
+                      <Component id="jL_ETIQUETA_AmbitoLaboral" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jL_ETIQUETA_Celular" alignment="0" min="-2" max="-2" attributes="0"/>
+                      <Component id="jL_ETIQUETA_email" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="119" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="1" max="-2" attributes="0">
+                      <Component id="jT_Celular" max="32767" attributes="0"/>
+                      <Component id="jT_DNI" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jT_nomApellido" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jT_patologia" alignment="0" max="32767" attributes="0"/>
+                      <Component id="jCBox_ambLaboral" alignment="0" pref="198" max="32767" attributes="0"/>
+                      <Component id="jT_email" max="32767" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
+                  <Component id="jB_AGREGAR" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
+                  <Component id="jB_MODIFICAR" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
+                  <Component id="jB_ELIMINAR" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
+                  <Component id="jB_CITAS" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="112" max="-2" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace min="-2" pref="61" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" min="-2" pref="517" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="90" max="-2" attributes="0"/>
+              </Group>
+              <Group type="102" alignment="1" attributes="0">
+                  <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  <Component id="jL_TITULO" min="-2" pref="214" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="217" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="jL_TITULO" min="-2" pref="33" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jL_ETIQUETA_DNI" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jT_DNI" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jT_nomApellido" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jL_ETIQUETA_NombreApellido" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace pref="26" max="32767" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jL_ETIQUETA_Patologia" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jT_patologia" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="22" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jCBox_ambLaboral" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jL_ETIQUETA_AmbitoLaboral" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jL_ETIQUETA_Celular" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jT_Celular" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jL_ETIQUETA_email" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jT_email" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="57" max="-2" attributes="0"/>
+                  <Component id="jScrollPane1" min="-2" pref="111" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="26" max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="3" attributes="0">
+                      <Component id="jB_ELIMINAR" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jB_CITAS" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jB_AGREGAR" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="jB_MODIFICAR" alignment="3" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace min="-2" pref="25" max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JLabel" name="jL_TITULO">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Carga de datos del ciudadano"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jL_ETIQUETA_DNI">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="DNI:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jL_ETIQUETA_NombreApellido">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Nombre y Apellido:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jL_ETIQUETA_Patologia">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Patologia de base:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jL_ETIQUETA_AmbitoLaboral">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ambito laboral:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jL_ETIQUETA_Celular">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Nro Celular:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jL_ETIQUETA_email">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="E-mail:"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JTextField" name="jT_nomApellido">
+        </Component>
+        <Component class="javax.swing.JTextField" name="jT_patologia">
+        </Component>
+        <Component class="javax.swing.JTextField" name="jT_DNI">
+        </Component>
+        <Component class="javax.swing.JTextField" name="jT_Celular">
+        </Component>
+        <Component class="javax.swing.JTextField" name="jT_email">
+        </Component>
+        <Container class="javax.swing.JScrollPane" name="jScrollPane1">
+          <AuxValues>
+            <AuxValue name="autoScrollPane" type="java.lang.Boolean" value="true"/>
+          </AuxValues>
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
+          <SubComponents>
+            <Component class="javax.swing.JTable" name="jTable_TABLA">
+              <Properties>
+                <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
+                  <Table columnCount="4" rowCount="4">
+                    <Column editable="true" title="Title 1" type="java.lang.Object"/>
+                    <Column editable="true" title="Title 2" type="java.lang.Object"/>
+                    <Column editable="true" title="Title 3" type="java.lang.Object"/>
+                    <Column editable="true" title="Title 4" type="java.lang.Object"/>
+                  </Table>
+                </Property>
+              </Properties>
+            </Component>
+          </SubComponents>
+        </Container>
+        <Component class="javax.swing.JButton" name="jB_AGREGAR">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Agregar"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="jB_MODIFICAR">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Modificar"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="jB_ELIMINAR">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Eliminar"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JButton" name="jB_CITAS">
+          <Properties>
+            <Property name="text" type="java.lang.String" value="Ver citas"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JComboBox" name="jCBox_ambLaboral">
+          <Properties>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="4">
+                <StringItem index="0" value="Item 1"/>
+                <StringItem index="1" value="Item 2"/>
+                <StringItem index="2" value="Item 3"/>
+                <StringItem index="3" value="Item 4"/>
+              </StringArray>
+            </Property>
+          </Properties>
+          <AuxValues>
+            <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+          </AuxValues>
+        </Component>
+      </SubComponents>
+    </Container>
+  </SubComponents>
+</Form>
