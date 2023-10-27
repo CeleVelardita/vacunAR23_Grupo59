@@ -42,12 +42,17 @@ public class Vacunatorio extends javax.swing.JFrame {
     private void initComponents() {
 
         escritorio = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         jbIconVacuna = new javax.swing.JButton();
+        jbIconLaboratorio = new javax.swing.JButton();
+        jbIconCiudadano = new javax.swing.JButton();
+        jbIconCitas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         escritorio.setPreferredSize(new java.awt.Dimension(700, 700));
 
+        jbIconVacuna.setText("Vacunas");
         jbIconVacuna.setPreferredSize(new java.awt.Dimension(30, 15));
         jbIconVacuna.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -55,21 +60,72 @@ public class Vacunatorio extends javax.swing.JFrame {
             }
         });
 
+        jbIconLaboratorio.setText("Laboratorios");
+        jbIconLaboratorio.setPreferredSize(new java.awt.Dimension(30, 15));
+        jbIconLaboratorio.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbIconLaboratorioActionPerformed(evt);
+            }
+        });
+
+        jbIconCiudadano.setText("Ciudadano");
+        jbIconCiudadano.setPreferredSize(new java.awt.Dimension(30, 15));
+        jbIconCiudadano.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbIconCiudadanoActionPerformed(evt);
+            }
+        });
+
+        jbIconCitas.setText("Citas");
+        jbIconCitas.setPreferredSize(new java.awt.Dimension(30, 15));
+        jbIconCitas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbIconCitasActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jbIconCitas, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbIconLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbIconVacuna, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jbIconCiudadano, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(577, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jbIconVacuna, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30)
+                .addComponent(jbIconLaboratorio, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(jbIconCiudadano, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addComponent(jbIconCitas, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(32, 32, 32))
+        );
+
         javax.swing.GroupLayout escritorioLayout = new javax.swing.GroupLayout(escritorio);
         escritorio.setLayout(escritorioLayout);
         escritorioLayout.setHorizontalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(escritorioLayout.createSequentialGroup()
-                .addGap(76, 76, 76)
-                .addComponent(jbIconVacuna, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(557, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, escritorioLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         escritorioLayout.setVerticalGroup(
             escritorioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(escritorioLayout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addComponent(jbIconVacuna, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(510, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -103,6 +159,25 @@ public class Vacunatorio extends javax.swing.JFrame {
         
         escritorio.add(vac);
     }//GEN-LAST:event_jbIconVacunaActionPerformed
+
+    private void jbIconLaboratorioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIconLaboratorioActionPerformed
+        // CLICK EN LABORATORIO
+        
+        escritorio.removeAll();
+        escritorio.repaint();
+        
+        Admin_Laboratorio_Principal lab = new Admin_Laboratorio_Principal();
+        lab.setVisible(true);        
+        escritorio.add(lab);
+    }//GEN-LAST:event_jbIconLaboratorioActionPerformed
+
+    private void jbIconCiudadanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIconCiudadanoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbIconCiudadanoActionPerformed
+
+    private void jbIconCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIconCitasActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jbIconCitasActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,6 +221,10 @@ public class Vacunatorio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel escritorio;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JButton jbIconCitas;
+    private javax.swing.JButton jbIconCiudadano;
+    private javax.swing.JButton jbIconLaboratorio;
     private javax.swing.JButton jbIconVacuna;
     // End of variables declaration//GEN-END:variables
 

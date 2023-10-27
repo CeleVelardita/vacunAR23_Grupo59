@@ -29,8 +29,8 @@ public class CiudadanoData {
     - Borrar ciudadano
     - Listar ciudadano (todos)
     
-    - Buscar por dni
     - Listar por ámbito de trabajo
+    - Buscar por dni
         
     ----------------------------------------------*/
     
@@ -128,7 +128,7 @@ public class CiudadanoData {
         }
         
     }
-    
+        
     public List<Ciudadano> listarCiudadanos(){
         try {
             String sql = "SELECT * FROM ciudadano";
@@ -156,8 +156,8 @@ public class CiudadanoData {
             JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla de ciudadano");
         }
         return listaCiudadanos;
-    }
-    
+    }    
+     
     public List<Ciudadano> listarCiudadanosPorTrabajo(String ambTrab){
         try {
             String sql = "SELECT * FROM ciudadano WHERE ambitoTrabajo = ?";
@@ -165,16 +165,50 @@ public class CiudadanoData {
             
             ResultSet ciuPorTrab = ps.executeQuery();
             
+            while (ciuPorTrab.next()) {                
+                Ciudadano ciudadano = new Ciudadano();
+                
+                ciudadano.setIdCiudadano(ciuPorTrab.getInt("idCiudadano"));
+                ciudadano.setNombreCompleto(ciuPorTrab.getString("nombreCompleto"));
+                ciudadano.setDni(ciuPorTrab.getInt("dni"));
+                ciudadano.setEmail(ciuPorTrab.getString("email"));
+                ciudadano.setPatologia(ciuPorTrab.getString("patologia"));
+                ciudadano.setCelular(ciuPorTrab.getString("celular"));
+                ciudadano.setAmbitoTrabajo(ciuPorTrab.getString("ambitoTrabajo"));
+                
+                listaCiudadanos.add(ciudadano);
+            }
+            
+            ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(CiudadanoData.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla de ciudadano");
         }
         return listaCiudadanosTrabajo;
     }
-     
-    public void borrarCiudadano(int dni){
-        
+
+    public void eliminarCiudadano(int dni) {
+        String sql = "DELETE FROM Ciudadano WHERE dni = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setInt(1, dni);
+
+            int filaAfectada = ps.executeUpdate();
+
+            if (filaAfectada == 1) {
+                System.out.println("Ciudadano eliminado");
+                JOptionPane.showMessageDialog(null, "Ciudadano eliminado");
+            } else {
+                System.out.println("No se ha indicado el ciudadano a eliminar");
+                JOptionPane.showMessageDialog(null, "No se ha indicado el ciudadano a eliminar");
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al ingresar a la tabla ciudadano");
+        }
     }
-    
+
     public Ciudadano buscarCiudadano(int dni){
         String sql = "SELECT * FROM ciudadano WHERE dni = ?";
         
@@ -217,3 +251,7 @@ public class CiudadanoData {
     
     
 }
+
+    
+  
+    
