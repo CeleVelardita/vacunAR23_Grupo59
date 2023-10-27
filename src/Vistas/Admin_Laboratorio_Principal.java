@@ -18,15 +18,15 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     
     
     public Admin_Laboratorio_Principal() {
-        initComponents();
-        armarCabeceraTabla();
+        initComponents();        
         
         //definición de atributos (inicializamos)
-        modeloTabla= new DefaultTableModel();
         modeloTabla = (DefaultTableModel) jTListadoLab.getModel();
         ListaLaboratorios= new ArrayList();
         labData= new LaboratorioData();
         lab= new Laboratorio();
+        
+        armarCabeceraTabla();
      
     }
 
@@ -291,8 +291,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     
     
     /*-----------------------------EVENTOS de ACCIÓN-------------------------------------*/
-    
-    
+        
     ///Botón Agregar
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
         //Botón Agregar agregará un laboratorio nuevo o modificara, por ende, usa 2 métodos: cargarLaboratorio() y modificarLaboratorio()
@@ -402,11 +401,6 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
 
     
     
-    
-
-    
-    
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox jCheckBoxEstado;
     private javax.swing.JLabel jLCuit;
@@ -446,8 +440,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             modeloTabla.addColumn("Domicilio Comercial");
             modeloTabla.addColumn("Contrato/Estado");
             jTListadoLab.setModel(modeloTabla);
-    }
-    
+    }    
     
     //borra/setea la tabla
     private void borrarFilaDeTabla(){
@@ -456,8 +449,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             modeloTabla.removeRow(i);           
         }
     }    
-    
-    
+       
     /*-----método para limpiar/setear campos (textfield y checkbox)-----*/
     private void limpiarCampos(){
         jtNombreLab.setText("");
