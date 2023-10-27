@@ -2,6 +2,7 @@
 package vacunar23_Entidades;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 public class Vacuna {
     
@@ -97,6 +98,26 @@ public class Vacuna {
     public String toString() { // SE PUEDE MEJORAR SEGÚN LO QUE QUIERA MOSTRAR, ESTO ES SOLO UNA PRUEBA
         return marca + " - " + laboratorio + ":\n" + nroSerie + "\n " + medida +"\n " + fechaCaduca;
     }    
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        
+        final Vacuna otraVac = (Vacuna) obj;
+        
+        return Objects.equals(nroSerie, otraVac.getNroSerie());
+    }
     
 
 }
