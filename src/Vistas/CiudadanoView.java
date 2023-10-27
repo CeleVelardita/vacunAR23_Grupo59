@@ -50,19 +50,38 @@ public class CiudadanoView extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jL_TITULO.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jL_TITULO.setText("Carga de datos del ciudadano");
 
+        jL_ETIQUETA_DNI.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jL_ETIQUETA_DNI.setText("DNI:");
 
+        jL_ETIQUETA_NombreApellido.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jL_ETIQUETA_NombreApellido.setText("Nombre y Apellido:");
 
+        jL_ETIQUETA_Patologia.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jL_ETIQUETA_Patologia.setText("Patologia de base:");
 
+        jL_ETIQUETA_AmbitoLaboral.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jL_ETIQUETA_AmbitoLaboral.setText("Ambito laboral:");
 
+        jL_ETIQUETA_Celular.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jL_ETIQUETA_Celular.setText("Nro Celular:");
 
+        jL_ETIQUETA_email.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jL_ETIQUETA_email.setText("E-mail:");
+
+        jT_patologia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jT_patologiaActionPerformed(evt);
+            }
+        });
+
+        jT_Celular.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jT_CelularActionPerformed(evt);
+            }
+        });
 
         jTable_TABLA.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -92,74 +111,76 @@ public class CiudadanoView extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(62, 62, 62)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jL_ETIQUETA_DNI)
-                    .addComponent(jL_ETIQUETA_Patologia)
-                    .addComponent(jL_ETIQUETA_NombreApellido)
-                    .addComponent(jL_ETIQUETA_AmbitoLaboral)
-                    .addComponent(jL_ETIQUETA_Celular)
-                    .addComponent(jL_ETIQUETA_email))
-                .addGap(119, 119, 119)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                    .addComponent(jT_Celular)
-                    .addComponent(jT_DNI, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jT_nomApellido, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jT_patologia, javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCBox_ambLaboral, javax.swing.GroupLayout.Alignment.LEADING, 0, 198, Short.MAX_VALUE)
-                    .addComponent(jT_email))
-                .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jL_ETIQUETA_Patologia)
+                            .addComponent(jL_ETIQUETA_AmbitoLaboral)
+                            .addComponent(jL_ETIQUETA_NombreApellido)
+                            .addComponent(jL_ETIQUETA_DNI)
+                            .addComponent(jL_ETIQUETA_email)
+                            .addComponent(jL_ETIQUETA_Celular))
+                        .addGap(119, 119, 119)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jT_Celular)
+                            .addComponent(jT_DNI, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jT_nomApellido, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jT_patologia, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCBox_ambLaboral, javax.swing.GroupLayout.Alignment.LEADING, 0, 198, Short.MAX_VALUE)
+                            .addComponent(jT_email)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 27, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(43, 43, 43)
-                .addComponent(jB_AGREGAR)
-                .addGap(67, 67, 67)
-                .addComponent(jB_MODIFICAR)
-                .addGap(63, 63, 63)
-                .addComponent(jB_ELIMINAR)
-                .addGap(44, 44, 44)
-                .addComponent(jB_CITAS)
-                .addGap(112, 112, 112))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 517, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(90, 90, 90))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jL_TITULO, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(217, 217, 217))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jB_AGREGAR)
+                        .addGap(67, 67, 67)
+                        .addComponent(jB_MODIFICAR)
+                        .addGap(63, 63, 63)
+                        .addComponent(jB_ELIMINAR)
+                        .addGap(44, 44, 44)
+                        .addComponent(jB_CITAS)
+                        .addGap(112, 112, 112))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jL_TITULO, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(137, 137, 137))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jL_TITULO, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(19, 19, 19)
+                .addComponent(jL_TITULO)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jL_ETIQUETA_DNI)
-                    .addComponent(jT_DNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
+                    .addComponent(jT_DNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jL_ETIQUETA_DNI))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jT_nomApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jL_ETIQUETA_NombreApellido))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addGap(31, 31, 31)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jL_ETIQUETA_Patologia)
-                    .addComponent(jT_patologia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(22, 22, 22)
+                    .addComponent(jT_patologia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jL_ETIQUETA_Patologia))
+                .addGap(29, 29, 29)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCBox_ambLaboral, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jL_ETIQUETA_AmbitoLaboral))
-                .addGap(26, 26, 26)
+                .addGap(55, 55, 55)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jL_ETIQUETA_Celular)
-                    .addComponent(jT_Celular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(23, 23, 23)
+                    .addComponent(jT_Celular, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jL_ETIQUETA_Celular))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jL_ETIQUETA_email)
                     .addComponent(jT_email, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(57, 57, 57)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(26, 26, 26)
+                .addGap(39, 39, 39)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jB_ELIMINAR)
                     .addComponent(jB_CITAS)
@@ -181,6 +202,14 @@ public class CiudadanoView extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jT_CelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jT_CelularActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jT_CelularActionPerformed
+
+    private void jT_patologiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jT_patologiaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jT_patologiaActionPerformed
 
     /**
      * @param args the command line arguments
