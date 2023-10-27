@@ -2,18 +2,36 @@
 package Vistas;
 
 
+import java.util.ArrayList;
 import java.util.Date;//necesario para turnos, cudiado con java.sql.Date
 import java.util.HashMap;
+import javax.swing.table.DefaultTableModel;
+import vacunar23_AccesoADatos.Conexion.citaData;
+import vacunar23_Entidades.Ciudadano;
+import vacunar23_Entidades.Vacuna;
 
 
 public class CitaView extends javax.swing.JInternalFrame {
 
     //declaración de atributos
-    private HashMap<Date, Boolean> horariosHabiles;
+    private HashMap<Date, Boolean> horariosHabiles;//para control de turnos
+    
+    //Declaración de atributos
+    private DefaultTableModel modeloTabla;//modelo para la tabla
+    
+    private ArrayList<Ciudadano> ListaCiudadanos;
+    private ArrayList<Vacuna> ListaVacunas;
+    private citaData citaData;
+    private Ciudadano ciudadano;
+    private Vacuna vacuna;
+    
+    
+    
     
     public CitaView() {
         initComponents();
-        
+        modeloTabla = (DefaultTableModel) jTableListado.getModel();//despues de esto cargo el armadod e cabecera de tabla
+        cargarComboLaboral();
         
         
         
@@ -56,16 +74,14 @@ public class CitaView extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLNombre = new javax.swing.JLabel();
-        jLApellido = new javax.swing.JLabel();
         jLDNI = new javax.swing.JLabel();
         jLDistricto = new javax.swing.JLabel();
         jLAmbitoLaboral = new javax.swing.JLabel();
         jLPatologia = new javax.swing.JLabel();
         jLCodigoRefuerzo = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
+        jtNombre = new javax.swing.JTextField();
+        jtDNI = new javax.swing.JTextField();
+        jtDistricto = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
         jLFechaNac = new javax.swing.JLabel();
         jComboBoxHorarios = new javax.swing.JComboBox<>();
@@ -88,31 +104,28 @@ public class CitaView extends javax.swing.JInternalFrame {
         jLModificarEstado = new javax.swing.JLabel();
         jComboBox4 = new javax.swing.JComboBox<>();
         jBotonAplicarEstado = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
         jLabel1.setText("Cita para Vacunación");
 
-        jLNombre.setText("Nombre: ");
+        jLNombre.setText("Nombre y Apellido: ");
 
-        jLApellido.setText("Apellido: ");
-
-        jLDNI.setText("DNI: ");
+        jLDNI.setText("DNI del Ciudadano: ");
 
         jLDistricto.setText("Districto: ");
 
-        jLAmbitoLaboral.setText("Ámbito Laboral:");
+        jLAmbitoLaboral.setText("Área Laboral:");
 
         jLPatologia.setText(" Patología de Base:");
 
         jLCodigoRefuerzo.setText("Código de Refuerzo");
 
-        jTextField1.setText("jTextField1");
+        jtNombre.setText("jTextField1");
 
-        jTextField2.setText("jTextField2");
+        jtDNI.setText("jTextField3");
 
-        jTextField3.setText("jTextField3");
-
-        jTextField4.setText("jTextField4");
+        jtDistricto.setText("jTextField4");
 
         jTextField5.setText("jTextField5");
 
@@ -131,6 +144,11 @@ public class CitaView extends javax.swing.JInternalFrame {
         jLabel11.setText("Seleccione El Horario: ");
 
         jBotonGuardarCita.setText("Guardar Cita");
+        jBotonGuardarCita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBotonGuardarCitaActionPerformed(evt);
+            }
+        });
 
         jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -148,8 +166,6 @@ public class CitaView extends javax.swing.JInternalFrame {
 
         jLListarXDia.setText("Listar Cita según calendario");
 
-        jComboBoxAmbito.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLBuscarXDni.setText("Buscar Cita por DNI:");
 
         jTextField6.setText("jTextField6");
@@ -160,6 +176,8 @@ public class CitaView extends javax.swing.JInternalFrame {
 
         jBotonAplicarEstado.setText("Aplicar Estado");
 
+        jButton1.setText("Buscar");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -168,42 +186,15 @@ public class CitaView extends javax.swing.JInternalFrame {
                 .addGap(30, 30, 30)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLFechaNac)
-                        .addGap(18, 18, 18)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLNombre)
-                                        .addGap(65, 65, 65))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLDNI)
-                                            .addComponent(jLDistricto)
-                                            .addComponent(jLApellido))
-                                        .addGap(63, 63, 63)))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addGap(8, 8, 8)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLCodigoRefuerzo)
-                                    .addComponent(jLPatologia)
-                                    .addComponent(jLAmbitoLaboral))
-                                .addGap(22, 22, 22)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBoxAmbito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(jLCodigoRefuerzo)
+                            .addComponent(jLPatologia)
+                            .addComponent(jLAmbitoLaboral))
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBoxAmbito, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -218,7 +209,28 @@ public class CitaView extends javax.swing.JInternalFrame {
                                 .addComponent(jLabel11)
                                 .addGap(18, 18, 18)
                                 .addComponent(jComboBoxHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(157, 157, 157))))))
+                                .addGap(157, 157, 157))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLFechaNac)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLNombre)
+                                .addComponent(jLDNI)
+                                .addComponent(jLDistricto)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(31, 31, 31)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jtDistricto, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addComponent(jtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                        .addComponent(jButton1)))))
+                        .addContainerGap())))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,32 +263,26 @@ public class CitaView extends javax.swing.JInternalFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(34, 34, 34)
+                .addGap(15, 15, 15)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLDNI)
+                    .addComponent(jtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(1, 1, 1)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLNombre)
-                                .addGap(28, 28, 28)
-                                .addComponent(jLApellido)
-                                .addGap(24, 24, 24))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(22, 22, 22)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLDNI)
-                                .addGap(27, 27, 27)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLDistricto)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(25, 25, 25)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLAmbitoLaboral)
-                                    .addComponent(jComboBoxAmbito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(22, 22, 22)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLNombre)
+                            .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(24, 24, 24)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLDistricto)
+                            .addComponent(jtDistricto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(56, 56, 56)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLAmbitoLaboral)
+                            .addComponent(jComboBoxAmbito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLPatologia)
@@ -294,7 +300,7 @@ public class CitaView extends javax.swing.JInternalFrame {
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jComboBoxHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel11))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 40, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLFechaNac)
                     .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -342,6 +348,7 @@ public class CitaView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    ///control del candelario de turnos
     private void jCalendarCitaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jCalendarCitaPropertyChange
         /*
         Este código añadirá un escuchador de eventos de propiedad al JCalendar. 
@@ -361,11 +368,34 @@ public class CitaView extends javax.swing.JInternalFrame {
         }    
     }//GEN-LAST:event_jCalendarCitaPropertyChange
 
+    
+    ///boton Guardar Cita
+    private void jBotonGuardarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonGuardarCitaActionPerformed
+        try{
+//            String nombre = jtNombre.getText();
+//            int dni= Integer.parseInt(jtDNI.getText());
+//            String districto =jtDistricto.getText();
+//            String areaTrabajo= (String) jComboBoxAmbito.getSelectedItem();
+            
+           
+            
+            
+            
+            
+        }catch(){
+            
+        }
+    }//GEN-LAST:event_jBotonGuardarCitaActionPerformed
+
+    
+
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBotonAplicarEstado;
     private javax.swing.JButton jBotonBuscar;
     private javax.swing.JButton jBotonGuardarCita;
+    private javax.swing.JButton jButton1;
     private com.toedter.calendar.JCalendar jCalendarCita;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox4;
@@ -373,7 +403,6 @@ public class CitaView extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> jComboBoxHorarios;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLAmbitoLaboral;
-    private javax.swing.JLabel jLApellido;
     private javax.swing.JLabel jLBuscarXDni;
     private javax.swing.JLabel jLCodigoRefuerzo;
     private javax.swing.JLabel jLDNI;
@@ -391,18 +420,69 @@ public class CitaView extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTable jTableListado;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private com.toedter.calendar.JDateChooser jdcListarXDia;
+    private javax.swing.JTextField jtDNI;
+    private javax.swing.JTextField jtDistricto;
+    private javax.swing.JTextField jtNombre;
     // End of variables declaration//GEN-END:variables
 
 //-------------------------------_Métodos_-------------------------------//
 
-///cargar combobox horarios
-    
 
+  /*-----cabeceras de la tabla-----*/
+    /*
+    del constructor de citaVacunacion
+    public CitaVacunacion(int codCita, LocalDate fechaHoraCita, String centroVacunacion, LocalDate fechaHoraColoca, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano, String estado) {
+        this.codCita = codCita;
+        this.fechaHoraCita = fechaHoraCita;
+        this.centroVacunacion = centroVacunacion;
+        this.fechaHoraColoca = fechaHoraColoca;
+        this.vacuna = vacuna;
+        this.codRefuerzo = codRefuerzo;
+        this.ciudadano = ciudadano;
+        this.estado = estado;
+    }
+    */
+        public void armarCabeceraTabla(){    
+                modeloTabla.addColumn("cod. Cita");
+                modeloTabla.addColumn("Ciudadano");//nombre completo 
+                modeloTabla.addColumn("DNI"); 
+                modeloTabla.addColumn("Patología Base");
+                modeloTabla.addColumn("fecha Colocación");
+                modeloTabla.addColumn("turno");//hora
+                modeloTabla.addColumn("vacuna");
+                modeloTabla.addColumn("codRefuerzo");//1º 2º 3º
+                modeloTabla.addColumn("centroVacunacion");
+                modeloTabla.addColumn("Estado de la Cita");//Activa, Cumplida, Cancelada, Vencida
+                jTableListado.setModel(modeloTabla);
+        }  
+    
+    //borra/setea la tabla
+        private void borrarFilaDeTabla(){
+            int indice = modeloTabla.getRowCount() -1;
+            for(int i = indice ; i >= 0 ; i--){
+                modeloTabla.removeRow(i);           
+            }
+        } 
+    
+        
+    private void cargarComboLaboral() {
+        jComboBoxAmbito.addItem(" ");
+        jComboBoxAmbito.addItem("Arte y entretenimiento");
+        jComboBoxAmbito.addItem("Educación");
+        jComboBoxAmbito.addItem("Desempleado");
+        jComboBoxAmbito.addItem("Finanzas y Contabilidad");
+        jComboBoxAmbito.addItem("Gobierno y Sector Público");
+        jComboBoxAmbito.addItem("Jubilado");
+        jComboBoxAmbito.addItem("Salud y Medicina");
+        jComboBoxAmbito.addItem("Seguridad");
+        jComboBoxAmbito.addItem("Recursos Humanos");
+        jComboBoxAmbito.addItem("Turismo");
+        jComboBoxAmbito.addItem("Tecnología e Informática");
+        jComboBoxAmbito.addItem("Transporte");
+        jComboBoxAmbito.addItem("Turismo");
+        jComboBoxAmbito.addItem("Otros");    
+    }    
 }
