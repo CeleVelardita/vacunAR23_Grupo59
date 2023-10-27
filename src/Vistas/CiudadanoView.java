@@ -1,6 +1,8 @@
       
 package Vistas;
 
+import javax.swing.JOptionPane;
+
 public class CiudadanoView extends javax.swing.JFrame {
 
     private DefaulTableModel modelo = new DefaulTableModel ();   //falta importar
@@ -85,10 +87,25 @@ public class CiudadanoView extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTable_TABLA);
 
         jB_AGREGAR.setText("Agregar");
+        jB_AGREGAR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_AGREGARActionPerformed(evt);
+            }
+        });
 
         jB_MODIFICAR.setText("Modificar");
+        jB_MODIFICAR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_MODIFICARActionPerformed(evt);
+            }
+        });
 
         jB_ELIMINAR.setText("Eliminar");
+        jB_ELIMINAR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jB_ELIMINARActionPerformed(evt);
+            }
+        });
 
         jB_CITAS.setText("Ver citas");
 
@@ -121,19 +138,22 @@ public class CiudadanoView extends javax.swing.JFrame {
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 631, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(132, 132, 132)
-                        .addComponent(jB_AGREGAR)
-                        .addGap(38, 38, 38)
-                        .addComponent(jB_MODIFICAR)
+                        .addGap(124, 124, 124)
+                        .addComponent(jB_AGREGAR, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(jB_MODIFICAR, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(36, 36, 36)
-                        .addComponent(jB_ELIMINAR)))
+                        .addComponent(jB_ELIMINAR, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 27, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jB_CITAS)
-                    .addComponent(jL_TITULO, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(137, 137, 137))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jL_TITULO, javax.swing.GroupLayout.PREFERRED_SIZE, 339, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(137, 137, 137))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jB_CITAS, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(126, 126, 126))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -192,11 +212,26 @@ public class CiudadanoView extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jbAgregarActionPerformed (java.awt.event.ActionEvent evt);
+       
     
-    try {  
     
-    Integer DNI = Integer.parseInt (jT_DNI.gettext ()); 
+    private void jT_CelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jT_CelularActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jT_CelularActionPerformed
+
+    private void jT_patologiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jT_patologiaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jT_patologiaActionPerformed
+
+    
+ //--------------------------------------------------------------------------------------------------------
+    
+    
+    private void jB_AGREGARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_AGREGARActionPerformed
+        
+          try {  
+    
+    Integer DNI = Integer.parseInt (jT_DNI.getText ()); 
     String nomApellido = jT_nomApellido.getText ();
     
     // si el usuario no llena el campo de nombre y apellido, salta este mensaje, e impide que quede vacio.
@@ -205,25 +240,25 @@ public class CiudadanoView extends javax.swing.JFrame {
     }
     
     String patologia = jT_patologia.getText(); 
-    combobox             // necesito ayuda con este comboBox
+    combobox                                          // necesito ayuda con este comboBox
             
     Integer celular = Integer.parseInt (jt_Celular.getText() );
     String email = jT_email.getText (); 
     
   } catch (NumberFormatException nfe)
-       JOptionPane.showMessageDialog (this, "Debe ingresar un DNI valido");
-    
-    
-   //--------------------------------------------------------------------------------------------------------------------- 
-    
-       
-    private void jT_CelularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jT_CelularActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jT_CelularActionPerformed
+       JOptionPane.showMessageDialog (this, "Debe ingresar un DNI valido");       
+    }//GEN-LAST:event_jB_AGREGARActionPerformed
 
-    private void jT_patologiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jT_patologiaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jT_patologiaActionPerformed
+//----------------------------------------------------------------------------------------------------------          
+          
+          
+    private void jB_MODIFICARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_MODIFICARActionPerformed
+       
+    }//GEN-LAST:event_jB_MODIFICARActionPerformed
+
+    private void jB_ELIMINARActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jB_ELIMINARActionPerformed
+        
+    }//GEN-LAST:event_jB_ELIMINARActionPerformed
 
    
     public static void main(String args[]) {
