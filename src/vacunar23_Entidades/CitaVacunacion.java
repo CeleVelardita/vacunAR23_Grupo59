@@ -27,6 +27,16 @@ public class CitaVacunacion {
         this.ciudadano = ciudadano;
         this.estado = estado;
     }
+    public CitaVacunacion(LocalDate fechaHoraCita, LocalTime horarioTurno, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano, String estado) {       
+        this.fechaHoraCita = fechaHoraCita;
+        this.horarioTurno = horarioTurno;
+        this.vacuna = vacuna;
+        this.codRefuerzo = codRefuerzo;
+        this.ciudadano = ciudadano;
+        this.estado = estado;
+    }
+    
+    
     
     public int getCodCita() {
         return codCita;

@@ -201,6 +201,8 @@ public class citaData {
                 ciudadano.setCelular(RSetcitas.getString("celular"));
                 ciudadano.setPatologia(RSetcitas.getString("patologia"));
                 ciudadano.setAmbitoTrabajo(RSetcitas.getString("ambitoTrabajo"));
+                ciudadano.setDistrito(RSetcitas.getString("distrito"));
+                ciudadano.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 
                 /*
                 private int codCita;
@@ -215,7 +217,7 @@ public class citaData {
                 cita.setCodCita(RSetcitas.getInt("codCita"));
                 cita.setFechaHoraCita(RSetcitas.getDate("fechaHoraCita").toLocalDate());
                 cita.setCentroVacunacion(RSetcitas.getString("email"));
-                cita.setFechaHoraColoca(RSetcitas.getDate("fechaHoraColoca").toLocalDate());
+                cita.setHorarioTurno(RSetcitas.getTime("fechaHoraColoca").toLocalTime());
                 cita.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 cita.setEstado(RSetcitas.getString("estado"));
                 
@@ -287,6 +289,8 @@ public class citaData {
                 ciudadano.setCelular(RSetcitas.getString("celular"));
                 ciudadano.setPatologia(RSetcitas.getString("patologia"));
                 ciudadano.setAmbitoTrabajo(RSetcitas.getString("ambitoTrabajo"));
+                ciudadano.setDistrito(RSetcitas.getString("distrito"));
+                ciudadano.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 
                 /*
                 private int codCita;
@@ -301,7 +305,7 @@ public class citaData {
                 cita.setCodCita(RSetcitas.getInt("codCita"));
                 cita.setFechaHoraCita(RSetcitas.getDate("fechaHoraCita").toLocalDate());
                 cita.setCentroVacunacion(RSetcitas.getString("email"));
-                cita.setFechaHoraColoca(RSetcitas.getDate("fechaHoraColoca").toLocalDate());
+                cita.setHorarioTurno(RSetcitas.getTime("fechaHoraColoca").toLocalTime());
                 cita.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 cita.setEstado(RSetcitas.getString("estado"));
                 
@@ -371,6 +375,8 @@ public class citaData {
                 ciudadano.setCelular(RSetcitas.getString("celular"));
                 ciudadano.setPatologia(RSetcitas.getString("patologia"));
                 ciudadano.setAmbitoTrabajo(RSetcitas.getString("ambitoTrabajo"));
+                ciudadano.setDistrito(RSetcitas.getString("distrito"));
+                ciudadano.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 
                 /*
                 private int codCita;
@@ -385,7 +391,7 @@ public class citaData {
                 cita.setCodCita(RSetcitas.getInt("codCita"));
                 cita.setFechaHoraCita(RSetcitas.getDate("fechaHoraCita").toLocalDate());
                 cita.setCentroVacunacion(RSetcitas.getString("email"));
-                cita.setFechaHoraColoca(RSetcitas.getDate("fechaHoraColoca").toLocalDate());
+                cita.setHorarioTurno(RSetcitas.getTime("fechaHoraColoca").toLocalTime());
                 cita.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 cita.setEstado(RSetcitas.getString("estado"));
                 
@@ -403,7 +409,5 @@ public class citaData {
         }
          return cita;
     }
-    
-    
-    
+        
 }
