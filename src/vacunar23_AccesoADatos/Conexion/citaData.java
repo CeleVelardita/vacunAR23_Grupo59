@@ -7,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.sql.Time;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
@@ -66,40 +65,40 @@ public class citaData {
             ps.setInt(2, citaVacunacion.getCodRefuerzo());
             ps.setDate(4, Date.valueOf(citaVacunacion.getFechaHoraCita()));
             ps.setString(5, citaVacunacion.getCentroVacunacion());
-            ps.setTime(6, Time.valueOf(citaVacunacion.getHorarioTurno()));//corregido para horario
+            ps.setDate(6, Date.valueOf(citaVacunacion.getFechaHoraColoca()));
             ps.setInt(7, citaVacunacion.getVacuna().getIdVacuna());   
             ps.setString(8, citaVacunacion.getEstado());
-            
+            int columnaAfectada = ps.executeUpdate();//ejecuta la sentencia hacia la tabla
             
             //debemos revisar si el ingreso se realizó correctamente con columnaAfectada
-            int columnaAfectada = ps.executeUpdate();//ejecuta la sentencia hacia la tabla
-
-            if (columnaAfectada > 0) {
-                JOptionPane.showMessageDialog(null, "Cita Ingresada Correctamente");
+            ResultSet lista = ps.getGeneratedKeys();
+            if(lista.next()){
+                citaVacunacion.setCodCita(lista.getInt("codCita"));//setea al modelo el codCita que existe en esa fila que rescató el resulset
+                JOptionPane.showMessageDialog(null, "Laboratorio Ingresado Correctamente");
             }
-        ps.close();
+            ps.close();
         } catch (SQLException ex) {
-            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla citaVacunacion: " + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla citaVacunacion"+ex.getMessage());
         }
-
+        
         
     }
     
     public void modificarCita(CitaVacunacion citaVacunacion){
         try{
             //formulamos la petición
-            String sql = "UPDATE citavacunacion SET idCiudadano = ?, codRefuerzo = ?, fechaHoraCita = ?, centroVacunacion = ?, estado = ? WHERE codCita = ?";
-            
+            String sql ="UPDATE citavacunacion SET idCiudadano= ?, codRefuerzo= ?, fechaHoraCita= ?, centroVacunacion= ? ,fechaHoraColoca= ?, estado= ? WHERE codCita= ? ";
             //conectamos con la tabla y le mandamos la petición sql
             PreparedStatement ps= con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
             //seteamos el contenido deseado siguiendo el orden de la consulta en sql 0,1,2,3....
-            ps.setInt(1, citaVacunacion.getCiudadano().getIdCiudadano());
-            ps.setInt(2, citaVacunacion.getCodRefuerzo());
-            ps.setDate(3, Date.valueOf(citaVacunacion.getFechaHoraCita()));
-            ps.setString(4, citaVacunacion.getCentroVacunacion());
-            ps.setString(5, citaVacunacion.getEstado());
-            ps.setInt(6, citaVacunacion.getCodCita());
+            ps.setInt(0, citaVacunacion.getCiudadano().getIdCiudadano());
+            ps.setInt(1, citaVacunacion.getCodRefuerzo());
+            ps.setDate(2, Date.valueOf(citaVacunacion.getFechaHoraCita()));
+            ps.setString(3, citaVacunacion.getCentroVacunacion());
+            ps.setDate(4, Date.valueOf(citaVacunacion.getFechaHoraColoca()));            
+            ps.setInt(5, citaVacunacion.getVacuna().getIdVacuna()); 
+            ps.setString(6,citaVacunacion.getEstado()); 
             //por ultimo luego del where pide el código de la cita
             ps.setInt(7, citaVacunacion.getCodCita());
             /*
@@ -109,19 +108,18 @@ public class citaData {
             int valorDevuelto = ps.executeUpdate();
 
             if (valorDevuelto > 0) {
-                System.out.println("¡Modificación exitosa!");
-                JOptionPane.showMessageDialog(null, "¡Modificación exitosa!");
-            } else {
-                System.out.println("Error al querer modificar la cita");
+                    System.out.println("¡Modificación exitosa!");
+                    JOptionPane.showMessageDialog(null, "¡Modificación exitosa!");
+            }else{
+                System.out.println("error al querer modificar la cita");
             }
             
-        ps.close();
-        } catch (SQLException ex) {
+        }catch (SQLException ex) {
             System.out.println("SQLException");
             JOptionPane.showMessageDialog(null, "Error al conectarse a la tabla CitaVacunacions" + ex.getMessage());
-        } catch (NumberFormatException ex) {
+        }catch (NumberFormatException ex) {
             System.out.println("NullPointerException" + ex.getMessage());
-            JOptionPane.showMessageDialog(null, "Error al modificar la cita" + ex.getMessage());
+            JOptionPane.showMessageDialog(null, "Error al modificar la cita"+ ex.getMessage());
         }
     }
     
@@ -201,8 +199,6 @@ public class citaData {
                 ciudadano.setCelular(RSetcitas.getString("celular"));
                 ciudadano.setPatologia(RSetcitas.getString("patologia"));
                 ciudadano.setAmbitoTrabajo(RSetcitas.getString("ambitoTrabajo"));
-                ciudadano.setDistrito(RSetcitas.getString("distrito"));
-                ciudadano.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 
                 /*
                 private int codCita;
@@ -217,7 +213,7 @@ public class citaData {
                 cita.setCodCita(RSetcitas.getInt("codCita"));
                 cita.setFechaHoraCita(RSetcitas.getDate("fechaHoraCita").toLocalDate());
                 cita.setCentroVacunacion(RSetcitas.getString("email"));
-                cita.setHorarioTurno(RSetcitas.getTime("fechaHoraColoca").toLocalTime());
+                cita.setFechaHoraColoca(RSetcitas.getDate("fechaHoraColoca").toLocalDate());
                 cita.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 cita.setEstado(RSetcitas.getString("estado"));
                 
@@ -289,8 +285,6 @@ public class citaData {
                 ciudadano.setCelular(RSetcitas.getString("celular"));
                 ciudadano.setPatologia(RSetcitas.getString("patologia"));
                 ciudadano.setAmbitoTrabajo(RSetcitas.getString("ambitoTrabajo"));
-                ciudadano.setDistrito(RSetcitas.getString("distrito"));
-                ciudadano.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 
                 /*
                 private int codCita;
@@ -305,7 +299,7 @@ public class citaData {
                 cita.setCodCita(RSetcitas.getInt("codCita"));
                 cita.setFechaHoraCita(RSetcitas.getDate("fechaHoraCita").toLocalDate());
                 cita.setCentroVacunacion(RSetcitas.getString("email"));
-                cita.setHorarioTurno(RSetcitas.getTime("fechaHoraColoca").toLocalTime());
+                cita.setFechaHoraColoca(RSetcitas.getDate("fechaHoraColoca").toLocalDate());
                 cita.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 cita.setEstado(RSetcitas.getString("estado"));
                 
@@ -375,8 +369,6 @@ public class citaData {
                 ciudadano.setCelular(RSetcitas.getString("celular"));
                 ciudadano.setPatologia(RSetcitas.getString("patologia"));
                 ciudadano.setAmbitoTrabajo(RSetcitas.getString("ambitoTrabajo"));
-                ciudadano.setDistrito(RSetcitas.getString("distrito"));
-                ciudadano.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 
                 /*
                 private int codCita;
@@ -391,7 +383,7 @@ public class citaData {
                 cita.setCodCita(RSetcitas.getInt("codCita"));
                 cita.setFechaHoraCita(RSetcitas.getDate("fechaHoraCita").toLocalDate());
                 cita.setCentroVacunacion(RSetcitas.getString("email"));
-                cita.setHorarioTurno(RSetcitas.getTime("fechaHoraColoca").toLocalTime());
+                cita.setFechaHoraColoca(RSetcitas.getDate("fechaHoraColoca").toLocalDate());
                 cita.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 cita.setEstado(RSetcitas.getString("estado"));
                 
@@ -409,5 +401,7 @@ public class citaData {
         }
          return cita;
     }
-        
+    
+    
+    
 }
