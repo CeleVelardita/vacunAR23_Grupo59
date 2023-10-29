@@ -412,7 +412,8 @@ public class CitaView extends javax.swing.JInternalFrame {
 
                 //ya tengo la cita, debo mandarla por el método de citaData para almacenarla en la BD
                 citaData.cargarCita(citaVac);
-               
+                //seteo campos
+                setearCampos();
                
            }else{
                if(ciudadano!=null){
@@ -521,7 +522,7 @@ public class CitaView extends javax.swing.JInternalFrame {
         jtNombre.setText(" ");
         jComboBoxVacuna.removeAll();
         jComboBoxRefuerzo.removeAll();
-        jCalendarCita.removeAll();        
+        jCalendarCita.setDate(null);        
         jComboBoxHorarios.removeAll();
         jdcListarXDia.removeAll();
         jTBuscarCita.setText(" ");
