@@ -61,24 +61,28 @@ public class LaboratorioData {
             
             if(cuitt.length() > 11){
                 System.out.println("Ha excedido el límite de valores para el número de CUIT");
+                return;
             }
             
             String nombre = laboratorio.getNomLaboratorio();
             
             if(nombre.length() > 100){
                 System.out.println("Ha excedido el límite de carácteres para el nombre del Laboratorio");
+                return;
             }
             
             String paiss = laboratorio.getPais();
             
             if(paiss.length() > 20){
                 System.out.println("Ha excedido el límite de carácteres para el país");
+                return;
             }
             
             String domicilio = laboratorio.getDomComercial();
             
             if(domicilio.length() > 30){
                 System.out.println("Ha excedido el límite de carácteres para el domicilio");
+                return;
             }
             
             if((cuitt.length() < 12) && (nombre.length() < 101) && (paiss.length() <21) && (domicilio.length() < 31)){
