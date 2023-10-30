@@ -318,7 +318,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
                     System.out.println(nroExistente);
                     if (nroSerie == nroExistente) { // si no está nulo, es porque ya está cargada una vacuna con el mismo número de serie
                         JOptionPane.showMessageDialog(this, "Ya existe una vacuna con el número de serie ingresado.");
-                        limpiarCampos();
+                        //limpiarCampos();
                     }
                 }
                 
@@ -462,6 +462,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jtTablaVacunasMousePressed
 
+    
     ///----------- BOTÓN ELIMINAR -----------
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         

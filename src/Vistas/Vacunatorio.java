@@ -172,11 +172,25 @@ public class Vacunatorio extends javax.swing.JFrame {
     }//GEN-LAST:event_jbIconLaboratorioActionPerformed
 
     private void jbIconCiudadanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIconCiudadanoActionPerformed
-        // TODO add your handling code here:
+        // CLICK EN CIUDADANO
+        
+        escritorio.removeAll();
+        escritorio.repaint();
+        
+        CiudadanoView ciu = new CiudadanoView();
+        ciu.setVisible(true);
+        escritorio.add(ciu);
     }//GEN-LAST:event_jbIconCiudadanoActionPerformed
 
     private void jbIconCitasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbIconCitasActionPerformed
-        // TODO add your handling code here:
+        // CLICK EN CITAS
+        
+        escritorio.removeAll();
+        escritorio.repaint();
+        
+        CitaView cita = new CitaView();
+        cita.setVisible(true);
+        escritorio.add(cita);
     }//GEN-LAST:event_jbIconCitasActionPerformed
 
     /**

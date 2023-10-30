@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -50,17 +52,40 @@ public class VacunaData {
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            ps.setInt(1, vacuna.getNroSerie());
-            ps.setString(2, vacuna.getMarca());
-            ps.setDouble(3, vacuna.getMedida());
-            ps.setDate(4, Date.valueOf(vacuna.getFechaCaduca()));
-            ps.setBoolean(5, vacuna.isColocada());
-            ps.setInt(6, vacuna.getLaboratorio().getIdLaboratorio());
+            String nroSerie = String.valueOf(vacuna.getNroSerie());
+            
+            if (nroSerie.length() > 6) {
+                System.out.println("Ha excedido el límite de valores para el número de serie");
+            }
+            
+            String marca = vacuna.getMarca();
+            
+            if(marca.length() > 30){
+                System.out.println("Ha excedido el límite de carácteres para la marca");
+            }
+            
+            LocalDate fecha = vacuna.getFechaCaduca();
+            LocalDate fechaActual = LocalDate.now();
+            
+            long dias = ChronoUnit.DAYS.between(fechaActual, fecha);
+            
+            if (dias < 150) {
+                System.out.println("Ingrese una fecha válida por favor");
+            }
+            
+            if ((nroSerie.length() < 7) && (marca.length() < 31) && (dias > 149)) {
+                ps.setInt(1, vacuna.getNroSerie());
+                ps.setString(2, vacuna.getMarca());
+                ps.setDouble(3, vacuna.getMedida());
+                ps.setDate(4, Date.valueOf(vacuna.getFechaCaduca()));
+                ps.setBoolean(5, vacuna.isColocada());
+                ps.setInt(6, vacuna.getLaboratorio().getIdLaboratorio());
 
-            int columnaAfectada = ps.executeUpdate();
+                int columnaAfectada = ps.executeUpdate();
 
             if (columnaAfectada > 0) {
                 ResultSet id = ps.getGeneratedKeys();
+                
                 if (id.next()) {
                     System.out.println("La vacuna fue cargada exitosamente");
                     JOptionPane.showMessageDialog(null, "La vacuna fue cargada exitosamente");
@@ -71,7 +96,8 @@ public class VacunaData {
             }
 
             ps.close();
-
+            }
+            
         } catch (SQLException ex) {
             JOptionPane.showConfirmDialog(null, "Error al acceder a la tabla de vacunas");
             System.out.println("Error al acceder a la tabla de vacunas: " + ex.getMessage());
