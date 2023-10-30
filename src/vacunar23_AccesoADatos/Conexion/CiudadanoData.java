@@ -29,8 +29,8 @@ public class CiudadanoData {
     - Borrar ciudadano
     - Listar ciudadano (todos)
     
-    - Buscar por dni
     - Listar por ámbito de trabajo
+    - Buscar por dni
         
     ----------------------------------------------*/
     
@@ -43,8 +43,8 @@ public class CiudadanoData {
     }    
     
     public void guardarCiudadano(Ciudadano ciudadano){
-        String sql = "INSERT INTO ciudadano (dni, nombreCompleto, email, celular, patologia, ambitoTrabajo)"
-                + "VALUES (?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO ciudadano (dni, nombreCompleto, email, celular, patologia, ambitoTrabajo, distrito, codRefuerzo)"
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?";
                 
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -55,6 +55,8 @@ public class CiudadanoData {
             ps.setString(4, ciudadano.getCelular());
             ps.setString(5, ciudadano.getPatologia());
             ps.setString(6, ciudadano.getAmbitoTrabajo());
+            ps.setString(7, ciudadano.getDistrito());
+            ps.setInt(8, ciudadano.getCodRefuerzo());            
             
             // El executeUpdate devuelve un entero
             int columnaAfectada = ps.executeUpdate();
@@ -98,7 +100,7 @@ public class CiudadanoData {
     
     public void modificarCiudadano(Ciudadano ciudadano){
         try {
-            String sql ="UPDATE ciudadano SET dni = ?, nombreCompleto = ?, email = ?, celular = ?, patologia = ?, ambitoTrabajo = ? WHERE dni = ?";
+            String sql ="UPDATE ciudadano SET dni = ?, nombreCompleto = ?, email = ?, celular = ?, patologia = ?, ambitoTrabajo = ?, distrito = ?, codRefuerzo = ? WHERE dni = ?";
             
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, ciudadano.getDni());
@@ -107,6 +109,8 @@ public class CiudadanoData {
             ps.setString(4, ciudadano.getCelular());
             ps.setString(5, ciudadano.getPatologia());
             ps.setString(6, ciudadano.getAmbitoTrabajo());
+            ps.setString(7, ciudadano.getDistrito());
+            ps.setInt(8, ciudadano.getCodRefuerzo());
             
             /// EJECUCIÓN DE LA SENTENCIA:
             /// ps.executeUpdate(); ---> Se utiliza en INSERT, UPDATE, DELETE
@@ -128,7 +132,7 @@ public class CiudadanoData {
         }
         
     }
-    
+        
     public List<Ciudadano> listarCiudadanos(){
         try {
             String sql = "SELECT * FROM ciudadano";
@@ -146,6 +150,8 @@ public class CiudadanoData {
                 ciudadano.setPatologia(listaCiu.getString("patologia"));
                 ciudadano.setCelular(listaCiu.getString("celular"));
                 ciudadano.setAmbitoTrabajo(listaCiu.getString("ambitoTrabajo"));
+                ciudadano.setDistrito(listaCiu.getString("distrito"));
+                ciudadano.setCodRefuerzo(listaCiu.getInt("codRefuerzo"));
                 
                 listaCiudadanos.add(ciudadano);
             }
@@ -156,8 +162,8 @@ public class CiudadanoData {
             JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla de ciudadano");
         }
         return listaCiudadanos;
-    }
-    
+    }    
+     
     public List<Ciudadano> listarCiudadanosPorTrabajo(String ambTrab){
         try {
             String sql = "SELECT * FROM ciudadano WHERE ambitoTrabajo = ?";
@@ -165,16 +171,52 @@ public class CiudadanoData {
             
             ResultSet ciuPorTrab = ps.executeQuery();
             
+            while (ciuPorTrab.next()) {                
+                Ciudadano ciudadano = new Ciudadano();
+                
+                ciudadano.setIdCiudadano(ciuPorTrab.getInt("idCiudadano"));
+                ciudadano.setNombreCompleto(ciuPorTrab.getString("nombreCompleto"));
+                ciudadano.setDni(ciuPorTrab.getInt("dni"));
+                ciudadano.setEmail(ciuPorTrab.getString("email"));
+                ciudadano.setPatologia(ciuPorTrab.getString("patologia"));
+                ciudadano.setCelular(ciuPorTrab.getString("celular"));
+                ciudadano.setAmbitoTrabajo(ciuPorTrab.getString("ambitoTrabajo"));
+                ciudadano.setDistrito(ciuPorTrab.getString("distrito"));
+                ciudadano.setCodRefuerzo(ciuPorTrab.getInt("codRefuerzo"));
+                
+                listaCiudadanos.add(ciudadano);
+            }
+            
+            ps.close();
         } catch (SQLException ex) {
-            Logger.getLogger(CiudadanoData.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla de ciudadano");
         }
         return listaCiudadanosTrabajo;
     }
-     
-    public void borrarCiudadano(int dni){
-        
+
+    public void eliminarCiudadano(int dni) {
+        String sql = "DELETE FROM Ciudadano WHERE dni = ?";
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            ps.setInt(1, dni);
+
+            int filaAfectada = ps.executeUpdate();
+
+            if (filaAfectada == 1) {
+                System.out.println("Ciudadano eliminado");
+                JOptionPane.showMessageDialog(null, "Ciudadano eliminado");
+            } else {
+                System.out.println("No se ha indicado el ciudadano a eliminar");
+                JOptionPane.showMessageDialog(null, "No se ha indicado el ciudadano a eliminar");
+            }
+
+            ps.close();
+        } catch (SQLException ex) {
+            System.out.println("Error al ingresar a la tabla ciudadano");
+        }
     }
-    
+
     public Ciudadano buscarCiudadano(int dni){
         String sql = "SELECT * FROM ciudadano WHERE dni = ?";
         
@@ -199,6 +241,8 @@ public class CiudadanoData {
                 ciudadano.setCelular(buscarDni.getString("celular"));
                 ciudadano.setPatologia(buscarDni.getString("patologia"));
                 ciudadano.setAmbitoTrabajo(buscarDni.getString("ambitoTrabajo"));
+                ciudadano.setDistrito(buscarDni.getString("distrito"));
+                ciudadano.setCodRefuerzo(buscarDni.getInt("codRefuerzo"));
             } else{
                 System.out.println("No se ha encontrado el DNI ingresado en la Base de Datos");
             }
@@ -217,3 +261,7 @@ public class CiudadanoData {
     
     
 }
+
+    
+  
+    

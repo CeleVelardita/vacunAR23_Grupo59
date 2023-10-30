@@ -1,14 +1,17 @@
 
 package Vistas;
 
+import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import javafx.scene.control.ComboBox;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
@@ -29,17 +32,15 @@ public class VacunasView extends javax.swing.JInternalFrame {
     private DefaultComboBoxModel<String> modeloComboDosis; // Lo necesito para agregarle elementos al comboDosis
     private DefaultComboBoxModel<Laboratorio> modeloComboLaboratorios;    
     
+    private DefaultTableModel tablaVacunas;
+     
     private List<Vacuna> ListaVacunas; // Lo voy a necesitar para llenar la tabla
     private List<Laboratorio> ListaLaboratorios; // Lo voy a necesitar para el comboBox de laboratorios
-
-    private DefaultTableModel tablaVacunas;
-    
-    private Double dosisTabla;
+ 
     private Double dosisSeleccionada = 0.0;
     private LocalDate fechaCaducidad = null;
     
     private String nombreLabTabla;
-    private String nombreLabCombo;
     
     private int filaSeleccionada;
     
@@ -60,10 +61,9 @@ public class VacunasView extends javax.swing.JInternalFrame {
        
         jdcVencimiento.setDate(null);
         
-        
-        // No entiendo para qué sirve la línea de abajo
-        //jtTablaVacunas.addMouseListener(new MouseAdapter() {
-          //});
+        // Configuro para que el campo del calendario no sea editable
+        JTextFieldDateEditor editor = (JTextFieldDateEditor) jdcVencimiento.getDateEditor();
+        editor.setEditable(false);
         
     }
 
@@ -94,7 +94,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
         setIconifiable(true);
         setMaximizable(true);
         setTitle("Administración de Vacunas");
-        setPreferredSize(new java.awt.Dimension(490, 600));
+        setPreferredSize(new java.awt.Dimension(700, 600));
 
         jtTablaVacunas.setAutoCreateRowSorter(true);
         jtTablaVacunas.setModel(new javax.swing.table.DefaultTableModel(
@@ -109,7 +109,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
                 java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Double.class, java.lang.Object.class, java.lang.Boolean.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, true
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -146,6 +146,12 @@ public class VacunasView extends javax.swing.JInternalFrame {
 
         jLabel5.setText("VENCIMIENTO: ");
 
+        jtMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtMarcaActionPerformed(evt);
+            }
+        });
+
         jcbMedida.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jcbMedida.setName(""); // NOI18N
 
@@ -180,47 +186,43 @@ public class VacunasView extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(35, 35, 35)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(35, 35, 35)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addGap(72, 72, 72))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(30, 30, 30)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jcbLaboratorio, 0, 393, Short.MAX_VALUE)
+                            .addComponent(jtMarca)))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel5)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel6))
+                        .addGap(36, 36, 36)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jbAgregar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jbModificar)
+                                .addGap(81, 81, 81)
+                                .addComponent(jbEliminar)
+                                .addGap(118, 118, 118))
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel6))
-                                .addGap(36, 36, 36)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jtNroSerie)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jdcVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jcbMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jcbAplicada))
-                                        .addGap(0, 81, Short.MAX_VALUE))))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(72, 72, 72))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addComponent(jLabel1)
-                                        .addGap(30, 30, 30)))
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jtMarca, javax.swing.GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE)
-                                    .addComponent(jcbLaboratorio, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(15, 15, 15)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addComponent(jbAgregar)
-                        .addGap(46, 46, 46)
-                        .addComponent(jbModificar)
-                        .addGap(68, 68, 68)
-                        .addComponent(jbEliminar)))
-                .addContainerGap(15, Short.MAX_VALUE))
+                                    .addComponent(jdcVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jcbAplicada)
+                                    .addComponent(jtNroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jcbMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(0, 0, Short.MAX_VALUE)))))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -241,22 +243,26 @@ public class VacunasView extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
                     .addComponent(jcbMedida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel5)
-                    .addComponent(jdcVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jcbAplicada, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jbAgregar)
-                    .addComponent(jbModificar)
-                    .addComponent(jbEliminar))
-                .addGap(26, 26, 26)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel5)
+                            .addComponent(jdcVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(43, 43, 43)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(jcbAplicada, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(179, 257, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jbModificar)
+                            .addComponent(jbAgregar)
+                            .addComponent(jbEliminar))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(17, 17, 17))))
         );
 
         bindingGroup.bind();
@@ -312,7 +318,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
                     System.out.println(nroExistente);
                     if (nroSerie == nroExistente) { // si no está nulo, es porque ya está cargada una vacuna con el mismo número de serie
                         JOptionPane.showMessageDialog(this, "Ya existe una vacuna con el número de serie ingresado.");
-                        limpiarCampos();
+                        //limpiarCampos();
                     }
                 }
                 
@@ -320,9 +326,10 @@ public class VacunasView extends javax.swing.JInternalFrame {
                 
 
                 if (vacunaActual == null && (nroExistente != nroSerie)) {
-                    vacunaActual = new Vacuna(nroSerie, marca, dosisSeleccionada, fechaCaducidad, aplicada, lab);
-                    vacunaData.cargarVacuna(vacunaActual);
+                    vacunaActual = new Vacuna(nroSerie, marca, dosisSeleccionada, fechaCaducidad, aplicada, lab);                    
+                    vacunaData.cargarVacuna(vacunaActual);                              
                     limpiarCampos();
+                    tablaVacunas.addRow(new Object[]{vacunaActual.getLaboratorio().getNomLaboratorio(), vacunaActual.getMarca(), vacunaActual.getNroSerie(), vacunaActual.getMedida(), vacunaActual.getFechaCaduca(), vacunaActual.isColocada()});
                 } 
             }
 
@@ -388,8 +395,8 @@ public class VacunasView extends javax.swing.JInternalFrame {
                         vacunaActual.setLaboratorio(lab);
                         
                         vacunaData.modificarVacuna(vacunaActual);
-
-                        limpiarCampos();                  
+                        limpiarCampos();  
+                        actualizarFilaTabla(filaSeleccionada, vacunaActual);                        
 
                 }
             } catch (NumberFormatException e) {
@@ -434,8 +441,6 @@ public class VacunasView extends javax.swing.JInternalFrame {
         
         if(evt.getClickCount() == 2){ // el "== 2" indica que se hizo doble click, también puedo especificar la cantidad de click's que quiera
             
-            // SETEAR NOMBRE LABORATORIO - DOSIS - FECHA CADUCA - COLOCADA
-            
             setearComboLab(fila);
             
             jtMarca.setText(jtTablaVacunas.getValueAt(fila, 1).toString());
@@ -457,6 +462,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
 
     }//GEN-LAST:event_jtTablaVacunasMousePressed
 
+    
     ///----------- BOTÓN ELIMINAR -----------
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         
@@ -465,24 +471,38 @@ public class VacunasView extends javax.swing.JInternalFrame {
         if(filaSeleccionada != -1){
             String valor = jtTablaVacunas.getValueAt(filaSeleccionada, 2).toString();
             int numSerie = Integer.parseInt(valor);
-            vacunaData.eliminarVacuna(numSerie);
-        }       
-        
+            vacunaData.eliminarVacuna(numSerie); 
+            
+            // Elimino una fila de la tabla
+            tablaVacunas.removeRow(filaSeleccionada);
+        }     
     }//GEN-LAST:event_jbEliminarActionPerformed
+
+    private void jtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtMarcaActionPerformed
+        String marca = jtMarca.getText();
+        
+        int longitud = marca.length();
+        if (longitud > 30) {
+            jtMarca.setEditable(false);
+            System.out.println("Se superó el límite");
+        }
+        
+        restriccionMarca(marca);
+    }//GEN-LAST:event_jtMarcaActionPerformed
 
     /*
     Funcionalidades:
        
-    - En la fecha de vencimiento NO permitir colocar una fecha anterior mínimo, a un día posterior del día de la carga de datos
+    - En la fecha de vencimiento comparar fecha actual con la fecha seleccionada. No permitir colocar una fecha menor a 3 meses.
     
     */
     
     
     private void limpiarCampos(){
-        jcbLaboratorio.removeAllItems(); 
+        jcbLaboratorio.setSelectedItem(null); 
         jtMarca.setText("");
         jtNroSerie.setText("");
-        jcbMedida.removeAllItems(); 
+        jcbMedida.setSelectedItem(null); 
         jdcVencimiento.setDate(null);
         jcbAplicada.setSelected(false);
     }
@@ -529,15 +549,14 @@ public class VacunasView extends javax.swing.JInternalFrame {
         // Según yo, a partir de acá puedo acceder a todos los métodos de laboratorio
         // No tengo certezas pero tampoco dudas
     }
-    
+  
     private void cargarListaVacunas() { // CARGO LA TABLA
-
         ListaVacunas = (ArrayList) vacunaData.listarVacunas();
-                
+        
         for (Vacuna i : ListaVacunas) {
             tablaVacunas.addRow(new Object[]{i.getLaboratorio().getNomLaboratorio(), i.getMarca(), i.getNroSerie(), i.getMedida(), i.getFechaCaduca(), i.isColocada()});
         }
-    }    
+    }
     
     private void setearComboLab(int fila) {
         // Recupero el nombre del laboratorio de la fila que seleccioné y lo guardo en una variable
@@ -574,49 +593,39 @@ public class VacunasView extends javax.swing.JInternalFrame {
     
     private void setearComboDosis(int fila){
         
-        // Guardo en un object el objeto recuperado de la tabla
-        Object obj = jtTablaVacunas.getValueAt(fila, 3);
+        Object valorSeleccionado = tablaVacunas.getValueAt(fila, 3);
         
-        jcbMedida.setSelectedItem(obj);
-        /*
-        // Casteo el modelo de la tabla para acceder a todos los métodos del comboBox
-        modeloComboDosis = (DefaultComboBoxModel<String>) jcbMedida.getModel();
-        // Obtengo la cantidad de elementos del combo
-        int elementos = modeloComboDosis.getSize();
-        // Recorro el combo con un if y hago la comparación entre objetos para poder
-        // setear SIN agregar elementos al combo
-        for (int i = 0; i < elementos; i++) {            
-             Object otroObj = modeloComboDosis.getElementAt(i);             
-            if(obj.equals(otroObj)){
-                // Le seteo el objeto que guardé en la primer línea del método
-                jcbMedida.setSelectedItem(obj);
+        boolean estaEnComboBox = false;
+        
+        for (int i = 0; i < modeloComboDosis.getSize(); i++) {
+            // Guardo en un objeto el elemento del combo
+            if (i > 0) {
+               Object elementoCombo = modeloComboDosis.getElementAt(i);
+            if(elementoCombo.toString().equals(valorSeleccionado.toString())){
+                estaEnComboBox = true;
+                modeloComboDosis.setSelectedItem(elementoCombo);
                 break;
-            }
-
-        }
-*/
+            } 
+            }            
+        }       
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        return hash;
+    public void actualizarFilaTabla(int filaSeleccionada, Vacuna vacuna){
+        tablaVacunas.setValueAt(vacuna.getLaboratorio().getNomLaboratorio(),filaSeleccionada, 0);
+        tablaVacunas.setValueAt(vacuna.getMarca(), filaSeleccionada, 1);
+        tablaVacunas.setValueAt(vacuna.getNroSerie(), filaSeleccionada, 2);
+        tablaVacunas.setValueAt(vacuna.getMedida(), filaSeleccionada, 3);
+        tablaVacunas.setValueAt(vacuna.getFechaCaduca(), filaSeleccionada, 4);
+        tablaVacunas.setValueAt(vacuna.isColocada(), filaSeleccionada, 5);        
     }
-/*
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        final Object otraDosis = (Object) obj;
-        
-        return Objects.equals(obj., obj)
-    }
-    */
     
+    public void restriccionMarca(String marca){
+        int longitud = marca.length();
+        if (longitud > 30) {
+            jtMarca.setEditable(false);
+            System.out.println("Se superó el límite");
+        }
+    }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

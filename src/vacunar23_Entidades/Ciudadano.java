@@ -11,39 +11,34 @@ public class Ciudadano {
     private String celular;
     private String patologia = null;
     private String ambitoTrabajo;
-    
-    // ver si agregamos domicilio o distrito de residencia
+    private String distrito;
+    private int codRefuerzo = 0;
 
-    public Ciudadano(int idCiudadano, int dni, String nombreCompleto, String email, String celular, String ambitoTrabajo) {
+    public Ciudadano(){}
+    
+    public Ciudadano(int idCiudadano, int dni, String nombreCompleto, String email, String celular, String patologia, String ambitoTrabajo, String distrito, int codRefuerzo) {
         this.idCiudadano = idCiudadano;
         this.dni = dni;
         this.nombreCompleto = nombreCompleto;
         this.email = email;
         this.celular = celular;
+        this.patologia = patologia;
         this.ambitoTrabajo = ambitoTrabajo;
-    }
+        this.distrito = distrito;
+        this.codRefuerzo = codRefuerzo;
+    }    
     
     
-    public Ciudadano(){}
-    
-    public Ciudadano(int dni, String nombre, String email, String cel, String patologia, String ambTrab) {
+      public Ciudadano(int dni, String nombreCompleto, String email, String celular, String patologia, String ambitoTrabajo, String distrito, int codRefuerzo) {
         this.dni = dni;
-        nombreCompleto = nombre;
+        this.nombreCompleto = nombreCompleto;
         this.email = email;
-        celular = cel;
+        this.celular = celular;
         this.patologia = patologia;
-        ambitoTrabajo = ambTrab;
-    }
-
-    public Ciudadano(int id, int dni, String nombre, String email, String cel, String patologia, String ambTrab) {
-        idCiudadano = id;
-        this.dni = dni;
-        nombreCompleto = nombre;
-        this.email = email;
-        celular = cel;
-        this.patologia = patologia;
-        ambitoTrabajo = ambTrab;
-    }
+        this.ambitoTrabajo = ambitoTrabajo;
+        this.distrito = distrito;
+        this.codRefuerzo = codRefuerzo;
+    } 
     
     public int getIdCiudadano(){
         return idCiudadano;
@@ -99,6 +94,22 @@ public class Ciudadano {
 
     public void setAmbitoTrabajo(String ambitoTrabajo) {
         this.ambitoTrabajo = ambitoTrabajo;
+    }
+    
+    public String getDistrito(){
+        return distrito;
+    }
+    
+    public void setDistrito(String distrito){
+        this.distrito = distrito;
+    }
+    
+    public int getCodRefuerzo(){
+        return codRefuerzo;
+    }
+    
+    public void setCodRefuerzo(int codRefuerzo){
+        this.codRefuerzo = codRefuerzo;
     }
 
     @Override
