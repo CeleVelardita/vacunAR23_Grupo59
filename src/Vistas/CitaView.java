@@ -361,6 +361,186 @@ public class CitaView extends javax.swing.JInternalFrame {
         }    
     }//GEN-LAST:event_jCalendarCitaPropertyChange
 
+<<<<<<< HEAD
+=======
+    
+    
+    private void jBuscarDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBuscarDniActionPerformed
+        
+        /// Necestido los datos del ciudadano 
+        
+        //datos ciudadano
+        int dni=Integer.parseInt(jtDNI.getText());//aplicar controles
+        ciudadano=ciuData.buscarCiudadano(dni);
+        
+        //si obtengo un ciudadano (lo encuentra en la BD):
+        if(ciudadano!=null){
+               jCheckBoxVerificacion.setSelected(true);//activo tilde checkbox
+               int codRefuerzo= ciudadano.getCodRefuerzo();//recupero el código de refuerzo del ciudadano para verificar cuál le toca
+               jtNombre.setText(ciudadano.getNombreCompleto());//seteo el textfield del nombre en la vista
+               //seteamos combobox segun la dosis que tenga colocada:
+               if(codRefuerzo==0){
+                   //si no tiene dosis aplicada
+                   jComboBoxRefuerzo.removeAll();//limpia combobox
+                   jComboBoxRefuerzo.addItem("1");
+                   jComboBoxRefuerzo.addItem("2");
+                   jComboBoxRefuerzo.addItem("3");
+               }else{
+                   //si tiene la 1er dosis
+                   if(codRefuerzo==1){
+                       jComboBoxRefuerzo.removeAll();
+                       jComboBoxRefuerzo.addItem("2");                 
+                   }else{
+                       //si tiene la 2da dosis
+                       jComboBoxRefuerzo.removeAll();
+                       jComboBoxRefuerzo.addItem("3");
+                   }                   
+               }
+           }else{
+                //si el ciudadano no está en la BD el checkbox queda SIN tilde
+               jCheckBoxVerificacion.setSelected(false);
+           }
+        
+        
+        
+    }//GEN-LAST:event_jBuscarDniActionPerformed
+
+    private void jBotonGuardarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonGuardarCitaActionPerformed
+        //controlar campos vacios
+        try{            
+           if(ciudadano!=null && jComboBoxRefuerzo.getSelectedItem()!=null && jCalendarCita.getDate()!= null && jComboBoxHorarios.getSelectedItem()!=null){
+               //datos vacuna desde vacunaData
+                vacuna=(Vacuna) jComboBoxVacuna.getSelectedItem();//ver si es correcto
+
+
+                //recupero el refuerzo elegido en el checkbox
+                int dosisRefuerzo= Integer.parseInt((String) jComboBoxRefuerzo.getSelectedItem());//ver si es correcto
+
+
+
+                ///obtengo la fecha elegida para el turno
+                // Para obtener la fecha seleccionada del JCalendar y almacenarla en fechaElegida
+                Date selectedDate = jCalendarCita.getDate(); // Obtiene la fecha seleccionada como objeto Date
+                // Convierte el objeto Date a LocalDate 
+                Instant instant = selectedDate.toInstant();
+                ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
+                LocalDate fechaElegida = zonedDateTime.toLocalDate();
+
+                ///rescato el horario elegido
+                LocalTime horaTurno=(LocalTime) jComboBoxHorarios.getSelectedItem(); //// capaz deba dar formato a la hora!!!!!!!!!!!!
+
+                //tengo todos los datos, debo dárselos a mi objeto citaVac (clase CitaVacunacion) por medio de su constructor
+                //luego usar mi citaData para acceder al método de cargar la cita, lé envío citaVac para cargarla a la BD
+                citaVac= new CitaVacunacion( fechaElegida, horaTurno, vacuna, dosisRefuerzo, ciudadano, "PorColocar");
+
+                //ya tengo la cita, debo mandarla por el método de citaData para almacenarla en la BD
+                citaData.cargarCita(citaVac);
+                //seteo campos
+                setearCampos();
+               
+           }else{
+               if(ciudadano!=null){
+                   JOptionPane.showMessageDialog(null, "No se permiten campos vacíos");
+               }
+           }
+           setearCampos();
+        }catch(){
+            
+        }
+
+    }//GEN-LAST:event_jBotonGuardarCitaActionPerformed
+///buscar cita por dni
+    private void jBotonBuscarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonBuscarCitaActionPerformed
+        
+        int dni=Integer.parseInt(jTBuscarCita.getText());
+        if(dni>5000000){
+            citaVac=citaData.buscarCitaXDNI(dni);
+            if(citaVac!=null){
+                //limpio la tabla
+                borrarFilaDeTabla();
+
+                //imprimo en tabla 
+                 modeloTabla.addRow(new Object []{citaVac.getCodCita(), citaVac.getCiudadano()
+                , citaVac.getCiudadano().getDni(), citaVac.getCiudadano().getPatologia()
+                , citaVac.getFechaHoraCita(), citaVac.getHorarioTurno()
+                , citaVac.getVacuna().getMarca(),citaVac.getVacuna().getNroSerie()
+                , citaVac.getCodRefuerzo(), citaVac.getCentroVacunacion()
+                , citaVac.getEstado()});
+            }
+            
+        }else{
+            JOptionPane.showMessageDialog(null, "Ingrese dni correctamente y no deje campos vacíos");
+        }
+    }//GEN-LAST:event_jBotonBuscarCitaActionPerformed
+
+    private void jdcListarXDiaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jdcListarXDiaPropertyChange
+        Date fechaSeleccionadaDate = jdcListarXDia.getDate();
+        
+        if (fechaSeleccionadaDate != null) {
+            // Convierte Date a LocalDate
+            Instant instant = fechaSeleccionadaDate.toInstant();
+            LocalDate fechaSeleccionada = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+
+            // Ahora puedes trabajar con la fecha en formato LocalDate
+            System.out.println("Fecha seleccionada: " + fechaSeleccionada);
+            
+            
+            //debo mandar la fecha a citaData y que el método me devuelva la lista de citas de esa fecha
+            listaCitas=citaData.buscarCitaXFecha(fechaSeleccionada);
+            
+            if(listaCitas!=null){
+                //limpio la tabla
+                borrarFilaDeTabla();
+                for(CitaVacunacion cita: listaCitas){
+                    //imprimo en tabla 
+                        modeloTabla.addRow(new Object []{cita.getCodCita(), cita.getCiudadano()
+                        , cita.getCiudadano().getDni(), cita.getCiudadano().getPatologia()
+                        , cita.getFechaHoraCita(), cita.getHorarioTurno()
+                        , cita.getVacuna().getMarca(),cita.getVacuna().getNroSerie()
+                        , cita.getCodRefuerzo(), cita.getCentroVacunacion()
+                        , cita.getEstado()});
+                }
+            }
+            
+        } else {
+            // El usuario no ha seleccionado una fecha
+            System.out.println("Por favor, seleccione una fecha");
+        }
+        
+        
+    }//GEN-LAST:event_jdcListarXDiaPropertyChange
+
+    private void jTableListadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableListadoMouseClicked
+        selectedRow = jTableListado.getSelectedRow();//tomo fila seleccionada
+        if (selectedRow >= 0) {
+            // Habilita el JComboBoxEstado y configura las opciones
+            jComboBoxEstado.setEnabled(true);
+            jComboBoxEstado.removeAllItems();
+            jComboBoxEstado.addItem("Activa");
+            jComboBoxEstado.addItem("Cumplida");
+            jComboBoxEstado.addItem("Cancelada");
+            jComboBoxEstado.addItem("Vencida");
+            valorCelda = jTableListado.getValueAt(selectedRow, 10);
+            
+            
+        } 
+    }//GEN-LAST:event_jTableListadoMouseClicked
+
+    private void jBotonAplicarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonAplicarEstadoActionPerformed
+        // Puedes establecer el valor seleccionado en función de la columna 10 en la fila seleccionada
+            // valorCelda es la celda del Estado de la fila seleccionada en la tabla
+            if (valorCelda instanceof String) {
+                String estadoCita = (String) valorCelda;
+                String EstadoSeleccionado= (String) jComboBoxEstado.getSelectedItem();
+                citaData.estadoCita(codigoCIta, EstadoSeleccionado);
+                jComboBoxEstado.setEnabled(false);
+            }
+    }//GEN-LAST:event_jBotonAplicarEstadoActionPerformed
+
+    
+
+    
+>>>>>>> parent of ae424a6 (lab)
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBotonAplicarEstado;
