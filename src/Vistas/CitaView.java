@@ -525,8 +525,7 @@ public class CitaView extends javax.swing.JInternalFrame {
             jComboBoxEstado.addItem("Cancelada");
             jComboBoxEstado.addItem("Vencida");
             valorCelda = jTableListado.getValueAt(selectedRow, 10);
-            
-            
+                       
         } 
     }//GEN-LAST:event_jTableListadoMouseClicked
 
@@ -536,7 +535,9 @@ public class CitaView extends javax.swing.JInternalFrame {
             if (valorCelda instanceof String) {
                 String estadoCita = (String) valorCelda;
                 String EstadoSeleccionado= (String) jComboBoxEstado.getSelectedItem();
-                citaData.estadoCita(codigoCIta, EstadoSeleccionado);
+                citaData.estadoCita(codigoCIta, EstadoSeleccionado);//aplico el nuevo estado a la cita en la BD
+                
+                
                 jComboBoxEstado.setEnabled(false);
             }
     }//GEN-LAST:event_jBotonAplicarEstadoActionPerformed
