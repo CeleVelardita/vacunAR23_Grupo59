@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -41,7 +43,33 @@ public class LaboratorioData {
             // Se genera el objeto prepareStatement el cual va a enviar esa sentencia a la BD
             // con.prepareStatement(sentencia Sql, le pido que devuelva la lista de las claves generadas ID)
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            //Se setean los tipos de datos que quiero enviar, porque llegan el método a través del parámetro "laboratorio"
+            
+            String cuit = String.valueOf(laboratorio.getCuit());
+            
+            if(cuit.length() > 11){
+                System.out.println("Ha excedido el límite de valores para el número de CUIT");
+            }
+            
+            String nombre = laboratorio.getNomLaboratorio();
+            
+            if(nombre.length() > 100){
+                System.out.println("Ha excedido el límite de carácteres para el nombre del Laboratorio");
+            }
+            
+            String pais = laboratorio.getPais();
+            
+            if(pais.length() > 20){
+                System.out.println("Ha excedido el límite de carácteres para el país");
+            }
+            
+            String domicilio = laboratorio.getDomComercial();
+            
+            if(domicilio.length() > 30){
+                System.out.println("Ha excedido el límite de carácteres para el domicilio");
+            }
+            
+            if((cuit.length() < 12) && (nombre.length() < 101) && (pais.length() <21) && (domicilio.length() < 31)){
+               //Se setean los tipos de datos que quiero enviar, porque llegan el método a través del parámetro "laboratorio"
             ps.setLong(1, laboratorio.getCuit());
             ps.setString(2, laboratorio.getNomLaboratorio());
             ps.setString(3, laboratorio.getPais());       
@@ -66,6 +94,8 @@ public class LaboratorioData {
 
             // Cierro el método prepareStatement 
             ps.close();  
+            }
+            
         }catch (SQLException ex){
             JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla laboratorio de la BD");
         }catch (NumberFormatException ex){
@@ -75,26 +105,54 @@ public class LaboratorioData {
 
     public void modificarLaboratorio (Laboratorio lab){
         String sql = "UPDATE laboratorio SET CUIT= ?, nomLaboratorio= ?, pais= ?, domComercial= ?, estado= ? WHERE idLaboratorio= ?";
-            try {               
-                PreparedStatement ps = con.prepareStatement(sql);
+            try {
+            PreparedStatement ps = con.prepareStatement(sql);
+
+            String cuit = String.valueOf(lab.getCuit());
+
+            if (cuit.length() > 11) {
+                System.out.println("Ha excedido el límite de valores para el número de CUIT");
+            }
+
+            String nombre = lab.getNomLaboratorio();
+
+            if (nombre.length() > 100) {
+                System.out.println("Ha excedido el límite de carácteres para el nombre del Laboratorio");
+            }
+
+            String pais = lab.getPais();
+
+            if (pais.length() > 20) {
+                System.out.println("Ha excedido el límite de carácteres para el país");
+            }
+
+            String domicilio = lab.getDomComercial();
+
+            if (domicilio.length() > 30) {
+                System.out.println("Ha excedido el límite de carácteres para el domicilio");
+            }
+            
+            if ((cuit.length() < 12) && (nombre.length() < 101) && (pais.length() < 21) && (domicilio.length() < 31)) {
                 //Se setean los tipos de datos que quiero enviar, porque llegan el método a través del parámetro lab 
                 ps.setLong(1, lab.getCuit());
                 ps.setString(2, lab.getNomLaboratorio());
-                ps.setString(3, lab.getPais());       
+                ps.setString(3, lab.getPais());
                 ps.setString(4, lab.getDomComercial());
                 ps.setBoolean(5, lab.isEstado());
                 // Por último se setea el ID
                 ps.setInt(6, lab.getIdLaboratorio());
-                int intDevuelto = ps.executeUpdate();                
+                int intDevuelto = ps.executeUpdate();
                 if (intDevuelto == 1) {
                     JOptionPane.showMessageDialog(null, "Laboratorio Modificado exitosamente");
                 }
                 // Cierra la conexión
                 ps.close();
-            } catch (SQLException ex) {
-                JOptionPane.showMessageDialog(null, "Error al intentar modificar el Laboratorio");
             }
-    } 
+
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "Error al intentar modificar el Laboratorio");
+        }
+    }
 
     public void cambiarEstadoLaboratorio (long cuit){
     String sql = "UPDATE laboratorio SET estado = CASE WHEN estado = 0 THEN 1 ELSE 0 END WHERE CUIT = ?";
