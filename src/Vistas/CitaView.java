@@ -26,6 +26,11 @@ public class CitaView extends javax.swing.JInternalFrame {
     private CiudadanoData ciuData;
     private Vacuna vacuna;
     private VacunaData vacuData;
+<<<<<<< HEAD
+=======
+    
+    
+>>>>>>> parent of 062406b (correccion)
     
     
     
@@ -174,6 +179,9 @@ public class CitaView extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
+<<<<<<< HEAD
+>>>>>>> parent of 062406b (correccion)
+=======
 >>>>>>> parent of 062406b (correccion)
         jScrollPane1.setViewportView(jTableListado);
 
@@ -193,7 +201,10 @@ public class CitaView extends javax.swing.JInternalFrame {
 
         jBotonAplicarEstado.setText("Aplicar Estado");
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 062406b (correccion)
 
         jBuscarDni.setText("Buscar");
         jBuscarDni.addActionListener(new java.awt.event.ActionListener() {
@@ -284,6 +295,7 @@ public class CitaView extends javax.swing.JInternalFrame {
                             .addComponent(jLModificarEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 <<<<<<< HEAD
+<<<<<<< HEAD
                             .addComponent(jBotonAplicarEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(19, 19, 19))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -294,6 +306,8 @@ public class CitaView extends javax.swing.JInternalFrame {
                 .addComponent(jLabel1)
                 .addGap(358, 358, 358))
 =======
+=======
+>>>>>>> parent of 062406b (correccion)
                             .addComponent(jBotonAplicarEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
 >>>>>>> parent of 062406b (correccion)
@@ -579,6 +593,9 @@ public class CitaView extends javax.swing.JInternalFrame {
 =======
     private javax.swing.JCheckBox jCheckBoxVerificacion;
     private javax.swing.JComboBox<String> jComboBox4;
+<<<<<<< HEAD
+>>>>>>> parent of 062406b (correccion)
+=======
 >>>>>>> parent of 062406b (correccion)
     private javax.swing.JComboBox<String> jComboBoxHorarios;
     private com.toedter.calendar.JDateChooser jDateChooser1;

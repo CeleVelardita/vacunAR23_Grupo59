@@ -515,7 +515,10 @@
             <Property name="text" type="java.lang.String" value="Aplicar Estado"/>
           </Properties>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 062406b (correccion)
         </Component>
         <Component class="javax.swing.JButton" name="jBuscarDni">
           <Properties>
