@@ -292,7 +292,10 @@ public class LaboratorioData {
                 laboratorio.setDomComercial(listaLab.getString("domComercial"));
                 laboratorio.setEstado(true);
                 // Finalmente a la lista "listaLaboratorios" le agrego (add) ese laboratorio
+                
+                System.out.println(laboratorio.getNomLaboratorio());
                 listaLaboratorios.add(laboratorio);
+                
             }            
             ps.close();
         } catch (SQLException ex) {
