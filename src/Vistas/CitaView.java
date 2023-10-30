@@ -9,7 +9,28 @@ import java.util.HashMap;
 public class CitaView extends javax.swing.JInternalFrame {
 
     //declaración de atributos
+<<<<<<< HEAD
     private HashMap<Date, Boolean> horariosHabiles;
+=======
+    private HashMap<Date, Boolean> horariosHabiles;//para control de turnos
+    
+    //Declaración de atributos
+    private DefaultTableModel modeloTabla;//modelo para la tabla
+    
+    private List<Ciudadano> ListaCiudadanos;
+    private List<Vacuna> ListaVacunas;
+    private List<CitaVacunacion> listaCitas;
+    private citaData citaData;
+    private CitaVacunacion citaVac;
+    private Ciudadano ciudadano;
+    private CiudadanoData ciuData;
+    private Vacuna vacuna;
+    private VacunaData vacuData;
+    
+    
+    
+    
+>>>>>>> parent of 062406b (correccion)
     
     public CitaView() {
         initComponents();
@@ -141,7 +162,19 @@ public class CitaView extends javax.swing.JInternalFrame {
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
+<<<<<<< HEAD
         ));
+=======
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+>>>>>>> parent of 062406b (correccion)
         jScrollPane1.setViewportView(jTableListado);
 
         jBotonBuscar.setText("Buscar ");
@@ -159,6 +192,20 @@ public class CitaView extends javax.swing.JInternalFrame {
         jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jBotonAplicarEstado.setText("Aplicar Estado");
+<<<<<<< HEAD
+=======
+
+        jBuscarDni.setText("Buscar");
+        jBuscarDni.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBuscarDniActionPerformed(evt);
+            }
+        });
+
+        jCheckBoxVerificacion.setText("Encontrado");
+
+        jLabel2.setText("Vacuna: ");
+>>>>>>> parent of 062406b (correccion)
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -236,6 +283,7 @@ public class CitaView extends javax.swing.JInternalFrame {
                             .addComponent(jSeparator2)
                             .addComponent(jLModificarEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+<<<<<<< HEAD
                             .addComponent(jBotonAplicarEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addGap(19, 19, 19))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -245,6 +293,10 @@ public class CitaView extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel1)
                 .addGap(358, 358, 358))
+=======
+                            .addComponent(jBotonAplicarEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+>>>>>>> parent of 062406b (correccion)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -510,33 +562,6 @@ public class CitaView extends javax.swing.JInternalFrame {
         
     }//GEN-LAST:event_jdcListarXDiaPropertyChange
 
-    private void jTableListadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTableListadoMouseClicked
-        selectedRow = jTableListado.getSelectedRow();//tomo fila seleccionada
-        if (selectedRow >= 0) {
-            // Habilita el JComboBoxEstado y configura las opciones
-            jComboBoxEstado.setEnabled(true);
-            jComboBoxEstado.removeAllItems();
-            jComboBoxEstado.addItem("Activa");
-            jComboBoxEstado.addItem("Cumplida");
-            jComboBoxEstado.addItem("Cancelada");
-            jComboBoxEstado.addItem("Vencida");
-            valorCelda = jTableListado.getValueAt(selectedRow, 10);
-            
-            
-        } 
-    }//GEN-LAST:event_jTableListadoMouseClicked
-
-    private void jBotonAplicarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonAplicarEstadoActionPerformed
-        // Puedes establecer el valor seleccionado en función de la columna 10 en la fila seleccionada
-            // valorCelda es la celda del Estado de la fila seleccionada en la tabla
-            if (valorCelda instanceof String) {
-                String estadoCita = (String) valorCelda;
-                String EstadoSeleccionado= (String) jComboBoxEstado.getSelectedItem();
-                citaData.estadoCita(codigoCIta, EstadoSeleccionado);
-                jComboBoxEstado.setEnabled(false);
-            }
-    }//GEN-LAST:event_jBotonAplicarEstadoActionPerformed
-
     
 
     
@@ -547,9 +572,14 @@ public class CitaView extends javax.swing.JInternalFrame {
     private javax.swing.JButton jBotonBuscar;
     private javax.swing.JButton jBotonGuardarCita;
     private com.toedter.calendar.JCalendar jCalendarCita;
+<<<<<<< HEAD
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBoxAmbito;
+=======
+    private javax.swing.JCheckBox jCheckBoxVerificacion;
+    private javax.swing.JComboBox<String> jComboBox4;
+>>>>>>> parent of 062406b (correccion)
     private javax.swing.JComboBox<String> jComboBoxHorarios;
     private com.toedter.calendar.JDateChooser jDateChooser1;
     private javax.swing.JLabel jLAmbitoLaboral;
@@ -585,4 +615,82 @@ public class CitaView extends javax.swing.JInternalFrame {
 ///cargar combobox horarios
     
 
+<<<<<<< HEAD
+=======
+    /*-----cabeceras de la tabla-----*/
+    /*
+    del constructor de citaVacunacion
+    public CitaVacunacion(int codCita, LocalDate fechaHoraCita, String centroVacunacion, LocalDate fechaHoraColoca, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano, String estado) {
+        this.codCita = codCita;
+        this.fechaHoraCita = fechaHoraCita;
+        this.centroVacunacion = centroVacunacion;
+        this.fechaHoraColoca = fechaHoraColoca;
+        this.vacuna = vacuna;
+        this.codRefuerzo = codRefuerzo;
+        this.ciudadano = ciudadano;
+        this.estado = estado;
+    }
+    */
+    
+    //armado de las cabeceras de la tabla (nombres de las columnas)
+        public void armarCabeceraTabla(){    
+                modeloTabla.addColumn("Cod. Cita");
+                modeloTabla.addColumn("Ciudadano");//nombre completo 
+                modeloTabla.addColumn("DNI"); 
+                modeloTabla.addColumn("Patología Base");
+                modeloTabla.addColumn("Fecha Colocación");
+                modeloTabla.addColumn("Turno");//hora
+                modeloTabla.addColumn("Vacuna");//nombre marca
+                modeloTabla.addColumn("Nro.Serie Vacuna");
+                modeloTabla.addColumn("Cod. Refuerzo");//1º 2º 3º
+                modeloTabla.addColumn("Centro Vacunacion");
+                modeloTabla.addColumn("Estado de la Cita");//Activa, Cumplida, Cancelada, Vencida
+                jTableListado.setModel(modeloTabla);
+        }  
+    /*-----actualiza la tabla -----*/
+    public void actualizarJTable(CitaVacunacion cita) {
+    //limpio la tabla
+    borrarFilaDeTabla();
+        
+    //imprimo en tabla 
+     modeloTabla.addRow(new Object []{cita.getCodCita(), cita.getCiudadano()
+                        , cita.getCiudadano().getDni(), cita.getCiudadano().getPatologia()
+                        , cita.getFechaHoraCita(), cita.getHorarioTurno()
+                        , cita.getVacuna().getMarca(),cita.getVacuna().getNroSerie()
+                        , cita.getCodRefuerzo(), cita.getCentroVacunacion()
+                        , cita.getEstado()});
+    }
+    
+    //borra/setea la tabla
+        private void borrarFilaDeTabla(){
+            int indice = modeloTabla.getRowCount() -1;
+            for(int i = indice ; i >= 0 ; i--){
+                modeloTabla.removeRow(i);           
+            }
+        } 
+    //cargar combobox de vacunas desde vacunaData
+        private void cargarComboboxVacunas(){
+            //vacuna jComboBoxVacuna
+            ListaVacunas=vacuData.listarVacunas();
+            for(Vacuna vacuna: ListaVacunas){
+                jComboBoxVacuna.addItem(vacuna.getMarca());
+            }
+        }
+        
+    //setea todos los campos    
+    private void setearCampos(){
+        jtDNI.setText(" ");
+        jCheckBoxVerificacion.setSelected(false);
+        jtNombre.setText(" ");
+        jComboBoxVacuna.removeAll();
+        jComboBoxRefuerzo.removeAll();
+        jCalendarCita.setDate(null);        
+        jComboBoxHorarios.removeAll();
+        jdcListarXDia.removeAll();
+        jTBuscarCita.setText(" ");
+        jComboBox4.removeAll();
+    }
+    
+    
+>>>>>>> parent of 062406b (correccion)
 }
