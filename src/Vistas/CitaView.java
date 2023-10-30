@@ -2,52 +2,54 @@
 package Vistas;
 
 
+import com.toedter.calendar.JDateChooser;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;//necesario para turnos, cudiado con java.sql.Date
 import java.util.HashMap;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import vacunar23_AccesoADatos.Conexion.CiudadanoData;
+import vacunar23_AccesoADatos.Conexion.VacunaData;
+import vacunar23_AccesoADatos.Conexion.citaData;
+import vacunar23_Entidades.CitaVacunacion;
+import vacunar23_Entidades.Ciudadano;
+import vacunar23_Entidades.Vacuna;
 
 
 public class CitaView extends javax.swing.JInternalFrame {
 
     //declaración de atributos
-<<<<<<< HEAD
-    private HashMap<Date, Boolean> horariosHabiles;
-=======
     private HashMap<Date, Boolean> horariosHabiles;//para control de turnos
     
     //Declaración de atributos
     private DefaultTableModel modeloTabla;//modelo para la tabla
     
-    private List<Ciudadano> ListaCiudadanos;
-    private List<Vacuna> ListaVacunas;
-    private List<CitaVacunacion> listaCitas;
+    
+    private ArrayList<Ciudadano> ListaCiudadanos;
+    private ArrayList<Vacuna> ListaVacunas;
+    private ArrayList<CitaVacunacion> listaCitas;
     private citaData citaData;
-    private CitaVacunacion citaVac;
-    private Ciudadano ciudadano;
-    private CiudadanoData ciuData;
-    private Vacuna vacuna;
     private VacunaData vacuData;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
+    private CiudadanoData ciuData;
+    private CitaVacunacion citaVac;
+    private Vacuna vacuna;
+    private Ciudadano ciudadano;
     
     
->>>>>>> parent of 062406b (correccion)
+    //atributos extras para extraer datos de los eventos
+    private int dni;
     
     
->>>>>>> parent of 062406b (correccion)
-    
-    
-    
-    
->>>>>>> parent of 062406b (correccion)
     
     public CitaView() {
         initComponents();
-        
-        
-        
-        
+        modeloTabla = (DefaultTableModel) jTableListado.getModel();//despues de esto cargo el armado de cabecera de tabla
+        jCheckBoxVerificacion.setEnabled(false);
+        jtNombre.setEnabled(false);
+        //cargarComboRefuerzo();
         
         ///Necesario para los turnos:
         
@@ -75,6 +77,7 @@ public class CitaView extends javax.swing.JInternalFrame {
         horariosHabiles.put(new Date(new Date().getTime() + 172800000), true);
     }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -87,69 +90,42 @@ public class CitaView extends javax.swing.JInternalFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLNombre = new javax.swing.JLabel();
-        jLApellido = new javax.swing.JLabel();
         jLDNI = new javax.swing.JLabel();
-        jLDistricto = new javax.swing.JLabel();
-        jLAmbitoLaboral = new javax.swing.JLabel();
-        jLPatologia = new javax.swing.JLabel();
         jLCodigoRefuerzo = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField5 = new javax.swing.JTextField();
-        jLFechaNac = new javax.swing.JLabel();
+        jtNombre = new javax.swing.JTextField();
+        jtDNI = new javax.swing.JTextField();
         jComboBoxHorarios = new javax.swing.JComboBox<>();
         jLabel10 = new javax.swing.JLabel();
         jCalendarCita = new com.toedter.calendar.JCalendar();
         jLabel11 = new javax.swing.JLabel();
-        jDateChooser1 = new com.toedter.calendar.JDateChooser();
         jSeparator1 = new javax.swing.JSeparator();
         jBotonGuardarCita = new javax.swing.JButton();
-        jComboBox2 = new javax.swing.JComboBox<>();
+        jComboBoxRefuerzo = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTableListado = new javax.swing.JTable();
         jBotonBuscar = new javax.swing.JButton();
         jLListarXDia = new javax.swing.JLabel();
         jdcListarXDia = new com.toedter.calendar.JDateChooser();
-        jComboBoxAmbito = new javax.swing.JComboBox<>();
         jLBuscarXDni = new javax.swing.JLabel();
         jTextField6 = new javax.swing.JTextField();
-        jSeparator2 = new javax.swing.JSeparator();
         jLModificarEstado = new javax.swing.JLabel();
         jComboBox4 = new javax.swing.JComboBox<>();
         jBotonAplicarEstado = new javax.swing.JButton();
+        jBuscarDni = new javax.swing.JButton();
+        jCheckBoxVerificacion = new javax.swing.JCheckBox();
+        jLabel2 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox<>();
 
-        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         jLabel1.setText("Cita para Vacunación");
 
-        jLNombre.setText("Nombre: ");
+        jLNombre.setText("Nombre y Apellido: ");
 
-        jLApellido.setText("Apellido: ");
+        jLDNI.setText("DNI del Ciudadano: ");
 
-        jLDNI.setText("DNI: ");
+        jLCodigoRefuerzo.setText("Código de Refuerzo:");
 
-        jLDistricto.setText("Districto: ");
-
-        jLAmbitoLaboral.setText("Ámbito Laboral:");
-
-        jLPatologia.setText(" Patología de Base:");
-
-        jLCodigoRefuerzo.setText("Código de Refuerzo");
-
-        jTextField1.setText("jTextField1");
-
-        jTextField2.setText("jTextField2");
-
-        jTextField3.setText("jTextField3");
-
-        jTextField4.setText("jTextField4");
-
-        jTextField5.setText("jTextField5");
-
-        jLFechaNac.setText("Fecha de Nacimiento");
-
-        jComboBoxHorarios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jtNombre.setEditable(false);
 
         jLabel10.setText("Seleccione Fecha Para La Cita: ");
 
@@ -161,20 +137,21 @@ public class CitaView extends javax.swing.JInternalFrame {
 
         jLabel11.setText("Seleccione El Horario: ");
 
+        jBotonGuardarCita.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jBotonGuardarCita.setText("Guardar Cita");
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jBotonGuardarCita.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBotonGuardarCitaActionPerformed(evt);
+            }
+        });
 
         jTableListado.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Cod. Cita", "Ciudadano", "DNI", "Patología Base", "Fecha del Turno", "Horario", "Vacuna", "Nro. Serie Vacuna", "Cod. Refuerzo", "Centro Vacunacion", "Estado de Cita"
             }
-<<<<<<< HEAD
-        ));
-=======
         ) {
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false, false, false, false, false, false, false
@@ -184,38 +161,31 @@ public class CitaView extends javax.swing.JInternalFrame {
                 return canEdit [columnIndex];
             }
         });
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of 062406b (correccion)
-=======
->>>>>>> parent of 062406b (correccion)
-=======
->>>>>>> parent of 062406b (correccion)
+        jTableListado.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTableListado);
+        if (jTableListado.getColumnModel().getColumnCount() > 0) {
+            jTableListado.getColumnModel().getColumn(0).setResizable(false);
+            jTableListado.getColumnModel().getColumn(1).setResizable(false);
+            jTableListado.getColumnModel().getColumn(2).setResizable(false);
+            jTableListado.getColumnModel().getColumn(3).setResizable(false);
+            jTableListado.getColumnModel().getColumn(4).setResizable(false);
+            jTableListado.getColumnModel().getColumn(5).setResizable(false);
+            jTableListado.getColumnModel().getColumn(6).setResizable(false);
+            jTableListado.getColumnModel().getColumn(7).setResizable(false);
+            jTableListado.getColumnModel().getColumn(8).setResizable(false);
+            jTableListado.getColumnModel().getColumn(9).setResizable(false);
+            jTableListado.getColumnModel().getColumn(10).setResizable(false);
+        }
 
         jBotonBuscar.setText("Buscar ");
 
         jLListarXDia.setText("Listar Cita según calendario");
 
-        jComboBoxAmbito.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jLBuscarXDni.setText("Buscar Cita por DNI:");
-
-        jTextField6.setText("jTextField6");
 
         jLModificarEstado.setText("Modificar Estado De La Cita:");
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jBotonAplicarEstado.setText("Aplicar Estado");
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> parent of 062406b (correccion)
-=======
->>>>>>> parent of 062406b (correccion)
 
         jBuscarDni.setText("Buscar");
         jBuscarDni.addActionListener(new java.awt.event.ActionListener() {
@@ -227,181 +197,139 @@ public class CitaView extends javax.swing.JInternalFrame {
         jCheckBoxVerificacion.setText("Encontrado");
 
         jLabel2.setText("Vacuna: ");
->>>>>>> parent of 062406b (correccion)
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLFechaNac)
-                        .addGap(18, 18, 18)
-                        .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLNombre)
-                                        .addGap(65, 65, 65))
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLDNI)
-                                            .addComponent(jLDistricto)
-                                            .addComponent(jLApellido))
-                                        .addGap(63, 63, 63)))
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addGap(8, 8, 8)
-                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLCodigoRefuerzo)
-                                    .addComponent(jLPatologia)
-                                    .addComponent(jLAmbitoLaboral))
-                                .addGap(22, 22, 22)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBoxAmbito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jLabel10)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(jCalendarCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(jBotonGuardarCita, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(25, 25, 25))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel11)
-                                .addGap(18, 18, 18)
-                                .addComponent(jComboBoxHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(157, 157, 157))))))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(24, 24, 24)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLListarXDia)
-                        .addGap(18, 18, 18)
-                        .addComponent(jdcListarXDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 696, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jBotonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLBuscarXDni)
-                            .addComponent(jTextField6)
-                            .addComponent(jSeparator2)
-                            .addComponent(jLModificarEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-                            .addComponent(jBotonAplicarEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(19, 19, 19))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jSeparator1))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(358, 358, 358))
-=======
-=======
->>>>>>> parent of 062406b (correccion)
-=======
->>>>>>> parent of 062406b (correccion)
-                            .addComponent(jBotonAplicarEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(54, 54, 54)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLDNI)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLNombre)
+                                    .addComponent(jLabel2))
+                                .addGap(3, 3, 3)))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jBuscarDni)
+                                .addGap(18, 18, 18)
+                                .addComponent(jCheckBoxVerificacion))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jLCodigoRefuerzo)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jComboBoxRefuerzo, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jtNombre)))
+                        .addGap(348, 348, 348)
+                        .addComponent(jBotonGuardarCita, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(264, 264, 264))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(18, 18, 18)
+                                .addComponent(jCalendarCita, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(420, 420, 420)
+                                .addComponent(jLabel11)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jComboBoxHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(24, 24, 24)
+                                .addComponent(jLListarXDia)
+                                .addGap(18, 18, 18)
+                                .addComponent(jdcListarXDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(142, 142, 142)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLBuscarXDni)
+                                    .addComponent(jTextField6)
+                                    .addComponent(jBotonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
+                                .addGap(165, 165, 165)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jLModificarEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jBotonAplicarEstado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(497, 497, 497)
+                                .addComponent(jLabel1)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
->>>>>>> parent of 062406b (correccion)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addGap(34, 34, 34)
+                .addGap(49, 49, 49)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLNombre)
-                                .addGap(28, 28, 28)
-                                .addComponent(jLApellido)
-                                .addGap(24, 24, 24))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(22, 22, 22)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLDNI)
-                                .addGap(27, 27, 27)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLDistricto)
-                                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(25, 25, 25)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLAmbitoLaboral)
-                                    .addComponent(jComboBoxAmbito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLDNI)
                         .addGap(18, 18, 18)
+                        .addComponent(jLNombre)
+                        .addGap(22, 22, 22)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLPatologia)
-                            .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(11, 11, 11)
+                            .addComponent(jLabel2)
+                            .addComponent(jBotonGuardarCita, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jtDNI, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jBuscarDni)
+                            .addComponent(jCheckBoxVerificacion))
+                        .addGap(18, 18, 18)
+                        .addComponent(jtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(19, 19, 19)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jComboBoxRefuerzo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLCodigoRefuerzo)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jBotonGuardarCita, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addComponent(jCalendarCita, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jComboBoxHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel11))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLFechaNac)
-                    .addComponent(jDateChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel10)
+                    .addComponent(jLabel11)
+                    .addComponent(jComboBoxHorarios, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCalendarCita, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(12, 12, 12)
+                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 4, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jdcListarXDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLListarXDia))
-                .addGap(26, 26, 26)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLListarXDia)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLBuscarXDni)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jBotonBuscar)
-                        .addGap(18, 18, 18)
-                        .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBotonBuscar))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLModificarEstado)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jBotonAplicarEstado))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(19, 19, 19))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jBotonAplicarEstado)))
+                .addGap(25, 25, 25)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -422,6 +350,7 @@ public class CitaView extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    ///control del candelario de turnos
     private void jCalendarCitaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jCalendarCitaPropertyChange
         /*
         Este código añadirá un escuchador de eventos de propiedad al JCalendar. 
@@ -441,217 +370,114 @@ public class CitaView extends javax.swing.JInternalFrame {
         }    
     }//GEN-LAST:event_jCalendarCitaPropertyChange
 
-<<<<<<< HEAD
-=======
     
     
+    ///boton Guardar Cita
+    private void jBotonGuardarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonGuardarCitaActionPerformed
+        try{
+            jCheckBoxVerificacion.setEnabled(false);//para que no sea editable
+           if(ciudadano!=null){
+               jCheckBoxVerificacion.setSelected(true);
+               
+           }else{
+               jCheckBoxVerificacion.setSelected(false);
+           }
+           JDateChooser jCalendarCita = new JDateChooser();
+
+            // Obtén la fecha seleccionada del JCalendar
+            Date fechaSeleccionada = jCalendarCita.getDate();
+
+            // Convierte la fecha seleccionada a LocalDate
+            LocalDate fecha = null;
+            if (fechaSeleccionada != null) {
+                fecha = fechaSeleccionada.toInstant().atZone(Calendar.getInstance().getTimeZone().toZoneId()).toLocalDate();
+            }
+            
+            //hora elegida
+            LocalTime hora=(LocalTime) jComboBoxHorarios.getSelectedItem();
+            
+            
+            
+        }catch(){
+            
+        }
+    }//GEN-LAST:event_jBotonGuardarCitaActionPerformed
+
     private void jBuscarDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBuscarDniActionPerformed
         
-        /// Necestido los datos del ciudadano 
-        
-        //datos ciudadano
-        int dni=Integer.parseInt(jtDNI.getText());//aplicar controles
-        ciudadano=ciuData.buscarCiudadano(dni);
-        
-        //si obtengo un ciudadano (lo encuentra en la BD):
+        try{
+            dni=Integer.parseInt(jtDNI.getText());//aplicar controles
+            String digito=String.valueOf(dni);
+            if(digito.length()<7 || digito.length()>8){
+                JOptionPane.showMessageDialog(null,"Ingrese un  DNI válido");
+                return;
+            }
+            ciudadano=ciuData.buscarCiudadano(dni);
         if(ciudadano!=null){
-               jCheckBoxVerificacion.setSelected(true);//activo tilde checkbox
-               int codRefuerzo= ciudadano.getCodRefuerzo();//recupero el código de refuerzo del ciudadano para verificar cuál le toca
-               jtNombre.setText(ciudadano.getNombreCompleto());//seteo el textfield del nombre en la vista
-               //seteamos combobox segun la dosis que tenga colocada:
+               jCheckBoxVerificacion.setSelected(true);
+               int codRefuerzo= ciudadano.getCodRefuerzo();
+               jtNombre.setText(ciudadano.getNombreCompleto());
                if(codRefuerzo==0){
-                   //si no tiene dosis aplicada
-                   jComboBoxRefuerzo.removeAll();//limpia combobox
+                   jComboBoxRefuerzo.removeAll();
                    jComboBoxRefuerzo.addItem("1");
                    jComboBoxRefuerzo.addItem("2");
                    jComboBoxRefuerzo.addItem("3");
                }else{
-                   //si tiene la 1er dosis
                    if(codRefuerzo==1){
                        jComboBoxRefuerzo.removeAll();
                        jComboBoxRefuerzo.addItem("2");                 
                    }else{
-                       //si tiene la 2da dosis
                        jComboBoxRefuerzo.removeAll();
                        jComboBoxRefuerzo.addItem("3");
                    }                   
                }
            }else{
-                //si el ciudadano no está en la BD el checkbox queda SIN tilde
                jCheckBoxVerificacion.setSelected(false);
            }
-        
-        
-        
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(null,"Problemas en el DNI"+e.getMessage());
+        }
     }//GEN-LAST:event_jBuscarDniActionPerformed
 
-    private void jBotonGuardarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonGuardarCitaActionPerformed
-        //controlar campos vacios
-        try{            
-           if(ciudadano!=null && jComboBoxRefuerzo.getSelectedItem()!=null && jCalendarCita.getDate()!= null && jComboBoxHorarios.getSelectedItem()!=null){
-               //datos vacuna desde vacunaData
-                vacuna=(Vacuna) jComboBoxVacuna.getSelectedItem();//ver si es correcto
-
-
-                //recupero el refuerzo elegido en el checkbox
-                int dosisRefuerzo= Integer.parseInt((String) jComboBoxRefuerzo.getSelectedItem());//ver si es correcto
-
-
-
-                ///obtengo la fecha elegida para el turno
-                // Para obtener la fecha seleccionada del JCalendar y almacenarla en fechaElegida
-                Date selectedDate = jCalendarCita.getDate(); // Obtiene la fecha seleccionada como objeto Date
-                // Convierte el objeto Date a LocalDate 
-                Instant instant = selectedDate.toInstant();
-                ZonedDateTime zonedDateTime = instant.atZone(ZoneId.systemDefault());
-                LocalDate fechaElegida = zonedDateTime.toLocalDate();
-
-                ///rescato el horario elegido
-                LocalTime horaTurno=(LocalTime) jComboBoxHorarios.getSelectedItem(); //// capaz deba dar formato a la hora!!!!!!!!!!!!
-
-                //tengo todos los datos, debo dárselos a mi objeto citaVac (clase CitaVacunacion) por medio de su constructor
-                //luego usar mi citaData para acceder al método de cargar la cita, lé envío citaVac para cargarla a la BD
-                citaVac= new CitaVacunacion( fechaElegida, horaTurno, vacuna, dosisRefuerzo, ciudadano, "PorColocar");
-
-                //ya tengo la cita, debo mandarla por el método de citaData para almacenarla en la BD
-                citaData.cargarCita(citaVac);
-                //seteo campos
-                setearCampos();
-               
-           }else{
-               if(ciudadano!=null){
-                   JOptionPane.showMessageDialog(null, "No se permiten campos vacíos");
-               }
-           }
-           setearCampos();
-        }catch(){
-            
-        }
-
-    }//GEN-LAST:event_jBotonGuardarCitaActionPerformed
-///buscar cita por dni
-    private void jBotonBuscarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonBuscarCitaActionPerformed
-        
-        int dni=Integer.parseInt(jTBuscarCita.getText());
-        if(dni>5000000){
-            citaVac=citaData.buscarCitaXDNI(dni);
-            if(citaVac!=null){
-                //limpio la tabla
-                borrarFilaDeTabla();
-
-                //imprimo en tabla 
-                 modeloTabla.addRow(new Object []{citaVac.getCodCita(), citaVac.getCiudadano()
-                , citaVac.getCiudadano().getDni(), citaVac.getCiudadano().getPatologia()
-                , citaVac.getFechaHoraCita(), citaVac.getHorarioTurno()
-                , citaVac.getVacuna().getMarca(),citaVac.getVacuna().getNroSerie()
-                , citaVac.getCodRefuerzo(), citaVac.getCentroVacunacion()
-                , citaVac.getEstado()});
-            }
-            
-        }else{
-            JOptionPane.showMessageDialog(null, "Ingrese dni correctamente y no deje campos vacíos");
-        }
-    }//GEN-LAST:event_jBotonBuscarCitaActionPerformed
-
-    private void jdcListarXDiaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jdcListarXDiaPropertyChange
-        Date fechaSeleccionadaDate = jdcListarXDia.getDate();
-        
-        if (fechaSeleccionadaDate != null) {
-            // Convierte Date a LocalDate
-            Instant instant = fechaSeleccionadaDate.toInstant();
-            LocalDate fechaSeleccionada = instant.atZone(ZoneId.systemDefault()).toLocalDate();
-
-            // Ahora puedes trabajar con la fecha en formato LocalDate
-            System.out.println("Fecha seleccionada: " + fechaSeleccionada);
-            
-            
-            //debo mandar la fecha a citaData y que el método me devuelva la lista de citas de esa fecha
-            listaCitas=citaData.buscarCitaXFecha(fechaSeleccionada);
-            
-            if(listaCitas!=null){
-                //limpio la tabla
-                borrarFilaDeTabla();
-                for(CitaVacunacion cita: listaCitas){
-                    //imprimo en tabla 
-                        modeloTabla.addRow(new Object []{cita.getCodCita(), cita.getCiudadano()
-                        , cita.getCiudadano().getDni(), cita.getCiudadano().getPatologia()
-                        , cita.getFechaHoraCita(), cita.getHorarioTurno()
-                        , cita.getVacuna().getMarca(),cita.getVacuna().getNroSerie()
-                        , cita.getCodRefuerzo(), cita.getCentroVacunacion()
-                        , cita.getEstado()});
-                }
-            }
-            
-        } else {
-            // El usuario no ha seleccionado una fecha
-            System.out.println("Por favor, seleccione una fecha");
-        }
-        
-        
-    }//GEN-LAST:event_jdcListarXDiaPropertyChange
-
     
 
     
->>>>>>> parent of ae424a6 (lab)
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBotonAplicarEstado;
     private javax.swing.JButton jBotonBuscar;
     private javax.swing.JButton jBotonGuardarCita;
+    private javax.swing.JButton jBuscarDni;
     private com.toedter.calendar.JCalendar jCalendarCita;
-<<<<<<< HEAD
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JComboBox<String> jComboBoxAmbito;
-=======
     private javax.swing.JCheckBox jCheckBoxVerificacion;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox4;
-<<<<<<< HEAD
-<<<<<<< HEAD
->>>>>>> parent of 062406b (correccion)
-=======
->>>>>>> parent of 062406b (correccion)
-=======
->>>>>>> parent of 062406b (correccion)
     private javax.swing.JComboBox<String> jComboBoxHorarios;
-    private com.toedter.calendar.JDateChooser jDateChooser1;
-    private javax.swing.JLabel jLAmbitoLaboral;
-    private javax.swing.JLabel jLApellido;
+    private javax.swing.JComboBox<String> jComboBoxRefuerzo;
     private javax.swing.JLabel jLBuscarXDni;
     private javax.swing.JLabel jLCodigoRefuerzo;
     private javax.swing.JLabel jLDNI;
-    private javax.swing.JLabel jLDistricto;
-    private javax.swing.JLabel jLFechaNac;
     private javax.swing.JLabel jLListarXDia;
     private javax.swing.JLabel jLModificarEstado;
     private javax.swing.JLabel jLNombre;
-    private javax.swing.JLabel jLPatologia;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTable jTableListado;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private com.toedter.calendar.JDateChooser jdcListarXDia;
+    private javax.swing.JTextField jtDNI;
+    private javax.swing.JTextField jtNombre;
     // End of variables declaration//GEN-END:variables
 
 //-------------------------------_Métodos_-------------------------------//
 
-///cargar combobox horarios
-    
 
-<<<<<<< HEAD
-=======
-    /*-----cabeceras de la tabla-----*/
+  /*-----cabeceras de la tabla-----*/
     /*
     del constructor de citaVacunacion
     public CitaVacunacion(int codCita, LocalDate fechaHoraCita, String centroVacunacion, LocalDate fechaHoraColoca, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano, String estado) {
@@ -665,35 +491,19 @@ public class CitaView extends javax.swing.JInternalFrame {
         this.estado = estado;
     }
     */
-    
-    //armado de las cabeceras de la tabla (nombres de las columnas)
         public void armarCabeceraTabla(){    
-                modeloTabla.addColumn("Cod. Cita");
+                modeloTabla.addColumn("cod. Cita");
                 modeloTabla.addColumn("Ciudadano");//nombre completo 
                 modeloTabla.addColumn("DNI"); 
                 modeloTabla.addColumn("Patología Base");
-                modeloTabla.addColumn("Fecha Colocación");
-                modeloTabla.addColumn("Turno");//hora
-                modeloTabla.addColumn("Vacuna");//nombre marca
-                modeloTabla.addColumn("Nro.Serie Vacuna");
-                modeloTabla.addColumn("Cod. Refuerzo");//1º 2º 3º
-                modeloTabla.addColumn("Centro Vacunacion");
+                modeloTabla.addColumn("fecha Colocación");
+                modeloTabla.addColumn("turno");//hora
+                modeloTabla.addColumn("vacuna");
+                modeloTabla.addColumn("codRefuerzo");//1º 2º 3º
+                modeloTabla.addColumn("centroVacunacion");
                 modeloTabla.addColumn("Estado de la Cita");//Activa, Cumplida, Cancelada, Vencida
                 jTableListado.setModel(modeloTabla);
         }  
-    /*-----actualiza la tabla -----*/
-    public void actualizarJTable(CitaVacunacion cita) {
-    //limpio la tabla
-    borrarFilaDeTabla();
-        
-    //imprimo en tabla 
-     modeloTabla.addRow(new Object []{cita.getCodCita(), cita.getCiudadano()
-                        , cita.getCiudadano().getDni(), cita.getCiudadano().getPatologia()
-                        , cita.getFechaHoraCita(), cita.getHorarioTurno()
-                        , cita.getVacuna().getMarca(),cita.getVacuna().getNroSerie()
-                        , cita.getCodRefuerzo(), cita.getCentroVacunacion()
-                        , cita.getEstado()});
-    }
     
     //borra/setea la tabla
         private void borrarFilaDeTabla(){
@@ -702,29 +512,23 @@ public class CitaView extends javax.swing.JInternalFrame {
                 modeloTabla.removeRow(i);           
             }
         } 
-    //cargar combobox de vacunas desde vacunaData
-        private void cargarComboboxVacunas(){
-            //vacuna jComboBoxVacuna
-            ListaVacunas=vacuData.listarVacunas();
-            for(Vacuna vacuna: ListaVacunas){
-                jComboBoxVacuna.addItem(vacuna.getMarca());
-            }
-        }
+    
         
-    //setea todos los campos    
-    private void setearCampos(){
-        jtDNI.setText(" ");
-        jCheckBoxVerificacion.setSelected(false);
-        jtNombre.setText(" ");
-        jComboBoxVacuna.removeAll();
-        jComboBoxRefuerzo.removeAll();
-        jCalendarCita.setDate(null);        
-        jComboBoxHorarios.removeAll();
-        jdcListarXDia.removeAll();
-        jTBuscarCita.setText(" ");
-        jComboBox4.removeAll();
-    }
-    
-    
->>>>>>> parent of 062406b (correccion)
+//    private void cargarComboLaboral() {
+//        jComboBoxAmbito.addItem(" ");
+//        jComboBoxAmbito.addItem("Arte y entretenimiento");
+//        jComboBoxAmbito.addItem("Educación");
+//        jComboBoxAmbito.addItem("Desempleado");
+//        jComboBoxAmbito.addItem("Finanzas y Contabilidad");
+//        jComboBoxAmbito.addItem("Gobierno y Sector Público");
+//        jComboBoxAmbito.addItem("Jubilado");
+//        jComboBoxAmbito.addItem("Salud y Medicina");
+//        jComboBoxAmbito.addItem("Seguridad");
+//        jComboBoxAmbito.addItem("Recursos Humanos");
+//        jComboBoxAmbito.addItem("Turismo");
+//        jComboBoxAmbito.addItem("Tecnología e Informática");
+//        jComboBoxAmbito.addItem("Transporte");
+//        jComboBoxAmbito.addItem("Turismo");
+//        jComboBoxAmbito.addItem("Otros");    
+//    }    
 }
