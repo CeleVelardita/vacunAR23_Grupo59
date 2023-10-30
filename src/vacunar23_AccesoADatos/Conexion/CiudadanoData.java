@@ -49,6 +49,55 @@ public class CiudadanoData {
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
+            String dni = String.valueOf(ciudadano.getDni());
+            
+            if(dni.length() > 8){
+                System.out.println("Ha excedido el límite de dígitos para el DNI");
+            }
+            
+            String nombre = ciudadano.getNombreCompleto();
+            
+            if(nombre.length() > 30){
+                System.out.println("Ha excedido el límite de carácteres para nombre y apellido");
+            }
+            
+            String email = ciudadano.getEmail();
+            
+            if(email.length() > 30){
+                System.out.println("Ha excedido el límite de carácteres para el email");
+            }
+            
+            String celular = ciudadano.getCelular();
+            
+            if(celular.length() > 18){
+                System.out.println("Ha excedido el límite de dígitos para el celular. Ingrese: nro de área sin 0 + número sin 15");
+            }
+            
+            String patologia = ciudadano.getPatologia();
+            
+            if(patologia.length() > 30){
+                System.out.println("Ha excedido el límite de carácteres para nombre y apellido");
+            }
+            
+            String ambito = ciudadano.getAmbitoTrabajo();
+            
+            if(ambito.length() > 40){
+                System.out.println("Ha excedido el límite de carácteres para el ámbito laboral");
+            }
+            
+            String distrito = ciudadano.getDistrito();
+            
+            if(distrito.length() > 50){
+                System.out.println("Ha excedido el límite de carácteres para el distrito");
+            }
+            String refuerzo = String.valueOf(ciudadano.getCodRefuerzo());
+            
+            if(refuerzo.length() > 1){
+                System.out.println("El código de refuerzo solo puede 1, 2 o 3.");
+            }
+            
+            if((dni.length() < 9) && (nombre.length() < 31) && (email.length() < 31) && (celular.length() < 19) && (patologia.length() < 31) && (ambito.length() < 41) && (distrito.length() < 51) && (refuerzo.length() == 1)){
+                
             ps.setInt(1, ciudadano.getDni());
             ps.setString(2, ciudadano.getNombreCompleto());
             ps.setString(3, ciudadano.getEmail());
@@ -93,6 +142,8 @@ public class CiudadanoData {
             
             ps.close();            
             
+            }
+            
         } catch (SQLException ex) {
             System.out.println("Error al cargar datos: "+ex.getMessage());
         }        
@@ -103,25 +154,75 @@ public class CiudadanoData {
             String sql ="UPDATE ciudadano SET dni = ?, nombreCompleto = ?, email = ?, celular = ?, patologia = ?, ambitoTrabajo = ?, distrito = ?, codRefuerzo = ? WHERE dni = ?";
             
             PreparedStatement ps = con.prepareStatement(sql);
-            ps.setInt(1, ciudadano.getDni());
-            ps.setString(2, ciudadano.getNombreCompleto());
-            ps.setString(3, ciudadano.getEmail());
-            ps.setString(4, ciudadano.getCelular());
-            ps.setString(5, ciudadano.getPatologia());
-            ps.setString(6, ciudadano.getAmbitoTrabajo());
-            ps.setString(7, ciudadano.getDistrito());
-            ps.setInt(8, ciudadano.getCodRefuerzo());
             
-            /// EJECUCIÓN DE LA SENTENCIA:
-            /// ps.executeUpdate(); ---> Se utiliza en INSERT, UPDATE, DELETE
-            /// ps.executeQuery(); ----> Se utiliza en SELECT
+            String dni = String.valueOf(ciudadano.getDni());
             
-            int filaAfectada = ps.executeUpdate();
+            if(dni.length() > 8){
+                System.out.println("Ha excedido el límite de dígitos para el DNI");
+            }
             
-            if (filaAfectada > 0) {
-                ResultSet lista = ps.getGeneratedKeys();
-                if (lista.next()) {
-                    JOptionPane.showMessageDialog(null, "¡Modificación Exitosa!");
+            String nombre = ciudadano.getNombreCompleto();
+            
+            if(nombre.length() > 30){
+                System.out.println("Ha excedido el límite de carácteres para nombre y apellido");
+            }
+            
+            String email = ciudadano.getEmail();
+            
+            if(email.length() > 30){
+                System.out.println("Ha excedido el límite de carácteres para el email");
+            }
+            
+            String celular = ciudadano.getCelular();
+            
+            if(celular.length() > 18){
+                System.out.println("Ha excedido el límite de dígitos para el celular. Ingrese: nro de área sin 0 + número sin 15");
+            }
+            
+            String patologia = ciudadano.getPatologia();
+            
+            if(patologia.length() > 30){
+                System.out.println("Ha excedido el límite de carácteres para nombre y apellido");
+            }
+            
+            String ambito = ciudadano.getAmbitoTrabajo();
+            
+            if(ambito.length() > 40){
+                System.out.println("Ha excedido el límite de carácteres para el ámbito laboral");
+            }
+            
+            String distrito = ciudadano.getDistrito();
+            
+            if(distrito.length() > 50){
+                System.out.println("Ha excedido el límite de carácteres para el distrito");
+            }
+            String refuerzo = String.valueOf(ciudadano.getCodRefuerzo());
+            
+            if(refuerzo.length() > 1){
+                System.out.println("El código de refuerzo solo puede 1, 2 o 3.");
+            }
+
+            if ((dni.length() < 9) && (nombre.length() < 31) && (email.length() < 31) && (celular.length() < 19) && (patologia.length() < 31) && (ambito.length() < 41) && (distrito.length() < 51) && (refuerzo.length() == 1)) {
+
+                ps.setInt(1, ciudadano.getDni());
+                ps.setString(2, ciudadano.getNombreCompleto());
+                ps.setString(3, ciudadano.getEmail());
+                ps.setString(4, ciudadano.getCelular());
+                ps.setString(5, ciudadano.getPatologia());
+                ps.setString(6, ciudadano.getAmbitoTrabajo());
+                ps.setString(7, ciudadano.getDistrito());
+                ps.setInt(8, ciudadano.getCodRefuerzo());
+
+                /// EJECUCIÓN DE LA SENTENCIA:
+                /// ps.executeUpdate(); ---> Se utiliza en INSERT, UPDATE, DELETE
+                /// ps.executeQuery(); ----> Se utiliza en SELECT
+                int filaAfectada = ps.executeUpdate();
+
+                if (filaAfectada > 0) {
+                    ResultSet lista = ps.getGeneratedKeys();
+                    if (lista.next()) {
+                        JOptionPane.showMessageDialog(null, "¡Modificación Exitosa!");
+                    }
                 }
             }
             
