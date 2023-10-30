@@ -168,11 +168,6 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
 
         jbDarBaja.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jbDarBaja.setText("Dar de Baja/Alta");
-        jbDarBaja.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbDarBajaActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jpEscritorioLabLayout = new javax.swing.GroupLayout(jpEscritorioLab);
         jpEscritorioLab.setLayout(jpEscritorioLabLayout);
@@ -404,38 +399,6 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jtPaisKeyTyped
 
-    private void jbDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDarBajaActionPerformed
-        int rowIndex = jTListadoLab.getSelectedRow();//fila seleccionada
-        if (rowIndex >= 0) { // Verifica que se haya seleccionado una fila
-            // Obtiene el valor de "Cuit" de la fila seleccionada
-            int cuit = (int) jTListadoLab.getValueAt(rowIndex, 1); // Cuit columna 1
-            labData.cambiarEstadoLaboratorio(cuit);//aplicao el cambio en la BD
-            
-            
-            boolean contratoEstado =false;
-            //ahora para setear en la tabla
-            // Obtiene el valor de "Contrato/Estado" de la fila seleccionada
-             contratoEstado = (boolean) jTListadoLab.getValueAt(rowIndex, 4); //Contrato/Estado es  columna 4
-            // Invierte el valor de "Contrato/Estado"
-            if(contratoEstado==true){
-                contratoEstado=false;
-            }else{
-                contratoEstado=true;
-            }
-            // Establece el nuevo valor de "Contrato/Estado" en la celda correspondiente
-        jTListadoLab.setValueAt(contratoEstado, rowIndex, 4); //  Contrato/Estado es columna 4
-
-        } else {
-            JOptionPane.showMessageDialog(null, "No ha seleccionado un laboratorio de la tabla");
-    }
-
-
-
-
-
-
-    }//GEN-LAST:event_jbDarBajaActionPerformed
-
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -531,10 +494,10 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         try{
             // Obtiene la fila seleccionada
             int row = jTListadoLab.getSelectedRow();
-            
+
             // Obtiene los datos de la fila seleccionada
             Object[] data = (Object[]) jTListadoLab.getValueAt(row, 0); // La primera columna contiene los datos del laboratorio
-            
+
             // Setea los datos en los componentes jtextfield
             jtNombreLab.setText((String) data[0]);//los números son posiciones de las columnas en la tabla
             jtCuit.setText((String) data[1]);
