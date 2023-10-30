@@ -352,6 +352,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Buscar "/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBotonBuscarCitaActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLListarXDia">
           <Properties>
@@ -359,6 +362,9 @@
           </Properties>
         </Component>
         <Component class="com.toedter.calendar.JDateChooser" name="jdcListarXDia">
+          <Events>
+            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jdcListarXDiaPropertyChange"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLBuscarXDni">
           <Properties>
