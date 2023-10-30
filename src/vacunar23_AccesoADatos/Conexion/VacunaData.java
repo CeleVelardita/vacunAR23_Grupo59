@@ -113,27 +113,54 @@ public class VacunaData {
         try {
             PreparedStatement ps = con.prepareStatement(sql);
 
-            ps.setString(1, vacuna.getMarca());
-            ps.setDouble(2, vacuna.getMedida());
-            ps.setDate(3, Date.valueOf(vacuna.getFechaCaduca()));
-            ps.setBoolean(4, vacuna.isColocada());
-            ps.setInt(5, vacuna.getLaboratorio().getIdLaboratorio());
-            ps.setInt(6, vacuna.getNroSerie());
+            String nroSerie = String.valueOf(vacuna.getNroSerie());
+            
+            if (nroSerie.length() > 6) {
+                System.out.println("Ha excedido el límite de valores para el número de serie");
+            }
+            
+            String marca = vacuna.getMarca();
+            
+            if(marca.length() > 30){
+                System.out.println("Ha excedido el límite de carácteres para la marca");
+            }
+            
+            LocalDate fecha = vacuna.getFechaCaduca();
+            LocalDate fechaActual = LocalDate.now();
+            
+            long dias = ChronoUnit.DAYS.between(fechaActual, fecha);
+            
+            if (dias < 150) {
+                System.out.println("Ingrese una fecha válida por favor");
+            }
+            
+            if ((nroSerie.length() < 7) && (marca.length() < 31) && (dias > 149)) {
 
-            int filaAfectada = ps.executeUpdate();
+                ps.setString(1, vacuna.getMarca());
+                ps.setDouble(2, vacuna.getMedida());
+                ps.setDate(3, Date.valueOf(vacuna.getFechaCaduca()));
+                ps.setBoolean(4, vacuna.isColocada());
+                ps.setInt(5, vacuna.getLaboratorio().getIdLaboratorio());
+                ps.setInt(6, vacuna.getNroSerie());
 
-            if (filaAfectada > 0) {
-                System.out.println("¡Modificación exitosa!");
-                JOptionPane.showMessageDialog(null, "¡Modificación exitosa!");
+                int filaAfectada = ps.executeUpdate();
+
+                if (filaAfectada > 0) {
+                    System.out.println("¡Modificación exitosa!");
+                    JOptionPane.showMessageDialog(null, "¡Modificación exitosa!");
+                }
+                
+                ps.close();
             }
 
-        } catch (SQLException ex) {
+            }catch (SQLException ex) {
             System.out.println("No se ha podido ingresar a la tabla de Vacunas" + ex.getMessage());
             JOptionPane.showMessageDialog(null, "No se ha podido ingresar a la tabla de Vacunas");
-        } catch (NumberFormatException ex) {
+        }catch (NumberFormatException ex) {
             System.out.println("NullPointerException " + ex.getMessage());
             JOptionPane.showMessageDialog(null, "Error al modificar la vacuna");
         }
+        
     }
 
     // El método eliminarVacuna va a eliminar la vacuna según el número de serie... o la marca?
