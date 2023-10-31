@@ -353,7 +353,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
         filaSeleccionada = jtTablaVacunas.getSelectedRow();
 
         if (filaSeleccionada != -1) {
-
+            
             try {
                 /// Se guardan los datos de cada campo en su variable correpondiente
                 Laboratorio lab = laboratorioSeleccionado();
@@ -361,7 +361,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
                 if (lab != null) {
                     int id = lab.getIdLaboratorio();                    
                 }
-
+                
                 String marca = jtMarca.getText();
                 int nroSerie = Integer.parseInt(jtNroSerie.getText());
 
@@ -372,13 +372,13 @@ public class VacunasView extends javax.swing.JInternalFrame {
                 } else {
                     dosisSeleccionada = 0.0;
                 }
-
+                
                 if (jdcVencimiento.getDate() != null) {
                     fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
                 }
-
-                Boolean aplicada = jcbAplicada.isSelected();
                 
+                Boolean aplicada = jcbAplicada.isSelected();
+
                 /// Verifico que no queden campos vacíos
                 if (lab == null || marca.isEmpty() || dosisSeleccionada == 0.0 || fechaCaducidad == null) {
                     JOptionPane.showMessageDialog(this, "No pueden haber campos vacíos");
@@ -386,22 +386,24 @@ public class VacunasView extends javax.swing.JInternalFrame {
                 } else {
                     vacunaActual = vacunaData.buscarPorNroSerie(nroSerie);
                     
-                        vacunaActual.setNroSerie(nroSerie);
-                        vacunaActual.setMarca(marca);
-                        System.out.println(nroSerie);
-                        vacunaActual.setMedida(dosisSeleccionada);
-                        vacunaActual.setFechaCaduca(fechaCaducidad);
-                        vacunaActual.setColocada(aplicada);
-                        vacunaActual.setLaboratorio(lab);
-                        
-                        vacunaData.modificarVacuna(vacunaActual);
-                        limpiarCampos();  
-                        actualizarFilaTabla(filaSeleccionada, vacunaActual);                        
-
+                    vacunaActual.setNroSerie(nroSerie);
+                    vacunaActual.setMarca(marca);
+                    System.out.println(nroSerie);
+                    vacunaActual.setMedida(dosisSeleccionada);
+                    vacunaActual.setFechaCaduca(fechaCaducidad);
+                    vacunaActual.setColocada(aplicada);
+                    vacunaActual.setLaboratorio(lab);
+                    
+                    vacunaData.modificarVacuna(vacunaActual);
+                    limpiarCampos();                    
+                    actualizarFilaTabla(filaSeleccionada, vacunaActual);
+                    jtNroSerie.setEditable(true);
+                    
                 }
             } catch (NumberFormatException e) {
                 e.getStackTrace();
-                JOptionPane.showMessageDialog(this, "El campo 'Nro. Serie' está vacío o contiene carácteres inválidos " + e.getMessage());
+                JOptionPane.showMessageDialog(this, "Por favor seleccione una fila haciendo doble click");
+                //JOptionPane.showMessageDialog(this, "El campo 'Nro. Serie' está vacío o contiene carácteres inválidos " + e.getMessage());
             } catch (IllegalArgumentException e) {
                 JOptionPane.showMessageDialog(this, "Los campos 'Laboratorio' y 'Marca' no son válidos");
             }
@@ -484,10 +486,12 @@ public class VacunasView extends javax.swing.JInternalFrame {
         int longitud = marca.length();
         if (longitud > 30) {
             jtMarca.setEditable(false);
-            System.out.println("Se superó el límite");
+            System.out.println("Marca demasiado larga");
+            JOptionPane.showMessageDialog(this, "Marca demasiado larga");
+            return;
         }
         
-        restriccionMarca(marca);
+        //restriccionMarca(marca);
     }//GEN-LAST:event_jtMarcaActionPerformed
 
     /*
@@ -517,7 +521,6 @@ public class VacunasView extends javax.swing.JInternalFrame {
         ListaLaboratorios = labData.listarLaboratorios();
                 
         jcbLaboratorio.addItem(null);
-        //modeloComboLaboratorios.addElement(null);
         
         for (Laboratorio item : ListaLaboratorios) {
             jcbLaboratorio.addItem(item); 

@@ -40,19 +40,6 @@ public class LaboratorioData {
         String sql = "INSERT INTO laboratorio ( CUIT, nomLaboratorio, pais, domComercial, estado ) VALUES (?,?,?,?,?)";
         
         try{
-             
-            
-             int idLab=laboratorio.getIdLaboratorio();
-             long cuit=laboratorio.getCuit();  
-             String nomLaboratorio=laboratorio.getNomLaboratorio();
-             String pais=laboratorio.getPais(); 
-             String domComercial=laboratorio.getDomComercial();
-             boolean estado=laboratorio.isEstado();
-            
-            
-             
-             
-             
             // Se genera el objeto prepareStatement el cual va a enviar esa sentencia a la BD
             // con.prepareStatement(sentencia Sql, le pido que devuelva la lista de las claves generadas ID)
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -92,6 +79,7 @@ public class LaboratorioData {
             ps.setString(3, laboratorio.getPais());       
             ps.setString(4, laboratorio.getDomComercial());
             ps.setBoolean(5, laboratorio.isEstado());
+
 
             // Una vez que se envían todas las sentencias se ejecutan
             ps.executeUpdate();
@@ -308,7 +296,10 @@ public class LaboratorioData {
                 laboratorio.setDomComercial(listaLab.getString("domComercial"));
                 laboratorio.setEstado(true);
                 // Finalmente a la lista "listaLaboratorios" le agrego (add) ese laboratorio
+                
+                System.out.println(laboratorio.getNomLaboratorio());
                 listaLaboratorios.add(laboratorio);
+                
             }            
             ps.close();
         } catch (SQLException ex) {
