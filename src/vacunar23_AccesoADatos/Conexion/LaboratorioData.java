@@ -272,7 +272,7 @@ public class LaboratorioData {
     /*--------------------------------------------------------------------------------------------------*/
   
     public List<Laboratorio> listarLaboratorios(){
-        String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial FROM laboratorio WHERE estado = 1";
+        String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial FROM laboratorio";
       // Otra posibilidad es "SELECT * FROM laboratorio WHERE estado = 1", recordar que el * invoca todos los parámetros
       // Creo una lista de laboratorios porque me va a devolver una lista de TODOS los laboratorios que se encuentren activos
         

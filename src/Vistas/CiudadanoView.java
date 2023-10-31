@@ -70,9 +70,13 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
         jLabel8 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
-        setPreferredSize(new java.awt.Dimension(700, 550));
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setTitle("Base de Datos: Ciudadano");
+        setPreferredSize(new java.awt.Dimension(800, 700));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(750, 600));
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 700));
 
         jButton1.setText("Agregar");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -133,6 +137,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel5.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel5.setText("Cod. Refuerzo:");
 
         jcbAmbitoLab.addActionListener(new java.awt.event.ActionListener() {
@@ -141,6 +146,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel7.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel7.setText("Ámbito Laboral:");
 
         jtTipoPatologia.addActionListener(new java.awt.event.ActionListener() {
@@ -149,8 +155,10 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel6.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel6.setText("¿De qué tipo?");
 
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel4.setText("Patología de base:");
 
         jcbPatologia.addActionListener(new java.awt.event.ActionListener() {
@@ -159,16 +167,22 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
             }
         });
 
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel3.setText("Nombre y Apellido:");
 
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel2.setText("DNI:");
 
+        jLabel10.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel10.setText("Distrito de Residencia:");
 
+        jLabel9.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel9.setText("E-mail:");
 
+        jLabel8.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel8.setText("Nro. Celular:");
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel1.setText("Carga de Datos del Ciudadano");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -228,10 +242,6 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jtCelular, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(75, 75, 75))
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -241,7 +251,10 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
                         .addGap(100, 100, 100)
                         .addComponent(jLabel6)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jtTipoPatologia, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(jtTipoPatologia, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(104, 104, 104)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 494, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -265,9 +278,9 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
                             .addComponent(jLabel9)
                             .addComponent(jtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jcbDominioMail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jcbPatologia)
                             .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -277,7 +290,6 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
                             .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(36, 36, 36))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel10)
                             .addComponent(jtDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -292,9 +304,9 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
                     .addComponent(jButton1)
                     .addComponent(jButton2)
                     .addComponent(jButton3))
-                .addGap(41, 41, 41)
+                .addGap(40, 40, 40)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39))
+                .addGap(40, 40, 40))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -303,15 +315,15 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 705, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(1704, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 705, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 551, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(347, Short.MAX_VALUE))
+                .addContainerGap(8, Short.MAX_VALUE))
         );
 
         pack();
@@ -322,6 +334,10 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
         int dniExistente = 0;
         int refuerzo = 0;        
         try {
+            
+            if (rootPaneCheckingEnabled) {
+                
+            }
             int dni = Integer.parseInt(jtDni.getText());
             String nomApellido = jtNomApellido.getText();
 
@@ -385,87 +401,91 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
         // Busca al Ciudadano por el DNI ingresado y setea los campos, permitiendo modificaciones en todos
         // los campos, incluso en el código de refuerzo
         
-        int dni = Integer.parseInt(jtDni.getText());
-        ciudadanoActual = ciuData.buscarCiudadano(dni);
-        if (ciudadanoActual != null) {
-            jtNomApellido.setText(ciudadanoActual.getNombreCompleto());
-            
-            if (ciudadanoActual.getPatologia() != null) {
-                jcbPatologia.setSelected(true);
-                jtRefuerzo.setText(ciudadanoActual.getPatologia());
-            }
-            
-            // SETEAR COMBO ÁMBITO LABORAL
-            jcbAmbitoLab.setSelectedItem(ciudadanoActual);
-            
-            jtCelular.setText(ciudadanoActual.getCelular());
-            
-            // Recupero el email completo y luego separo las partes necesarias para setear los campos por separado
-            String emailCompleto = ciudadanoActual.getEmail();
-            int indiceSeparador = emailCompleto.indexOf("@");
-            String email = emailCompleto.substring(0, indiceSeparador);
-            String dominioEmail = emailCompleto.substring(indiceSeparador);
-            
-            // Ahora seteo los campos
-            jtEmail.setText(email);
-            
-            // SETEAR EL DOMINIO DEL MAIL
-            jcbDominioMail.setSelectedItem(dominioEmail);
-            
-            jtDistrito.setText(ciudadanoActual.getDistrito());
-            jtRefuerzo.setEditable(true);
-            
-            
-            // Luego de setear todos los campos, permite editar los mismos y se llama al método modificar
-            int dniExistente = 0;
+        if (jtDni.getText() == null) {
+            JOptionPane.showMessageDialog(null, "Debe ingresar un DNI");
+        } else {
             try {
-                dni = Integer.parseInt(jtDni.getText());
-                String nomApellido = jtNomApellido.getText();
+                int dni = Integer.parseInt(jtDni.getText());
+                ciudadanoActual = ciuData.buscarCiudadano(dni);
+                if (ciudadanoActual != null) {
+                    jtNomApellido.setText(ciudadanoActual.getNombreCompleto());
 
-                boolean patologia = jcbPatologia.isSelected();
+                    if (ciudadanoActual.getPatologia() != null) {
+                        jcbPatologia.setSelected(true);
+                        jtRefuerzo.setText(ciudadanoActual.getPatologia());
+                    }
 
-                String tipoPatologia = null;
-                if (patologia) {
-                    tipoPatologia = jtTipoPatologia.getText();
-                }
+                    // SETEAR COMBO ÁMBITO LABORAL
+                    jcbAmbitoLab.setSelectedItem(ciudadanoActual);
 
-                String ambito = (String) jcbAmbitoLab.getSelectedItem();
+                    jtCelular.setText(ciudadanoActual.getCelular());
 
-                String celu = jtCelular.getText();
-                int celular = Integer.parseInt(celu);
+                    // Recupero el email completo y luego separo las partes necesarias para setear los campos por separado
+                    String emailCompleto = ciudadanoActual.getEmail();
+                    int indiceSeparador = emailCompleto.indexOf("@");
+                    String email = emailCompleto.substring(0, indiceSeparador);
+                    String dominioEmail = emailCompleto.substring(indiceSeparador);
 
-                email = jtEmail.getText();
-                String arrobaEmail = (String) jcbDominioMail.getSelectedItem();
-                emailCompleto = email + arrobaEmail;
-                String distrito = jtDistrito.getText();
-                int refuerzo = Integer.parseInt(jtRefuerzo.getText());
+                    // Ahora seteo los campos
+                    jtEmail.setText(email);
 
-                if (dni == 0 || nomApellido == null || ambito == null || celular == 0 || emailCompleto == null || (patologia == true && tipoPatologia == null) || distrito == null) {
-                    JOptionPane.showMessageDialog(this, "No pueden quedar campos vacíos");
-                    return;
-                } else {
+                    // SETEAR EL DOMINIO DEL MAIL
+                    jcbDominioMail.setSelectedItem(dominioEmail);
 
-                    /*----------------------------------------------*/
-                    // Chequeo si el dni no existe en la BD
-                    ciudadanoActual = ciuData.buscarCiudadano(dni);
+                    jtDistrito.setText(ciudadanoActual.getDistrito());
+                    jtRefuerzo.setEditable(true);
 
-                    if (ciudadanoActual != null) {
-                        dniExistente = ciudadanoActual.getDni();
-                        if (dni == dniExistente) {
-                            JOptionPane.showMessageDialog(this, "Ya existe un paciente con el dni ingresado");
+                    // Luego de setear todos los campos, permite editar los mismos y se llama al método modificar
+                    int dniExistente = 0;
+
+                    dni = Integer.parseInt(jtDni.getText());
+                    String nomApellido = jtNomApellido.getText();
+
+                    boolean patologia = jcbPatologia.isSelected();
+
+                    String tipoPatologia = null;
+                    if (patologia) {
+                        tipoPatologia = jtTipoPatologia.getText();
+                    }
+
+                    String ambito = (String) jcbAmbitoLab.getSelectedItem();
+
+                    String celu = jtCelular.getText();
+                    int celular = Integer.parseInt(celu);
+
+                    email = jtEmail.getText();
+                    String arrobaEmail = (String) jcbDominioMail.getSelectedItem();
+                    emailCompleto = email + arrobaEmail;
+                    String distrito = jtDistrito.getText();
+                    int refuerzo = Integer.parseInt(jtRefuerzo.getText());
+
+                    if (dni == 0 || nomApellido == null || ambito == null || celular == 0 || emailCompleto == null || (patologia == true && tipoPatologia == null) || distrito == null) {
+                        JOptionPane.showMessageDialog(this, "No pueden quedar campos vacíos");
+                        return;
+                    } else {
+
+                        /*----------------------------------------------*/
+                        // Chequeo si el dni no existe en la BD
+                        ciudadanoActual = ciuData.buscarCiudadano(dni);
+
+                        if (ciudadanoActual != null) {
+                            dniExistente = ciudadanoActual.getDni();
+                            if (dni == dniExistente) {
+                                JOptionPane.showMessageDialog(this, "Ya existe un paciente con el dni ingresado");
+                            }
+                        }
+
+                        /*----------------------------------------------*/
+                        if (ciudadanoActual == null && dni != dniExistente) {
+                            ciudadanoActual = new Ciudadano(dni, nomApellido, emailCompleto, celu, tipoPatologia, ambito, distrito, refuerzo);
+                            ciuData.modificarCiudadano(ciudadanoActual);
+                            limpiarCampos();
+                            tablaCiu.addRow(new Object[]{ciudadanoActual.getDni(), ciudadanoActual.getNombreCompleto(), ciudadanoActual.getPatologia(), ciudadanoActual.getAmbitoTrabajo()});
                         }
                     }
-
-                    /*----------------------------------------------*/
-                    if (ciudadanoActual == null && dni != dniExistente) {
-                        ciudadanoActual = new Ciudadano(dni, nomApellido, emailCompleto, celu, tipoPatologia, ambito, distrito, refuerzo);
-                        ciuData.modificarCiudadano(ciudadanoActual);
-                        limpiarCampos();
-                        tablaCiu.addRow(new Object[]{ciudadanoActual.getDni(), ciudadanoActual.getNombreCompleto(), ciudadanoActual.getPatologia(), ciudadanoActual.getAmbitoTrabajo()});
-                    }
                 }
 
-                 } catch (NumberFormatException ex) {
+            } catch (NumberFormatException ex) {
                 JOptionPane.showMessageDialog(this, "Los campos 'DNI', 'Celular' y 'Cod. Refuerzo' deben contener númeeros enteros, sin puntos ni comas");
             } catch (IllegalArgumentException ex) {
                 JOptionPane.showMessageDialog(this, "Error al ingresar datos en los campos de texto");
@@ -487,6 +507,8 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
             ciuData.eliminarCiudadano(dni);
             
             tablaCiu.removeRow(filaSeleccionada);
+        } else{
+            JOptionPane.showMessageDialog(null, "Por favor seleccione una fila para eliminar");
         }
     }//GEN-LAST:event_jButton3ActionPerformed
 
