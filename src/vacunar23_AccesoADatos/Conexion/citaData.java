@@ -235,7 +235,7 @@ public class citaData {
      return listaCitas;   
     }
 
-    public CitaVacunacion buscarCitaXDNI(int dni){
+    public CitaVacunacion buscarCItaXDNI(int dni){
              String sql = "SELECT * FROM citaVacunacion AS cv " +
                  "JOIN ciudadano AS c ON cv.idCiudadano = c.idCiudadano " +
                  "JOIN vacuna AS v ON cv.idVacuna = v.idVacuna " +
@@ -401,7 +401,6 @@ public class citaData {
         }
          return cita;
     }
-    
     
     
 }
