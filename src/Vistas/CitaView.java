@@ -514,21 +514,5 @@ public class CitaView extends javax.swing.JInternalFrame {
         } 
     
         
-//    private void cargarComboLaboral() {
-//        jComboBoxAmbito.addItem(" ");
-//        jComboBoxAmbito.addItem("Arte y entretenimiento");
-//        jComboBoxAmbito.addItem("Educación");
-//        jComboBoxAmbito.addItem("Desempleado");
-//        jComboBoxAmbito.addItem("Finanzas y Contabilidad");
-//        jComboBoxAmbito.addItem("Gobierno y Sector Público");
-//        jComboBoxAmbito.addItem("Jubilado");
-//        jComboBoxAmbito.addItem("Salud y Medicina");
-//        jComboBoxAmbito.addItem("Seguridad");
-//        jComboBoxAmbito.addItem("Recursos Humanos");
-//        jComboBoxAmbito.addItem("Turismo");
-//        jComboBoxAmbito.addItem("Tecnología e Informática");
-//        jComboBoxAmbito.addItem("Transporte");
-//        jComboBoxAmbito.addItem("Turismo");
-//        jComboBoxAmbito.addItem("Otros");    
-//    }    
+ 
 }
