@@ -358,9 +358,6 @@ public class CiudadanoData {
     }
     
     
-    
-    
-    
 }
 
     

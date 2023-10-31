@@ -226,11 +226,13 @@
     </Component>
     <Component class="javax.swing.JTextField" name="jtMarca">
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jtMarcaActionPerformed"/>
         <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtMarcaKeyTyped"/>
       </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="jtNroSerie">
+      <Events>
+        <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtNroSerieKeyTyped"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JComboBox" name="jcbMedida">
       <Properties>
@@ -247,6 +249,9 @@
       </AuxValues>
     </Component>
     <Component class="com.toedter.calendar.JDateChooser" name="jdcVencimiento">
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jdcVencimientoMouseClicked"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jbAgregar">
       <Properties>

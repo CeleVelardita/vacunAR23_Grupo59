@@ -236,8 +236,7 @@ public class LaboratorioData {
         }
          return laboratorio;    
     }
-    
-    
+        
     
     /*---------------------------- Cele ------------------------*/
     
@@ -267,8 +266,7 @@ public class LaboratorioData {
         }
          return laboratorio;    
     }  
-     
-     
+          
     /*--------------------------------------------------------------------------------------------------*/
   
     public List<Laboratorio> listarLaboratorios(){
