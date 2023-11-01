@@ -365,8 +365,19 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             /*------------------------------------------*/
             
             // Reemplazo lo anterior por la línea de abajo para chequear si el Laboratorio existe en la BD
-            Laboratorio laborat = labData.buscarLaboratorioXCUIT(cuit);            
+            lab = labData.buscarLaboratorioXCUIT(cuit);            
+            /*
+            if (lab == null) {
+                labData.cargarLaboratorio(lab);
+            }else{
+                labData.modificarLaboratorio(lab);
+            }
             
+            
+
+            limpiarCampos();//limpio los campos textfield
+            ListarLaboratorios ();//actualiza la tabla   
+            */
             if (lab == null) {
                 labData.cargarLaboratorio(lab);
                 limpiarCampos();//limpio los campos textfield
@@ -403,13 +414,10 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
 
     private void jbBuscarXCuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarXCuitActionPerformed
         admin_lab_BuscarxCuit buscarCuit = new admin_lab_BuscarxCuit(this); // Pasa una referencia al JFrame principal
-         // hago visible la ventana buscarXCuit
-        buscarCuit.setVisible(true);
-
         // Agrego al jpEscritorioLab 
         jpEscritorioLab.add(buscarCuit);
-
-        buscarCuit.moveToFront();
+        // hago visible la ventana buscarXCuit
+        buscarCuit.setVisible(true);
     }//GEN-LAST:event_jbBuscarXCuitActionPerformed
 
     private void jbBuscarXNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarXNombreActionPerformed

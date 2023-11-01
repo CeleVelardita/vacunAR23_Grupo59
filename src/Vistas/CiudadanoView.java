@@ -383,6 +383,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(this, "Error al acceder a la base de datos de Ciudadano");
         }
 
+
     }//GEN-LAST:event_jbAgregarActionPerformed
 
     /// --------------- BOTÓN MODIFICAR ---------------
@@ -483,12 +484,13 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
             }
         }
 
+
     }//GEN-LAST:event_jbModificarActionPerformed
 
     /// --------------- BOTÓN ELIMINAR ---------------
     private void jbEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbEliminarActionPerformed
         
-        filaSeleccionada = jtTablaCiudadano.getSelectedRow();
+       filaSeleccionada = jtTablaCiudadano.getSelectedRow();
         
         if(filaSeleccionada != -1){
             String valor = jtTablaCiudadano.getValueAt(filaSeleccionada, 0).toString();
@@ -503,7 +505,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
 
     private void jtRefuerzoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtRefuerzoActionPerformed
                 
-        int dni = Integer.parseInt(jtDni.getText());
+         int dni = Integer.parseInt(jtDni.getText());
         Ciudadano ciuEncontrado = ciuData.buscarCiudadano(dni);
         
         if (ciuEncontrado != null) {
