@@ -44,35 +44,31 @@ public class LaboratorioData {
             // con.prepareStatement(sentencia Sql, le pido que devuelva la lista de las claves generadas ID)
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
-            String cuitt = String.valueOf(laboratorio.getCuit());
+            String cuit = String.valueOf(laboratorio.getCuit());
             
-            if(cuitt.length() > 11){
+            if(cuit.length() > 11){
                 System.out.println("Ha excedido el límite de valores para el número de CUIT");
-                return;
             }
             
             String nombre = laboratorio.getNomLaboratorio();
             
             if(nombre.length() > 100){
                 System.out.println("Ha excedido el límite de carácteres para el nombre del Laboratorio");
-                return;
             }
             
-            String paiss = laboratorio.getPais();
+            String pais = laboratorio.getPais();
             
-            if(paiss.length() > 20){
+            if(pais.length() > 20){
                 System.out.println("Ha excedido el límite de carácteres para el país");
-                return;
             }
             
             String domicilio = laboratorio.getDomComercial();
             
             if(domicilio.length() > 30){
                 System.out.println("Ha excedido el límite de carácteres para el domicilio");
-                return;
             }
             
-            if((cuitt.length() < 12) && (nombre.length() < 101) && (paiss.length() <21) && (domicilio.length() < 31)){
+            if((cuit.length() < 12) && (nombre.length() < 101) && (pais.length() <21) && (domicilio.length() < 31)){
                //Se setean los tipos de datos que quiero enviar, porque llegan el método a través del parámetro "laboratorio"
             ps.setLong(1, laboratorio.getCuit());
             ps.setString(2, laboratorio.getNomLaboratorio());
