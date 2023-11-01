@@ -3,7 +3,6 @@ package Vistas;
 
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Point;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.sql.Date;
 import java.time.LocalDate;
@@ -157,11 +156,6 @@ public class VacunasView extends javax.swing.JInternalFrame {
         jtNroSerie.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtNroSerieKeyTyped(evt);
-            }
-        });
-        jtMarca.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                jtMarcaKeyTyped(evt);
             }
         });
 
@@ -513,19 +507,6 @@ public class VacunasView extends javax.swing.JInternalFrame {
         
         //restriccionMarca(marca);
     }//GEN-LAST:event_jtMarcaActionPerformed
-
-    private void jtMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtMarcaKeyTyped
-        // Condición para que no ingrese más de 30 carácteres
-        char letra = evt.getKeyChar();
-        if (!Character.isLetter(letra) && letra != KeyEvent.VK_BACK_SPACE && letra != KeyEvent.VK_SPACE) {
-            // Rechaza el carácter si no es un dígito o un retroceso
-            evt.consume();
-        }
-        String marca = jtMarca.getText();
-        if(marca.length() == 30){
-            evt.consume();
-        }
-    }//GEN-LAST:event_jtMarcaKeyTyped
 
     /*
     Funcionalidades:

@@ -48,9 +48,8 @@ public class Vacunatorio extends javax.swing.JFrame {
         jbIconCitas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setPreferredSize(new java.awt.Dimension(775, 750));
 
-        escritorio.setPreferredSize(new java.awt.Dimension(900, 750));
+        escritorio.setPreferredSize(new java.awt.Dimension(900, 700));
 
         jbIconVacuna.setText("Vacunas");
         jbIconVacuna.setPreferredSize(new java.awt.Dimension(30, 15));
