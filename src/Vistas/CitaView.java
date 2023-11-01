@@ -2,15 +2,12 @@
 package Vistas;
 
 
-import com.toedter.calendar.JDateChooser;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;//necesario para turnos, cudiado con java.sql.Date
 import java.util.HashMap;
 import java.util.List;
@@ -416,8 +413,14 @@ public class CitaView extends javax.swing.JInternalFrame {
             // Convertir LocalTime a Time
             Time time = Time.valueOf(localTime);
             
-            //guardo el codigo de refuerzo a colocarse
-            codRefuerzoCita=(int) jComboBoxRefuerzo.getSelectedItem();
+            
+            // Obtener el número seleccionado del JComboBox
+            String numeroSeleccionado = (String) jComboBoxHorarios.getSelectedItem();
+
+            // Convertir el número a int
+            codRefuerzoCita = Integer.parseInt(numeroSeleccionado);
+            
+            
             
             
             /*ahora armo la cita y la mando a la BDm por metodo cargar luego imprimo en tabla*/
@@ -425,7 +428,7 @@ public class CitaView extends javax.swing.JInternalFrame {
             
             citaVac.setFechaHoraCita(fechaSeleccionada);
             citaVac.setCentroVacunacion(ciudadano.getDistrito());
-            citaVac.setFechaHoraColoca(fechaSeleccionada);
+            citaVac.setFechaHoraColoca(localTime);
             citaVac.setVacuna(vacuna);
             citaVac.setCodRefuerzo(codRefuerzoCita);
             citaVac.setCiudadano(ciudadano);
