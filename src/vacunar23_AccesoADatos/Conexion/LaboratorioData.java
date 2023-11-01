@@ -11,6 +11,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import vacunar23_AccesoADatos.Conexion.Conexion;
 import vacunar23_Entidades.Laboratorio;
 
 
@@ -236,8 +237,7 @@ public class LaboratorioData {
         }
          return laboratorio;    
     }
-    
-    
+        
     
     /*---------------------------- Cele ------------------------*/
     
@@ -267,12 +267,11 @@ public class LaboratorioData {
         }
          return laboratorio;    
     }  
-     
-     
+          
     /*--------------------------------------------------------------------------------------------------*/
   
     public List<Laboratorio> listarLaboratorios(){
-        String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial FROM laboratorio WHERE estado = 1";
+        String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial FROM laboratorio";
       // Otra posibilidad es "SELECT * FROM laboratorio WHERE estado = 1", recordar que el * invoca todos los parámetros
       // Creo una lista de laboratorios porque me va a devolver una lista de TODOS los laboratorios que se encuentren activos
         

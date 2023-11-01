@@ -44,7 +44,7 @@
     <Container class="javax.swing.JLayeredPane" name="escritorio">
       <Properties>
         <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[900, 700]"/>
+          <Dimension value="[900, 750]"/>
         </Property>
       </Properties>
 

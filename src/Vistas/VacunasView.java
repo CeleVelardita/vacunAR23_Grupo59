@@ -3,10 +3,12 @@ package Vistas;
 
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -146,14 +148,26 @@ public class VacunasView extends javax.swing.JInternalFrame {
 
         jLabel5.setText("VENCIMIENTO: ");
 
-        jtMarca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jtMarcaActionPerformed(evt);
+        jtMarca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtMarcaKeyTyped(evt);
+            }
+        });
+
+        jtNroSerie.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtNroSerieKeyTyped(evt);
             }
         });
 
         jcbMedida.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jcbMedida.setName(""); // NOI18N
+
+        jdcVencimiento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jdcVencimientoMouseClicked(evt);
+            }
+        });
 
         jbAgregar.setText("Insertar");
         jbAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -480,26 +494,42 @@ public class VacunasView extends javax.swing.JInternalFrame {
         }     
     }//GEN-LAST:event_jbEliminarActionPerformed
 
-    private void jtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtMarcaActionPerformed
-        String marca = jtMarca.getText();
-        
-        int longitud = marca.length();
-        if (longitud > 30) {
-            jtMarca.setEditable(false);
-            System.out.println("Marca demasiado larga");
-            JOptionPane.showMessageDialog(this, "Marca demasiado larga");
-            return;
-        }
-        
-        //restriccionMarca(marca);
-    }//GEN-LAST:event_jtMarcaActionPerformed
-
-    /*
-    Funcionalidades:
-       
-    - En la fecha de vencimiento comparar fecha actual con la fecha seleccionada. No permitir colocar una fecha menor a 3 meses.
     
-    */
+    private void jtMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtMarcaKeyTyped
+        // Condición para que no ingrese más de 30 carácteres
+        char letra = evt.getKeyChar();
+        if (!Character.isLetter(letra) && letra != KeyEvent.VK_BACK_SPACE && letra != KeyEvent.VK_SPACE) {
+            // Rechaza el carácter si no es un dígito o un retroceso
+            evt.consume();
+        }
+        String marca = jtMarca.getText();
+        if(marca.length() == 30){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtMarcaKeyTyped
+
+    private void jtNroSerieKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtNroSerieKeyTyped
+        // Condición para que no ingrese otra cosa más que un número
+        char letra = evt.getKeyChar();
+        if (!Character.isDigit(letra) && letra != KeyEvent.VK_BACK_SPACE) {
+            // Rechaza el carácter si no es un dígito o un retroceso
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtNroSerieKeyTyped
+
+    private void jdcVencimientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jdcVencimientoMouseClicked
+        // TODO add your handling code here:
+        fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate fechaActual = LocalDate.now();
+
+        long dias = ChronoUnit.DAYS.between(fechaActual, fechaCaducidad);
+
+        if (dias < 150) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jdcVencimientoMouseClicked
+
+   
     
     
     private void limpiarCampos(){
@@ -622,13 +652,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
         tablaVacunas.setValueAt(vacuna.isColocada(), filaSeleccionada, 5);        
     }
     
-    public void restriccionMarca(String marca){
-        int longitud = marca.length();
-        if (longitud > 30) {
-            jtMarca.setEditable(false);
-            System.out.println("Se superó el límite");
-        }
-    }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;
