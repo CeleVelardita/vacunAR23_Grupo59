@@ -398,8 +398,8 @@ public class CitaView extends javax.swing.JInternalFrame {
             
             
             
-        }catch(){
-            
+        }catch(NumberFormatException e){
+            JOptionPane.showMessageDialog(null,"Problemas en el DNI"+e.getMessage());
         }
     }//GEN-LAST:event_jBotonGuardarCitaActionPerformed
 
