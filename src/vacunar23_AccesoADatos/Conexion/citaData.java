@@ -7,13 +7,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Time;
 import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.LocalTime;
+
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
-import vacunar23_AccesoADatos.Conexion.Conexion;
+
 import vacunar23_Entidades.CitaVacunacion;
 import vacunar23_Entidades.Ciudadano;
 import vacunar23_Entidades.Vacuna;
@@ -21,7 +22,7 @@ import vacunar23_Entidades.Vacuna;
 
 public class citaData {
     //declaraciones
-    private Connection con = null;//objeto de clase Connection para usar su método getConexion      
+    private Connection con;//objeto de clase Connection para usar su método getConexion      
     private CitaVacunacion cita;
     private List<CitaVacunacion> listaCitas;
     private Ciudadano ciudadano;
@@ -58,16 +59,20 @@ public class citaData {
     public void cargarCita(CitaVacunacion citaVacunacion){
         
         try {
-            String sql ="INSERT INTO citavacunacion (codCita, idCiudadano, codRefuerzo, fechaHoraCita, centroVacunacion, fechaHoraColoca, idVacuna, estado) VALUES (?,?,?,?,?,?,?,?)";
+            String sql ="INSERT INTO citavacunacion (codCita, idCiudadano, codRefuerzo, fechaHoraCita, centroVacunacion, horarioTurno, idVacuna, estado) VALUES (?,?,?,?,?,?,?,?)";
             PreparedStatement ps= con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            //int,int,int,date,string,date,int
-            ps.setInt(0, citaVacunacion.getCodCita());
-            ps.setInt(1, citaVacunacion.getCiudadano().getIdCiudadano());
-            ps.setInt(2, citaVacunacion.getCodRefuerzo());
+            ps.setInt(1, citaVacunacion.getCodCita());
+            ps.setInt(2, citaVacunacion.getCiudadano().getIdCiudadano());
+            ps.setInt(3, citaVacunacion.getCodRefuerzo());
             ps.setDate(4, Date.valueOf(citaVacunacion.getFechaHoraCita()));
             ps.setString(5, citaVacunacion.getCentroVacunacion());
-            ps.setDate(6, Date.valueOf(citaVacunacion.getFechaHoraColoca()));
-            ps.setInt(7, citaVacunacion.getVacuna().getIdVacuna());   
+
+            // Aquí establecemos la hora en la columna horarioTurno como Time
+            LocalTime localTime = citaVacunacion.getFechaHoraColoca();
+            Time time = Time.valueOf(localTime);
+            ps.setTime(6, time);
+
+            ps.setInt(7, citaVacunacion.getVacuna().getIdVacuna());
             ps.setString(8, citaVacunacion.getEstado());
             int columnaAfectada = ps.executeUpdate();//ejecuta la sentencia hacia la tabla
             
@@ -88,19 +93,24 @@ public class citaData {
     public void modificarCita(CitaVacunacion citaVacunacion){
         try{
             //formulamos la petición
-            String sql ="UPDATE citavacunacion SET idCiudadano= ?, codRefuerzo= ?, fechaHoraCita= ?, centroVacunacion= ? ,fechaHoraColoca= ?, estado= ? WHERE codCita= ? ";
+            String sql ="UPDATE citavacunacion SET idCiudadano= ?, codRefuerzo= ?, fechaHoraCita= ?, centroVacunacion= ? ,horarioTurno= ?, estado= ? WHERE codCita= ? ";
             //conectamos con la tabla y le mandamos la petición sql
             PreparedStatement ps= con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
             //seteamos el contenido deseado siguiendo el orden de la consulta en sql 0,1,2,3....
-            ps.setInt(0, citaVacunacion.getCiudadano().getIdCiudadano());
-            ps.setInt(1, citaVacunacion.getCodRefuerzo());
-            ps.setDate(2, Date.valueOf(citaVacunacion.getFechaHoraCita()));
-            ps.setString(3, citaVacunacion.getCentroVacunacion());
-            ps.setDate(4, Date.valueOf(citaVacunacion.getFechaHoraColoca()));            
-            ps.setInt(5, citaVacunacion.getVacuna().getIdVacuna()); 
-            ps.setString(6,citaVacunacion.getEstado()); 
-            //por ultimo luego del where pide el código de la cita
+            // Establece los valores de los parámetros en el orden correcto
+            ps.setInt(1, citaVacunacion.getCiudadano().getIdCiudadano());
+            ps.setInt(2, citaVacunacion.getCodRefuerzo());
+            ps.setDate(3, Date.valueOf(citaVacunacion.getFechaHoraCita()));
+            ps.setString(4, citaVacunacion.getCentroVacunacion());
+
+            // Aquí establecemos la hora en la columna horarioTurno como Time
+            LocalTime localTime = citaVacunacion.getFechaHoraColoca();
+            Time time = Time.valueOf(localTime);
+            ps.setTime(5, time);
+
+            ps.setString(6, citaVacunacion.getEstado());
+            // Establece el valor para el WHERE (codCita)
             ps.setInt(7, citaVacunacion.getCodCita());
             /*
             debemos ejecutar la petición y nos devolverá un número con el que 
@@ -214,7 +224,7 @@ public class citaData {
                 cita.setCodCita(RSetcitas.getInt("codCita"));
                 cita.setFechaHoraCita(RSetcitas.getDate("fechaHoraCita").toLocalDate());
                 cita.setCentroVacunacion(RSetcitas.getString("email"));
-                cita.setFechaHoraColoca(RSetcitas.getDate("fechaHoraColoca").toLocalDate());
+                cita.setFechaHoraColoca(RSetcitas.getTime("fechaHoraColoca").toLocalTime());
                 cita.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 cita.setEstado(RSetcitas.getString("estado"));
                 
@@ -300,7 +310,8 @@ public class citaData {
                 cita.setCodCita(RSetcitas.getInt("codCita"));
                 cita.setFechaHoraCita(RSetcitas.getDate("fechaHoraCita").toLocalDate());
                 cita.setCentroVacunacion(RSetcitas.getString("email"));
-                cita.setFechaHoraColoca(RSetcitas.getDate("fechaHoraColoca").toLocalDate());
+                cita.setFechaHoraColoca(RSetcitas.getTime("fechaHoraColoca").toLocalTime());
+
                 cita.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 cita.setEstado(RSetcitas.getString("estado"));
                 
@@ -384,7 +395,8 @@ public class citaData {
                 cita.setCodCita(RSetcitas.getInt("codCita"));
                 cita.setFechaHoraCita(RSetcitas.getDate("fechaHoraCita").toLocalDate());
                 cita.setCentroVacunacion(RSetcitas.getString("email"));
-                cita.setFechaHoraColoca(RSetcitas.getDate("fechaHoraColoca").toLocalDate());
+                cita.setFechaHoraColoca(RSetcitas.getTime("fechaHoraColoca").toLocalTime());
+
                 cita.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 cita.setEstado(RSetcitas.getString("estado"));
                 

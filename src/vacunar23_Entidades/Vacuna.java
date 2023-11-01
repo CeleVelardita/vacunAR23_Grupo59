@@ -96,7 +96,7 @@ public class Vacuna {
     
     @Override
     public String toString() { // SE PUEDE MEJORAR SEGÚN LO QUE QUIERA MOSTRAR, ESTO ES SOLO UNA PRUEBA
-        return marca + " - " + laboratorio + ":\n" + nroSerie + "\n " + medida +"\n " + fechaCaduca;
+        return marca + " - " + laboratorio.getNomLaboratorio();
     }    
 
     @Override

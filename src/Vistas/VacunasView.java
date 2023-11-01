@@ -494,6 +494,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbEliminarActionPerformed
 
 <<<<<<< HEAD
+<<<<<<< HEAD
     private void jtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtMarcaActionPerformed
         String marca = jtMarca.getText();
         
@@ -512,6 +513,8 @@ public class VacunasView extends javax.swing.JInternalFrame {
     Funcionalidades:
        
     - En la fecha de vencimiento comparar fecha actual con la fecha seleccionada. No permitir colocar una fecha menor a 3 meses.
+=======
+>>>>>>> main
 =======
 >>>>>>> main
     

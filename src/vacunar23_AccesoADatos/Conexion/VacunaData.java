@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import vacunar23_AccesoADatos.Conexion.Conexion;
 import vacunar23_Entidades.Laboratorio;
 import vacunar23_Entidades.Vacuna;
 
@@ -203,7 +202,7 @@ public class VacunaData {
         String sql = "SELECT idVacuna, nroSerieDosis, marca, medida, fechaCaduca, colocada, v.idLaboratorio, CUIT, nomLaboratorio, pais, domComercial, estado\n"
                 + "FROM vacuna AS v\n"
                 + "JOIN laboratorio AS l\n"
-                + "ON v.idLaboratorio=l.idLaboratorio";
+                + "ON v.idLaboratorio = l.idLaboratorio\n";
 
         try {
             PreparedStatement ps = con.prepareStatement(sql);
@@ -309,5 +308,56 @@ public class VacunaData {
 
         return vacuna;
     }
+    
+    
+    
+    
 
+    /*--------------------------------listar vacuna no aplicadas--------------------------------*/
+    public List<Vacuna> listarVacunasNoAplic() {
+        ArrayList<Vacuna> listarVacunas = new ArrayList<>();
+        String sql = "SELECT v.idVacuna, nroSerieDosis, marca, medida, fechaCaduca, colocada, v.idLaboratorio, CUIT, nomLaboratorio, pais, domComercial, estado\n"
+        + "FROM vacuna AS v\n"
+        + "JOIN laboratorio AS l\n"
+        + "ON v.idLaboratorio = l.idLaboratorio\n"  // Agregamos el espacio y el signo igual para la condición de JOIN
+        + "WHERE v.colocada != 1";  // Usamos "colocada" en lugar de "estado" ya que estás buscando vacunas no aplicadas
+
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet RSetVacunas = ps.executeQuery();
+
+            while (RSetVacunas.next()) {
+                Vacuna vacuna = new Vacuna();
+
+                Laboratorio laboratorio = new Laboratorio();
+
+                vacuna.setIdVacuna(RSetVacunas.getInt("idVacuna"));
+                vacuna.setNroSerie(RSetVacunas.getInt("nroSerieDosis"));
+                vacuna.setMarca(RSetVacunas.getString("marca"));
+                vacuna.setMedida(RSetVacunas.getDouble("medida"));
+                vacuna.setFechaCaduca(RSetVacunas.getDate("fechaCaduca").toLocalDate()); // NO OLVIDAR "toLocalDate" PARA PARSEAR
+                vacuna.setColocada(RSetVacunas.getBoolean("colocada"));
+
+                //Necesito setear un laboratorio para enviarselo a la tabla de vacunas y de ahí obtener los datos que necesito
+                laboratorio.setIdLaboratorio(RSetVacunas.getInt("idLaboratorio"));
+                laboratorio.setCuit(RSetVacunas.getLong("CUIT"));
+                laboratorio.setNomLaboratorio(RSetVacunas.getString("nomLaboratorio"));
+                laboratorio.setPais(RSetVacunas.getString("pais"));
+                laboratorio.setDomComercial(RSetVacunas.getString("domComercial"));
+                laboratorio.setEstado(RSetVacunas.getBoolean("estado"));
+
+                vacuna.setLaboratorio(laboratorio); // Creo que el laboratorio con todos sus datos y se lo paso a la vacuna, de ahí puedo obtener el nombre y el idLaboratorio
+
+                //System.out.println(vacuna.getLaboratorio().getNomLaboratorio()); // Me devuelve el nombre del Laboratorio
+                listarVacunas.add(vacuna);
+            }
+
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println("Error al acceder a la lista de vacunas");
+        }
+
+        return listarVacunas;
+    }
 }

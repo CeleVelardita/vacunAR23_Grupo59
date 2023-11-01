@@ -186,6 +186,11 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
 
         jbDarBaja.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jbDarBaja.setText("Dar de Baja/Alta");
+        jbDarBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbDarBajaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jpEscritorioLabLayout = new javax.swing.GroupLayout(jpEscritorioLab);
         jpEscritorioLab.setLayout(jpEscritorioLabLayout);
@@ -320,7 +325,12 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             //declaro atributos y almaceno en ellos lo ingresado en los jtextfield y jcheckbox para manipularlos            
             String nombreLab = jtNombreLab.getText();
             String numerito = jtCuit.getText();
+<<<<<<< HEAD
             long cuit = Long.getLong(numerito); //tendrá Exception
+=======
+            System.out.println(numerito);
+            long cuit = Long.parseLong(numerito); //tendrá Exception
+>>>>>>> main
             String pais = jtPais.getText();
             String domicilio = jtDomicilio.getText();
             Boolean estado = jCheckBoxEstado.isSelected();
@@ -355,6 +365,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             }
             */
             /*------------------------------------------*/
+<<<<<<< HEAD
             
             
             lab = labData.buscarLaboratorioXCUIT(cuit);            
@@ -365,11 +376,28 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
                 labData.modificarLaboratorio(lab);
             }
             
+=======
+>>>>>>> main
             
             
+<<<<<<< HEAD
             limpiarCampos();//limpio los campos textfield
             ListarLaboratorios ();//actualiza la tabla           
         }catch (NumberFormatException e) {
+=======
+            if (lab == null) {
+                labData.cargarLaboratorio(lab);
+                limpiarCampos();//limpio los campos textfield
+                modeloTabla.addRow(new Object[]{lab.getNomLaboratorio(), lab.getCuit(), lab.getPais(), lab.getDomComercial(), lab.isEstado()});
+            } else {
+                filaSeleccionada = jTListadoLab.getSelectedRow();
+                labData.modificarLaboratorio(lab);
+                limpiarCampos();//limpio los campos textfield
+                actualizarFilaTabla(filaSeleccionada, lab);
+            }
+            
+            }catch (NumberFormatException e) {
+>>>>>>> main
             JOptionPane.showMessageDialog(this, "El CUIT son sólo 11 dígitos, sin puntos ni guiones");
         }
         
@@ -432,6 +460,31 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jtPaisKeyTyped
 
+<<<<<<< HEAD
+=======
+    /*------------------------------------------------------------------------------------*/
+    
+    ///Botón dar de alta/baja
+    private void jbDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDarBajaActionPerformed
+        try {
+            filaSeleccionada = jTListadoLab.getSelectedRow();
+            
+            if(filaSeleccionada != -1){
+                // Recupero el valor del CUIT de la tabla, es un objeto, luego lo casteo a un String para poder
+                // parsearlo a un Long
+                Object num = jTListadoLab.getValueAt(filaSeleccionada, 1);
+                String numerito = num.toString();
+                Long cuit = Long.parseLong(numerito);
+                labData.cambiarEstadoLaboratorio(cuit);
+                lab = labData.buscarLaboratorioXCUIT(cuit);
+                actualizarFilaTabla(filaSeleccionada, lab);
+            }
+        } catch (NullPointerException ex) {
+            JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna fila de la tabla");
+        }
+    }//GEN-LAST:event_jbDarBajaActionPerformed
+
+>>>>>>> main
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -463,8 +516,12 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     
     
     /*---------------------MÉTODOS---------------------*/
+<<<<<<< HEAD
     
     
+=======
+     
+>>>>>>> main
      
     
     //borra/setea la tabla
@@ -508,7 +565,10 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         // Obtener la lista de laboratorios
         ListaLaboratorios = (ArrayList<Laboratorio>) labData.listarLaboratorios();
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> main
         for(Laboratorio i: ListaLaboratorios){
             modeloTabla.addRow(new Object []{i.getNomLaboratorio(), i.getCuit(), i.getPais(), i.getDomComercial(), i.isEstado()});
             System.out.println(lab.getNomLaboratorio());
