@@ -537,6 +537,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         // Obtener la lista de laboratorios
         ListaLaboratorios = (ArrayList<Laboratorio>) labData.listarLaboratorios();
 
+
         for(Laboratorio i: ListaLaboratorios){
             modeloTabla.addRow(new Object []{i.getNomLaboratorio(), i.getCuit(), i.getPais(), i.getDomComercial(), i.isEstado()});
             System.out.println(lab.getNomLaboratorio());
