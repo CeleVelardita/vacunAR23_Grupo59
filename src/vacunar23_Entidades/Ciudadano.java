@@ -119,5 +119,3 @@ public class Ciudadano {
     
         
 }
-
-//alo alo
