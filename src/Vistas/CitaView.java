@@ -39,7 +39,7 @@ public class CitaView extends javax.swing.JInternalFrame {
     private CitaVacunacion citaVac;
     private Vacuna vacuna;
 
-    private Ciudadano ciudadano;
+    private Ciudadano ciudadano=null;
     
     SimpleDateFormat dFormat;
     
@@ -58,7 +58,7 @@ public class CitaView extends javax.swing.JInternalFrame {
         //cargarComboRefuerzo();
        
         dni=00000000;
-        ciudadano= new Ciudadano();
+//        ciudadano= new Ciudadano();
         
         vacuna=new Vacuna();
         vacuData= new VacunaData();
@@ -409,32 +409,54 @@ public class CitaView extends javax.swing.JInternalFrame {
 
             // Crear un objeto LocalTime
             LocalTime localTime = LocalTime.of(horas, minutos);
-
-            // Convertir LocalTime a Time
-            Time time = Time.valueOf(localTime);
+            
+            System.out.println("hora del combobox"+localTime);
+            
+            
+           
             
             
             // Obtener el número seleccionado del JComboBox
             String numeroSeleccionado = (String) jComboBoxHorarios.getSelectedItem();
 
             // Convertir el número a int
-            codRefuerzoCita = Integer.parseInt(numeroSeleccionado);
+            codRefuerzoCita = Integer.parseInt((String) jComboBoxRefuerzo.getSelectedItem());
             
+            System.out.println("codigo refuerzo: "+codRefuerzoCita);
             
-            
+            //obtengo vacuna seleccionada:
+            vacuna= (Vacuna) jComboBoxListaVacunas.getSelectedItem();
             
             /*ahora armo la cita y la mando a la BDm por metodo cargar luego imprimo en tabla*/
             /*CitaVacunacion(, Ciudadano ciudadano)*/
             
-            citaVac.setFechaHoraCita(fechaSeleccionada);
-            citaVac.setCentroVacunacion(ciudadano.getDistrito());
-            citaVac.setFechaHoraColoca(localTime);
-            citaVac.setVacuna(vacuna);
-            citaVac.setCodRefuerzo(codRefuerzoCita);
-            citaVac.setCiudadano(ciudadano);
-            citaVac.setEstado("Activa");
+//            citaVac.setFechaHoraCita(fechaSeleccionada);
+//            citaVac.setCentroVacunacion(ciudadano.getDistrito());
+//            citaVac.setFechaHoraColoca(localTime);
+//            citaVac.setVacuna(vacuna);
+//            citaVac.setCodRefuerzo(codRefuerzoCita);
+//            citaVac.setCiudadano(ciudadano);
+//            citaVac.setEstado("Activa");
+            
+           
+            citaVac = new CitaVacunacion( fechaSeleccionada,  ciudadano.getDistrito(),  localTime,  vacuna,  codRefuerzoCita,  ciudadano,  "Activa");
+    
+            
+        
             
             
+            System.out.println(" cita "+citaVac);
+            
+            
+            if(vacuna!=null){
+                System.out.println("vacuna es válida: idvacuna: "+ citaVac.getVacuna().getIdVacuna());
+            }
+            if(ciudadano!=null){
+                System.out.println("ciudadano válido");
+            }
+            if(citaVac!=null){
+                System.out.println("cita válida");
+            }
             citaData.cargarCita(citaVac);//cargo a la BD
             
             citaVac=citaData.buscarCitaXDNI(dni);//obtengo el codigo que colocó la bd
@@ -449,7 +471,8 @@ public class CitaView extends javax.swing.JInternalFrame {
                                 citaVac.getCodRefuerzo(),citaVac.getCiudadano().getDistrito(),
                                 citaVac.getEstado()});
              
-             
+                        
+
             
             
             
@@ -472,7 +495,7 @@ public class CitaView extends javax.swing.JInternalFrame {
             
             
         }catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(null,"Problemas en el DNI"+e.getMessage());
+            JOptionPane.showMessageDialog(null,"Problemas en el DNI "+e.getMessage());
         }
     }//GEN-LAST:event_jBotonGuardarCitaActionPerformed
 
@@ -535,7 +558,7 @@ public class CitaView extends javax.swing.JInternalFrame {
                    vacuna= (Vacuna) jComboBoxListaVacunas.getSelectedItem();
                }
                
-                //----ya tengo todo, tomo los datos, creo la cita y la cargo
+                //----ya tengo todo, tomo los datos, creo la cita y la cargo en boton evento  guardar
                 
                 
                

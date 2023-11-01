@@ -59,27 +59,27 @@ public class citaData {
     public void cargarCita(CitaVacunacion citaVacunacion){
         
         try {
-            String sql ="INSERT INTO citavacunacion (codCita, idCiudadano, codRefuerzo, fechaHoraCita, centroVacunacion, horarioTurno, idVacuna, estado) VALUES (?,?,?,?,?,?,?,?)";
+            String sql ="INSERT INTO citavacunacion ( idCiudadano, codRefuerzo, fechaHoraCita, centroVacunacion, horarioTurno, idVacuna, estado) VALUES (?,?,?,?,?,?,?)";
             PreparedStatement ps= con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, citaVacunacion.getCodCita());
-            ps.setInt(2, citaVacunacion.getCiudadano().getIdCiudadano());
-            ps.setInt(3, citaVacunacion.getCodRefuerzo());
-            ps.setDate(4, Date.valueOf(citaVacunacion.getFechaHoraCita()));
-            ps.setString(5, citaVacunacion.getCentroVacunacion());
+
+            ps.setInt(1, citaVacunacion.getCiudadano().getIdCiudadano());
+            ps.setInt(2, citaVacunacion.getCodRefuerzo());
+            ps.setDate(3, Date.valueOf(citaVacunacion.getFechaHoraCita()));
+            ps.setString(4, citaVacunacion.getCentroVacunacion());
 
             // Aquí establecemos la hora en la columna horarioTurno como Time
             LocalTime localTime = citaVacunacion.getFechaHoraColoca();
             Time time = Time.valueOf(localTime);
-            ps.setTime(6, time);
+            ps.setTime(5, time);
 
-            ps.setInt(7, citaVacunacion.getVacuna().getIdVacuna());
-            ps.setString(8, citaVacunacion.getEstado());
+            ps.setInt(6, citaVacunacion.getVacuna().getIdVacuna());
+            ps.setString(7, citaVacunacion.getEstado());
             int columnaAfectada = ps.executeUpdate();//ejecuta la sentencia hacia la tabla
             
             //debemos revisar si el ingreso se realizó correctamente con columnaAfectada
             ResultSet lista = ps.getGeneratedKeys();
             if(lista.next()){
-                citaVacunacion.setCodCita(lista.getInt("codCita"));//setea al modelo el codCita que existe en esa fila que rescató el resulset
+                
                 JOptionPane.showMessageDialog(null, "Laboratorio Ingresado Correctamente");
             }
             ps.close();
