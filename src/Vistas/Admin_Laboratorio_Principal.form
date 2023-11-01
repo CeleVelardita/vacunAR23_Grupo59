@@ -246,6 +246,9 @@
           </Events>
         </Component>
         <Component class="javax.swing.JTextField" name="jtDomicilio">
+          <Events>
+            <EventHandler event="keyTyped" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jtDomicilioKeyTyped"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JCheckBox" name="jCheckBoxEstado">
         </Component>
