@@ -1,8 +1,11 @@
 
 package Vistas;
 
+import Vistas.admin_lab_BuscarxCuit;
+import Vistas.admin_lab_BuscarxNombre;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import vacunar23_AccesoADatos.Conexion.LaboratorioData;
@@ -12,9 +15,11 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     
     //Declaración de atributos
     private DefaultTableModel modeloTabla;//modelo para la tabla
-    private ArrayList<Laboratorio> ListaLaboratorios;
+    private List<Laboratorio> ListaLaboratorios;
     private LaboratorioData labData;
     private Laboratorio lab;
+    
+    private int filaSeleccionada;
     
     
     public Admin_Laboratorio_Principal() {
@@ -22,11 +27,10 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         
         //definición de atributos (inicializamos)
         modeloTabla = (DefaultTableModel) jTListadoLab.getModel();
-        ListaLaboratorios= new ArrayList();
+                
         labData= new LaboratorioData();
         lab= new Laboratorio();
         
-        armarCabeceraTabla();
      
     }
 
@@ -62,6 +66,14 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         jbListarLab = new javax.swing.JButton();
         jbModificar = new javax.swing.JButton();
         jbDarBaja = new javax.swing.JButton();
+
+        setClosable(true);
+        setIconifiable(true);
+        setMaximizable(true);
+        setTitle("Base de Datos: Laboratorios");
+        setPreferredSize(new java.awt.Dimension(750, 550));
+
+        jpEscritorioLab.setPreferredSize(new java.awt.Dimension(750, 550));
 
         jLTitulo.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         jLTitulo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -117,17 +129,25 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
                 "Nombre de la Empresa", "Cuit", "País", "Domicilio Comercial", "Contrato/Estado"
             }
         ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Long.class, java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
+            };
             boolean[] canEdit = new boolean [] {
                 false, false, false, false, false
             };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTListadoLab.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(jTListadoLab);
 
-        jbAgregar.setText("Agregar");
+        jbAgregar.setText("Nuevo / Guardar");
         jbAgregar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbAgregarActionPerformed(evt);
@@ -179,98 +199,93 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         jpEscritorioLabLayout.setHorizontalGroup(
             jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpEscritorioLabLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLNombreLab)
+                    .addComponent(jLCuit)
+                    .addComponent(jLPais)
+                    .addComponent(jLDomicilio)
+                    .addComponent(jLEstado))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpEscritorioLabLayout.createSequentialGroup()
-                        .addGap(239, 239, 239)
-                        .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jpEscritorioLabLayout.createSequentialGroup()
-                                .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jCheckBoxEstado)
-                                    .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                        .addComponent(jtPais, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 208, Short.MAX_VALUE)
-                                        .addComponent(jtCuit, javax.swing.GroupLayout.Alignment.LEADING))
-                                    .addComponent(jtDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbAgregar))
-                            .addGroup(jpEscritorioLabLayout.createSequentialGroup()
-                                .addComponent(jtNombreLab, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(jtNombreLab, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jtDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, 280, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jCheckBoxEstado)
                     .addGroup(jpEscritorioLabLayout.createSequentialGroup()
                         .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jpEscritorioLabLayout.createSequentialGroup()
-                                .addGap(291, 291, 291)
-                                .addComponent(jLTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jpEscritorioLabLayout.createSequentialGroup()
-                                .addGap(28, 28, 28)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 608, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jbBuscarXCuit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbBuscarXNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jSeparator1))
-                            .addComponent(jbListarLab)
-                            .addComponent(jbModificar)
-                            .addComponent(jbDarBaja))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addGap(77, 77, 77))
+                            .addComponent(jtCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jtPais, javax.swing.GroupLayout.PREFERRED_SIZE, 208, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(112, 112, 112)
+                        .addComponent(jbAgregar)))
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jpEscritorioLabLayout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLDomicilio)
-                    .addComponent(jLNombreLab)
-                    .addComponent(jLEstado)
-                    .addComponent(jLPais)
-                    .addComponent(jLCuit))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpEscritorioLabLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jbListarLab)
+                            .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jbBuscarXNombre)
+                                .addComponent(jbBuscarXCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jbModificar)
+                            .addComponent(jbDarBaja)))
+                    .addGroup(jpEscritorioLabLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(19, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpEscritorioLabLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(218, 218, 218))
         );
         jpEscritorioLabLayout.setVerticalGroup(
             jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpEscritorioLabLayout.createSequentialGroup()
-                .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addContainerGap()
+                .addComponent(jLTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLNombreLab)
+                    .addComponent(jtNombreLab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpEscritorioLabLayout.createSequentialGroup()
-                        .addGap(105, 105, 105)
-                        .addComponent(jbAgregar)
-                        .addGap(169, 169, 169))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpEscritorioLabLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLNombreLab)
-                            .addComponent(jtNombreLab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLCuit)
                             .addComponent(jtCuit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(26, 26, 26)
+                        .addGap(18, 18, 18)
                         .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jtPais, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLPais))
-                        .addGap(18, 18, 18)
-                        .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jtDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLDomicilio))
-                        .addGap(22, 22, 22)
-                        .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckBoxEstado)
-                            .addComponent(jLEstado))
-                        .addGap(31, 31, 31)))
+                            .addComponent(jLPais)))
+                    .addGroup(jpEscritorioLabLayout.createSequentialGroup()
+                        .addGap(41, 41, 41)
+                        .addComponent(jbAgregar)))
+                .addGap(18, 18, 18)
+                .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLDomicilio)
+                    .addComponent(jtDomicilio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 278, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLEstado)
+                    .addComponent(jCheckBoxEstado))
+                .addGap(35, 35, 35)
+                .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jpEscritorioLabLayout.createSequentialGroup()
                         .addComponent(jbBuscarXCuit)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbBuscarXNombre)
-                        .addGap(33, 33, 33)
-                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36)
-                        .addComponent(jbListarLab)
                         .addGap(18, 18, 18)
+                        .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jbListarLab)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbModificar)
-                        .addGap(34, 34, 34)
-                        .addComponent(jbDarBaja)))
-                .addContainerGap(83, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jbDarBaja))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -279,15 +294,15 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jpEscritorioLab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(49, 49, 49))
+                .addComponent(jpEscritorioLab, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jpEscritorioLab, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(14, 14, 14))
+                .addComponent(jpEscritorioLab, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -311,21 +326,30 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
 
             //declaro atributos y almaceno en ellos lo ingresado en los jtextfield y jcheckbox para manipularlos            
             String nombreLab = jtNombreLab.getText();
-            int cuit = Integer.getInteger(jtCuit.getText()); //tendrá Exception
+            String numerito = jtCuit.getText();
+            System.out.println(numerito);
+            long cuit = Long.parseLong(numerito); //tendrá Exception
             String pais = jtPais.getText();
             String domicilio = jtDomicilio.getText();
             Boolean estado = jCheckBoxEstado.isSelected();
             
             //cargo éstos datos en el constructor de laboratorio
-            lab = new Laboratorio(cuit,nombreLab, pais, domicilio, estado); //constructor creado en laboratorio(Entidades)
+            lab = new Laboratorio(cuit, nombreLab, pais, domicilio, estado); //constructor creado en laboratorio(Entidades)
             
+            
+            
+            
+            
+            /*-----------------------------------------------*/
+            // este método no está funcionando y no entiendo por qué
+            /*
             //verifico que éste laboratorio no se encuentre en la lista
             //pido la lista de laboratorios para comparar con el ingresado (podria crear un metodo buscar en labdata también)
             
             ListaLaboratorios = (ArrayList<Laboratorio>) labData.listarLaboratorios();
             boolean resultado=false;
             for(Laboratorio labor:ListaLaboratorios){
-                resultado= lab.equals(labor);
+                //resultado= lab.equals(labor);
                 if(resultado==true){
                     return;
                 }
@@ -337,12 +361,25 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             }else{
                 labData.cargarLaboratorio(lab);
             }
+            */
+            /*------------------------------------------*/
             
+            // Reemplazo lo anterior por la línea de abajo para chequear si el Laboratorio existe en la BD
+            Laboratorio laborat = labData.buscarLaboratorioXCUIT(cuit);            
             
-            limpiarCampos();//limpio los campos textfield
-            ListarLaboratorios ();//actualiza la tabla           
-        }catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "el CUIT son sólo 11 dígitos");
+            if (lab == null) {
+                labData.cargarLaboratorio(lab);
+                limpiarCampos();//limpio los campos textfield
+                modeloTabla.addRow(new Object[]{lab.getNomLaboratorio(), lab.getCuit(), lab.getPais(), lab.getDomComercial(), lab.isEstado()});
+            } else {
+                filaSeleccionada = jTListadoLab.getSelectedRow();
+                labData.modificarLaboratorio(lab);
+                limpiarCampos();//limpio los campos textfield
+                actualizarFilaTabla(filaSeleccionada, lab);
+            }
+            
+            }catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "El CUIT son sólo 11 dígitos, sin puntos ni guiones");
         }
         
     }//GEN-LAST:event_jbAgregarActionPerformed
@@ -350,7 +387,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     ///Botón Listar Laboratorios
     private void jbListarLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbListarLabActionPerformed
         borrarFilaDeTabla();
-        ListarLaboratorios ();
+        ListarLaboratorios();
     }//GEN-LAST:event_jbListarLabActionPerformed
 
     ///Botón Modificar
@@ -366,10 +403,13 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
 
     private void jbBuscarXCuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarXCuitActionPerformed
         admin_lab_BuscarxCuit buscarCuit = new admin_lab_BuscarxCuit(this); // Pasa una referencia al JFrame principal
+         // hago visible la ventana buscarXCuit
+        buscarCuit.setVisible(true);
+
         // Agrego al jpEscritorioLab 
         jpEscritorioLab.add(buscarCuit);
-        // hago visible la ventana buscarXCuit
-        buscarCuit.setVisible(true);
+
+        buscarCuit.moveToFront();
     }//GEN-LAST:event_jbBuscarXCuitActionPerformed
 
     private void jbBuscarXNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarXNombreActionPerformed
@@ -404,36 +444,26 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jtPaisKeyTyped
 
+    /*------------------------------------------------------------------------------------*/
+    
+    ///Botón dar de alta/baja
     private void jbDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDarBajaActionPerformed
-        int rowIndex = jTListadoLab.getSelectedRow();//fila seleccionada
-        if (rowIndex >= 0) { // Verifica que se haya seleccionado una fila
-            // Obtiene el valor de "Cuit" de la fila seleccionada
-            int cuit = (int) jTListadoLab.getValueAt(rowIndex, 1); // Cuit columna 1
-            labData.cambiarEstadoLaboratorio(cuit);//aplicao el cambio en la BD
+        try {
+            filaSeleccionada = jTListadoLab.getSelectedRow();
             
-            
-            boolean contratoEstado =false;
-            //ahora para setear en la tabla
-            // Obtiene el valor de "Contrato/Estado" de la fila seleccionada
-             contratoEstado = (boolean) jTListadoLab.getValueAt(rowIndex, 4); //Contrato/Estado es  columna 4
-            // Invierte el valor de "Contrato/Estado"
-            if(contratoEstado==true){
-                contratoEstado=false;
-            }else{
-                contratoEstado=true;
+            if(filaSeleccionada != -1){
+                // Recupero el valor del CUIT de la tabla, es un objeto, luego lo casteo a un String para poder
+                // parsearlo a un Long
+                Object num = jTListadoLab.getValueAt(filaSeleccionada, 1);
+                String numerito = num.toString();
+                Long cuit = Long.parseLong(numerito);
+                labData.cambiarEstadoLaboratorio(cuit);
+                lab = labData.buscarLaboratorioXCUIT(cuit);
+                actualizarFilaTabla(filaSeleccionada, lab);
             }
-            // Establece el nuevo valor de "Contrato/Estado" en la celda correspondiente
-        jTListadoLab.setValueAt(contratoEstado, rowIndex, 4); //  Contrato/Estado es columna 4
-
-        } else {
-            JOptionPane.showMessageDialog(null, "No ha seleccionado un laboratorio de la tabla");
-    }
-
-
-
-
-
-
+        } catch (NullPointerException ex) {
+            JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna fila de la tabla");
+        }
     }//GEN-LAST:event_jbDarBajaActionPerformed
 
     
@@ -467,17 +497,8 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     
     
     /*---------------------MÉTODOS---------------------*/
-    
-    
-    /*-----cabeceras de la tabla-----*/
-    public void armarCabeceraTabla(){    
-            modeloTabla.addColumn("Nombre de la Empresa");
-            modeloTabla.addColumn("Cuit");         
-            modeloTabla.addColumn("País");
-            modeloTabla.addColumn("Domicilio Comercial");
-            modeloTabla.addColumn("Contrato/Estado");
-            jTListadoLab.setModel(modeloTabla);
-    }    
+     
+     
     
     //borra/setea la tabla
     private void borrarFilaDeTabla(){
@@ -520,9 +541,9 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         // Obtener la lista de laboratorios
         ListaLaboratorios = (ArrayList<Laboratorio>) labData.listarLaboratorios();
 
-
-        for(Laboratorio Lab: ListaLaboratorios){
-            modeloTabla.addRow(new Object []{lab.getNomLaboratorio(),lab.getCuit(),lab.getPais(),lab.getDomComercial(),lab.isEstado()});
+        for(Laboratorio i: ListaLaboratorios){
+            modeloTabla.addRow(new Object []{i.getNomLaboratorio(), i.getCuit(), i.getPais(), i.getDomComercial(), i.isEstado()});
+            System.out.println(lab.getNomLaboratorio());
         }
     }
     
@@ -530,11 +551,25 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     private void extraerLabdeTabla(){
         try{
             // Obtiene la fila seleccionada
-            int row = jTListadoLab.getSelectedRow();
+            filaSeleccionada = jTListadoLab.getSelectedRow();
             
+            // Primero verifico que haya una fila seleccionada
+            if(jTListadoLab.getSelectedRow() != -1){
+                jtNombreLab.setText(jTListadoLab.getValueAt(filaSeleccionada, 0).toString());
+                jtCuit.setText(jTListadoLab.getValueAt(filaSeleccionada, 1).toString());
+                jtPais.setText(jTListadoLab.getValueAt(filaSeleccionada, 2).toString());
+                jtDomicilio.setText(jTListadoLab.getValueAt(filaSeleccionada, 3).toString());
+                
+                Boolean estado = (Boolean) jTListadoLab.getValueAt(filaSeleccionada, 4);
+                jCheckBoxEstado.setSelected(estado);
+            }
+            
+            
+            
+/*
             // Obtiene los datos de la fila seleccionada
-            Object[] data = (Object[]) jTListadoLab.getValueAt(row, 0); // La primera columna contiene los datos del laboratorio
-            
+            //Object[] data = (Object[]) jTListadoLab.getValueAt(row, 0); // La primera columna contiene los datos del laboratorio
+
             // Setea los datos en los componentes jtextfield
             jtNombreLab.setText((String) data[0]);//los números son posiciones de las columnas en la tabla
             jtCuit.setText((String) data[1]);
@@ -548,6 +583,11 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             } else {
               jCheckBoxEstado.setSelected(false);
             }
+            
+            */
+
+
+
         }catch (NullPointerException e) {
              // La tabla no tiene filas seleccionadas
              JOptionPane.showMessageDialog(null, "La tabla no tiene filas seleccionadas"+e.getMessage());
@@ -566,6 +606,15 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
      modeloTabla.addRow(new Object []{lab.getNomLaboratorio(),lab.getCuit(),lab.getPais(),lab.getDomComercial(),lab.isEstado()});
 
     }
-
+    
+    /*----- actualiza la fila una vez se hayan efectuado cambios------*/
+    public void actualizarFilaTabla(int filaSeleccionada, Laboratorio laboratorio){
+        jTListadoLab.setValueAt(laboratorio.getNomLaboratorio(), filaSeleccionada, 0);
+        jTListadoLab.setValueAt(laboratorio.getCuit(), filaSeleccionada, 1);
+        jTListadoLab.setValueAt(laboratorio.getPais(), filaSeleccionada, 2);
+        jTListadoLab.setValueAt(laboratorio.getDomComercial(), filaSeleccionada, 3);
+        jTListadoLab.setValueAt(laboratorio.isEstado(), filaSeleccionada, 4);
+    }
+    
    
 }

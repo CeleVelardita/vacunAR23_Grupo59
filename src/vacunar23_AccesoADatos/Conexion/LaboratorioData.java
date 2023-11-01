@@ -11,6 +11,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import vacunar23_AccesoADatos.Conexion.Conexion;
 import vacunar23_Entidades.Laboratorio;
 
 
@@ -40,58 +41,42 @@ public class LaboratorioData {
         String sql = "INSERT INTO laboratorio ( CUIT, nomLaboratorio, pais, domComercial, estado ) VALUES (?,?,?,?,?)";
         
         try{
-             
-            
-             int idLab=laboratorio.getIdLaboratorio();
-             long cuit=laboratorio.getCuit();  
-             String nomLaboratorio=laboratorio.getNomLaboratorio();
-             String pais=laboratorio.getPais(); 
-             String domComercial=laboratorio.getDomComercial();
-             boolean estado=laboratorio.isEstado();
-            
-            
-             
-             
-             
             // Se genera el objeto prepareStatement el cual va a enviar esa sentencia a la BD
             // con.prepareStatement(sentencia Sql, le pido que devuelva la lista de las claves generadas ID)
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
-            String cuitt = String.valueOf(laboratorio.getCuit());
+            String cuit = String.valueOf(laboratorio.getCuit());
             
-            if(cuitt.length() > 11){
+            if(cuit.length() > 11){
                 System.out.println("Ha excedido el límite de valores para el número de CUIT");
-                return;
             }
             
             String nombre = laboratorio.getNomLaboratorio();
             
             if(nombre.length() > 100){
                 System.out.println("Ha excedido el límite de carácteres para el nombre del Laboratorio");
-                return;
             }
             
-            String paiss = laboratorio.getPais();
+            String pais = laboratorio.getPais();
             
-            if(paiss.length() > 20){
+            if(pais.length() > 20){
                 System.out.println("Ha excedido el límite de carácteres para el país");
-                return;
             }
             
             String domicilio = laboratorio.getDomComercial();
             
             if(domicilio.length() > 30){
                 System.out.println("Ha excedido el límite de carácteres para el domicilio");
-                return;
             }
             
-            if((cuitt.length() < 12) && (nombre.length() < 101) && (paiss.length() <21) && (domicilio.length() < 31)){
+            if((cuit.length() < 12) && (nombre.length() < 101) && (pais.length() <21) && (domicilio.length() < 31)){
                //Se setean los tipos de datos que quiero enviar, porque llegan el método a través del parámetro "laboratorio"
             ps.setLong(1, laboratorio.getCuit());
             ps.setString(2, laboratorio.getNomLaboratorio());
             ps.setString(3, laboratorio.getPais());       
             ps.setString(4, laboratorio.getDomComercial());
             ps.setBoolean(5, laboratorio.isEstado());
+
 
             // Una vez que se envían todas las sentencias se ejecutan
             ps.executeUpdate();
@@ -252,8 +237,7 @@ public class LaboratorioData {
         }
          return laboratorio;    
     }
-    
-    
+        
     
     /*---------------------------- Cele ------------------------*/
     
@@ -283,12 +267,11 @@ public class LaboratorioData {
         }
          return laboratorio;    
     }  
-     
-     
+          
     /*--------------------------------------------------------------------------------------------------*/
   
     public List<Laboratorio> listarLaboratorios(){
-        String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial FROM laboratorio WHERE estado = 1";
+        String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial FROM laboratorio";
       // Otra posibilidad es "SELECT * FROM laboratorio WHERE estado = 1", recordar que el * invoca todos los parámetros
       // Creo una lista de laboratorios porque me va a devolver una lista de TODOS los laboratorios que se encuentren activos
         
@@ -308,7 +291,10 @@ public class LaboratorioData {
                 laboratorio.setDomComercial(listaLab.getString("domComercial"));
                 laboratorio.setEstado(true);
                 // Finalmente a la lista "listaLaboratorios" le agrego (add) ese laboratorio
+                
+                System.out.println(laboratorio.getNomLaboratorio());
                 listaLaboratorios.add(laboratorio);
+                
             }            
             ps.close();
         } catch (SQLException ex) {

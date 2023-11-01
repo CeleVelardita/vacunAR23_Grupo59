@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import vacunar23_AccesoADatos.Conexion.Conexion;
 import vacunar23_Entidades.Ciudadano;
 
 
@@ -53,55 +54,47 @@ public class CiudadanoData {
             
             if(dni.length() > 8){
                 System.out.println("Ha excedido el límite de dígitos para el DNI");
-                return;
             }
             
             String nombre = ciudadano.getNombreCompleto();
             
             if(nombre.length() > 30){
                 System.out.println("Ha excedido el límite de carácteres para nombre y apellido");
-                return;
             }
             
             String email = ciudadano.getEmail();
             
             if(email.length() > 30){
                 System.out.println("Ha excedido el límite de carácteres para el email");
-                return;
             }
             
             String celular = ciudadano.getCelular();
             
             if(celular.length() > 18){
                 System.out.println("Ha excedido el límite de dígitos para el celular. Ingrese: nro de área sin 0 + número sin 15");
-                return;
             }
             
             String patologia = ciudadano.getPatologia();
             
             if(patologia.length() > 30){
                 System.out.println("Ha excedido el límite de carácteres para nombre y apellido");
-                return;
             }
             
             String ambito = ciudadano.getAmbitoTrabajo();
             
             if(ambito.length() > 40){
                 System.out.println("Ha excedido el límite de carácteres para el ámbito laboral");
-                return;
             }
             
             String distrito = ciudadano.getDistrito();
             
             if(distrito.length() > 50){
                 System.out.println("Ha excedido el límite de carácteres para el distrito");
-                return;
             }
             String refuerzo = String.valueOf(ciudadano.getCodRefuerzo());
             
             if(refuerzo.length() > 1){
                 System.out.println("El código de refuerzo solo puede 1, 2 o 3.");
-                return;
             }
             
             if((dni.length() < 9) && (nombre.length() < 31) && (email.length() < 31) && (celular.length() < 19) && (patologia.length() < 31) && (ambito.length() < 41) && (distrito.length() < 51) && (refuerzo.length() == 1)){
@@ -364,9 +357,6 @@ public class CiudadanoData {
         
         return ciudadano;
     }
-    
-    
-    
     
     
 }

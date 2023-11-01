@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import vacunar23_AccesoADatos.Conexion.Conexion;
 import vacunar23_Entidades.CitaVacunacion;
 import vacunar23_Entidades.Ciudadano;
 import vacunar23_Entidades.Vacuna;
@@ -318,7 +319,7 @@ public class citaData {
          return cita;
     }
     
-    public List<CitaVacunacion> buscarCitaXFecha(LocalDate fecha){
+    public CitaVacunacion buscarCitaXFecha(LocalDate fecha){
         String sql = "SELECT * FROM citaVacunacion AS cv " +
                  "JOIN ciudadano AS c ON cv.idCiudadano = c.idCiudadano " +
                  "JOIN vacuna AS v ON cv.idVacuna = v.idVacuna " +
@@ -336,7 +337,17 @@ public class citaData {
                 //objteo: vacuna -> clase Vacuna
                 //objteo: ciudadano -> clase Ciudadano
                 
+                
                 //vacuna
+                /*
+                private int idVacuna;
+                private Laboratorio laboratorio; 
+                private int nroSerie;
+                private String marca;
+                private double medida;
+                private LocalDate fechaCaduca;
+                private boolean colocada = false;
+                */
                 vacuna.setIdVacuna(RSetcitas.getInt("idVacuna"));
                 vacuna.setNroSerie(RSetcitas.getInt("nroSerieDosis"));
                 vacuna.setMarca(RSetcitas.getString("marca"));
@@ -384,14 +395,12 @@ public class citaData {
                 //cargo la cita a la lista a devolver
                 listaCitas.add(cita);
             }
-
-            ps.close();
-
-        } catch (SQLException e) {
-            System.out.println("falló el acceso a alguna de las tablas citaVacunacion, ciudadano o vacuna");
-            JOptionPane.showMessageDialog(null, "falló el acceso a alguna de las tablas citaVacunacion, ciudadano o vacuna");              
+        ps.close();    
+        } catch (SQLException ex) {
+           JOptionPane.showMessageDialog(null, "falló el acceso a alguna de las tablas citaVacunacion, ciudadano o vacuna");
+            System.out.println(ex.getMessage());
         }
-         return listaCitas;
+         return cita;
     }
     
     
