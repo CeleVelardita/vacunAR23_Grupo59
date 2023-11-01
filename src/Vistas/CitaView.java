@@ -214,11 +214,9 @@ public class CitaView extends javax.swing.JInternalFrame {
                         .addGap(54, 54, 54)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLDNI)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLNombre)
-                                    .addComponent(jLabel2))
-                                .addGap(3, 3, 3)))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jLNombre)
+                                .addComponent(jLabel2)))
                         .addGap(18, 18, 18)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -305,7 +303,7 @@ public class CitaView extends javax.swing.JInternalFrame {
                             .addComponent(jComboBoxRefuerzo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLCodigoRefuerzo)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 43, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel10)
                     .addComponent(jLabel11)
@@ -417,6 +415,9 @@ public class CitaView extends javax.swing.JInternalFrame {
 //                JOptionPane.showMessageDialog(null,"Ingrese un  DNI válido");
 //                return;
 //            }
+
+
+
             System.out.println("pasó el if");
             ciudadano=ciuData.buscarCiudadano(dni);
             System.out.println("devolvió el ciudadano");
