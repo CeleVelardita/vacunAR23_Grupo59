@@ -8,12 +8,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
-import java.time.ZoneId;
+
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 import javax.swing.JOptionPane;
-import vacunar23_AccesoADatos.Conexion.Conexion;
+
 import vacunar23_Entidades.CitaVacunacion;
 import vacunar23_Entidades.Ciudadano;
 import vacunar23_Entidades.Vacuna;
@@ -21,7 +20,7 @@ import vacunar23_Entidades.Vacuna;
 
 public class citaData {
     //declaraciones
-    private Connection con = null;//objeto de clase Connection para usar su método getConexion      
+    private Connection con;//objeto de clase Connection para usar su método getConexion      
     private CitaVacunacion cita;
     private List<CitaVacunacion> listaCitas;
     private Ciudadano ciudadano;
