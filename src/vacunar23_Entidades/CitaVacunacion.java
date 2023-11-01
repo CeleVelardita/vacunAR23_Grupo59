@@ -27,13 +27,14 @@ public class CitaVacunacion {
         this.estado = estado;
     }
 
-    public CitaVacunacion(LocalDate fechaHoraCita, String centroVacunacion, LocalDate fechaHoraColoca, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano) {
+    public CitaVacunacion(LocalDate fechaHoraCita, String centroVacunacion, LocalDate fechaHoraColoca, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano, String estado) {
         this.fechaHoraCita = fechaHoraCita;
         this.centroVacunacion = centroVacunacion;
         this.fechaHoraColoca = fechaHoraColoca;
         this.vacuna = vacuna;
         this.codRefuerzo = codRefuerzo;
         this.ciudadano = ciudadano;
+        this.estado = estado;
     }
     
     

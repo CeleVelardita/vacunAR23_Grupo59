@@ -48,6 +48,7 @@ public class CitaView extends javax.swing.JInternalFrame {
     
     //atributos extras para extraer datos de los eventos
     private int dni;
+    private int codRefuerzoCita;
     
     
     
@@ -415,6 +416,39 @@ public class CitaView extends javax.swing.JInternalFrame {
             // Convertir LocalTime a Time
             Time time = Time.valueOf(localTime);
             
+            //guardo el codigo de refuerzo a colocarse
+            codRefuerzoCita=(int) jComboBoxRefuerzo.getSelectedItem();
+            
+            
+            /*ahora armo la cita y la mando a la BDm por metodo cargar luego imprimo en tabla*/
+            /*CitaVacunacion(, Ciudadano ciudadano)*/
+            
+            citaVac.setFechaHoraCita(fechaSeleccionada);
+            citaVac.setCentroVacunacion(ciudadano.getDistrito());
+            citaVac.setFechaHoraColoca(fechaSeleccionada);
+            citaVac.setVacuna(vacuna);
+            citaVac.setCodRefuerzo(codRefuerzoCita);
+            citaVac.setCiudadano(ciudadano);
+            citaVac.setEstado("Activa");
+            
+            
+            citaData.cargarCita(citaVac);//cargo a la BD
+            
+            citaVac=citaData.buscarCitaXDNI(dni);//obtengo el codigo que colocó la bd
+            
+            //ahora la tambla
+             borrarFilaDeTabla();
+             
+             modeloTabla.addRow(new Object[]{citaVac.getCodCita(),citaVac.getCiudadano().getNombreCompleto(),
+                                citaVac.getCiudadano().getDni(),citaVac.getCiudadano().getPatologia(),
+                                citaVac.getFechaHoraCita(),citaVac.getFechaHoraColoca(),
+                                citaVac.getVacuna().getMarca(),citaVac.getVacuna().getNroSerie(),
+                                citaVac.getCodRefuerzo(),citaVac.getCiudadano().getDistrito(),
+                                citaVac.getEstado()});
+             
+             
+            
+            
             
             
            
@@ -498,7 +532,9 @@ public class CitaView extends javax.swing.JInternalFrame {
                    vacuna= (Vacuna) jComboBoxListaVacunas.getSelectedItem();
                }
                
-
+                //----ya tengo todo, tomo los datos, creo la cita y la cargo
+                
+                
                
            }else{
                jCheckBoxVerificacion.setSelected(false);
