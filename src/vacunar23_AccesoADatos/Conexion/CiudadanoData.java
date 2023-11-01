@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import vacunar23_AccesoADatos.Conexion.Conexion;
 import vacunar23_Entidades.Ciudadano;
 
 
@@ -356,9 +357,6 @@ public class CiudadanoData {
         
         return ciudadano;
     }
-    
-    
-    
     
     
 }

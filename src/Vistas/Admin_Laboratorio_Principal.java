@@ -1,6 +1,8 @@
 
 package Vistas;
 
+import Vistas.admin_lab_BuscarxCuit;
+import Vistas.admin_lab_BuscarxNombre;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -442,6 +444,11 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jtPaisKeyTyped
 
+<<<<<<< HEAD
+=======
+    /*------------------------------------------------------------------------------------*/
+    
+>>>>>>> main
     ///Botón dar de alta/baja
     private void jbDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDarBajaActionPerformed
         try {

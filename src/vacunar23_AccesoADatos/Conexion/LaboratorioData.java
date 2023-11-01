@@ -11,6 +11,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
+import vacunar23_AccesoADatos.Conexion.Conexion;
 import vacunar23_Entidades.Laboratorio;
 
 
@@ -236,8 +237,7 @@ public class LaboratorioData {
         }
          return laboratorio;    
     }
-    
-    
+        
     
     /*---------------------------- Cele ------------------------*/
     
@@ -267,8 +267,7 @@ public class LaboratorioData {
         }
          return laboratorio;    
     }  
-     
-     
+          
     /*--------------------------------------------------------------------------------------------------*/
   
     public List<Laboratorio> listarLaboratorios(){
