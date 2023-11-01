@@ -409,19 +409,23 @@ public class CitaView extends javax.swing.JInternalFrame {
 
             // Crear un objeto LocalTime
             LocalTime localTime = LocalTime.of(horas, minutos);
-
-            // Convertir LocalTime a Time
-            Time time = Time.valueOf(localTime);
+            
+            System.out.println("hora del combobox"+localTime);
+            
+            
+           
             
             
             // Obtener el número seleccionado del JComboBox
             String numeroSeleccionado = (String) jComboBoxHorarios.getSelectedItem();
 
             // Convertir el número a int
-            codRefuerzoCita = Integer.parseInt(numeroSeleccionado);
+            codRefuerzoCita = Integer.parseInt((String) jComboBoxRefuerzo.getSelectedItem());
             
+            System.out.println("codigo refuerzo: "+codRefuerzoCita);
             
-            
+            //obtengo vacuna seleccionada:
+            vacuna= (Vacuna) jComboBoxListaVacunas.getSelectedItem();
             
             /*ahora armo la cita y la mando a la BDm por metodo cargar luego imprimo en tabla*/
             /*CitaVacunacion(, Ciudadano ciudadano)*/
@@ -434,6 +438,7 @@ public class CitaView extends javax.swing.JInternalFrame {
             citaVac.setCiudadano(ciudadano);
             citaVac.setEstado("Activa");
             
+            System.out.println(" cita "+citaVac);
             
             citaData.cargarCita(citaVac);//cargo a la BD
             
@@ -472,7 +477,7 @@ public class CitaView extends javax.swing.JInternalFrame {
             
             
         }catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(null,"Problemas en el DNI"+e.getMessage());
+            JOptionPane.showMessageDialog(null,"Problemas en el DNI "+e.getMessage());
         }
     }//GEN-LAST:event_jBotonGuardarCitaActionPerformed
 
@@ -535,7 +540,7 @@ public class CitaView extends javax.swing.JInternalFrame {
                    vacuna= (Vacuna) jComboBoxListaVacunas.getSelectedItem();
                }
                
-                //----ya tengo todo, tomo los datos, creo la cita y la cargo
+                //----ya tengo todo, tomo los datos, creo la cita y la cargo en boton evento  guardar
                 
                 
                
