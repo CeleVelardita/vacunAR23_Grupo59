@@ -120,14 +120,12 @@ public class VacunaData {
             
             if (nroSerie.length() > 6) {
                 System.out.println("Ha excedido el límite de valores para el número de serie");
-                return;
             }
             
             String marca = vacuna.getMarca();
             
             if(marca.length() > 30){
                 System.out.println("Ha excedido el límite de carácteres para la marca");
-                return;
             }
             
             LocalDate fecha = vacuna.getFechaCaduca();
@@ -137,7 +135,6 @@ public class VacunaData {
             
             if (dias < 150) {
                 System.out.println("Ingrese una fecha válida por favor");
-                return;
             }
             
             if ((nroSerie.length() < 7) && (marca.length() < 31) && (dias > 149)) {

@@ -186,11 +186,6 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
 
         jbDarBaja.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jbDarBaja.setText("Dar de Baja/Alta");
-        jbDarBaja.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbDarBajaActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jpEscritorioLabLayout = new javax.swing.GroupLayout(jpEscritorioLab);
         jpEscritorioLab.setLayout(jpEscritorioLabLayout);
@@ -325,14 +320,13 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             //declaro atributos y almaceno en ellos lo ingresado en los jtextfield y jcheckbox para manipularlos            
             String nombreLab = jtNombreLab.getText();
             String numerito = jtCuit.getText();
-            System.out.println(numerito);
-            long cuit = Long.parseLong(numerito); //tendrá Exception
+            long cuit = Long.getLong(numerito); //tendrá Exception
             String pais = jtPais.getText();
             String domicilio = jtDomicilio.getText();
             Boolean estado = jCheckBoxEstado.isSelected();
             
             //cargo éstos datos en el constructor de laboratorio
-            lab = new Laboratorio(cuit, nombreLab, pais, domicilio, estado); //constructor creado en laboratorio(Entidades)
+            lab = new Laboratorio(cuit,nombreLab, pais, domicilio, estado); //constructor creado en laboratorio(Entidades)
             
             
             
@@ -362,21 +356,20 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             */
             /*------------------------------------------*/
             
-            // Reemplazo lo anterior por la línea de abajo para chequear si el Laboratorio existe en la BD
-            Laboratorio laborat = labData.buscarLaboratorioXCUIT(cuit);            
+            
+            lab = labData.buscarLaboratorioXCUIT(cuit);            
             
             if (lab == null) {
                 labData.cargarLaboratorio(lab);
-                limpiarCampos();//limpio los campos textfield
-                modeloTabla.addRow(new Object[]{lab.getNomLaboratorio(), lab.getCuit(), lab.getPais(), lab.getDomComercial(), lab.isEstado()});
-            } else {
-                filaSeleccionada = jTListadoLab.getSelectedRow();
+            }else{
                 labData.modificarLaboratorio(lab);
-                limpiarCampos();//limpio los campos textfield
-                actualizarFilaTabla(filaSeleccionada, lab);
             }
             
-            }catch (NumberFormatException e) {
+            
+            
+            limpiarCampos();//limpio los campos textfield
+            ListarLaboratorios ();//actualiza la tabla           
+        }catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "El CUIT son sólo 11 dígitos, sin puntos ni guiones");
         }
         
@@ -401,13 +394,10 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
 
     private void jbBuscarXCuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarXCuitActionPerformed
         admin_lab_BuscarxCuit buscarCuit = new admin_lab_BuscarxCuit(this); // Pasa una referencia al JFrame principal
-         // hago visible la ventana buscarXCuit
-        buscarCuit.setVisible(true);
-
         // Agrego al jpEscritorioLab 
         jpEscritorioLab.add(buscarCuit);
-
-        buscarCuit.moveToFront();
+        // hago visible la ventana buscarXCuit
+        buscarCuit.setVisible(true);
     }//GEN-LAST:event_jbBuscarXCuitActionPerformed
 
     private void jbBuscarXNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarXNombreActionPerformed
@@ -442,26 +432,6 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jtPaisKeyTyped
 
-    ///Botón dar de alta/baja
-    private void jbDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDarBajaActionPerformed
-        try {
-            filaSeleccionada = jTListadoLab.getSelectedRow();
-            
-            if(filaSeleccionada != -1){
-                // Recupero el valor del CUIT de la tabla, es un objeto, luego lo casteo a un String para poder
-                // parsearlo a un Long
-                Object num = jTListadoLab.getValueAt(filaSeleccionada, 1);
-                String numerito = num.toString();
-                Long cuit = Long.parseLong(numerito);
-                labData.cambiarEstadoLaboratorio(cuit);
-                lab = labData.buscarLaboratorioXCUIT(cuit);
-                actualizarFilaTabla(filaSeleccionada, lab);
-            }
-        } catch (NullPointerException ex) {
-            JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna fila de la tabla");
-        }
-    }//GEN-LAST:event_jbDarBajaActionPerformed
-
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -493,7 +463,8 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     
     
     /*---------------------MÉTODOS---------------------*/
-     
+    
+    
      
     
     //borra/setea la tabla
@@ -603,15 +574,6 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
      modeloTabla.addRow(new Object []{lab.getNomLaboratorio(),lab.getCuit(),lab.getPais(),lab.getDomComercial(),lab.isEstado()});
 
     }
-    
-    /*----- actualiza la fila una vez se hayan efectuado cambios------*/
-    public void actualizarFilaTabla(int filaSeleccionada, Laboratorio laboratorio){
-        jTListadoLab.setValueAt(laboratorio.getNomLaboratorio(), filaSeleccionada, 0);
-        jTListadoLab.setValueAt(laboratorio.getCuit(), filaSeleccionada, 1);
-        jTListadoLab.setValueAt(laboratorio.getPais(), filaSeleccionada, 2);
-        jTListadoLab.setValueAt(laboratorio.getDomComercial(), filaSeleccionada, 3);
-        jTListadoLab.setValueAt(laboratorio.isEstado(), filaSeleccionada, 4);
-    }
-    
+
    
 }
