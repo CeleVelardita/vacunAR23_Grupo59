@@ -51,6 +51,8 @@ public class CitaView extends javax.swing.JInternalFrame {
         jtNombre.setEnabled(false);
         //cargarComboRefuerzo();
         
+        dni=00000000;
+        ciudadano= new Ciudadano();
         ///Necesario para los turnos:
         
         //carga de combobox   
@@ -404,15 +406,21 @@ public class CitaView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jBotonGuardarCitaActionPerformed
 
     private void jBuscarDniActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBuscarDniActionPerformed
-        
+
         try{
             dni=Integer.parseInt(jtDNI.getText());//aplicar controles
-            String digito=String.valueOf(dni);
-            if(digito.length()<7 || digito.length()>8){
-                JOptionPane.showMessageDialog(null,"Ingrese un  DNI válido");
-                return;
-            }
+            System.out.println("dni ingresado: "+dni);
+            
+//            String digito=String.valueOf(dni);
+//            if(digito.length()<7 || digito.length()>8){
+//                System.out.println("ingresó al if (digito.length()<7 || digito.length()>8) ");
+//                JOptionPane.showMessageDialog(null,"Ingrese un  DNI válido");
+//                return;
+//            }
+            System.out.println("pasó el if");
             ciudadano=ciuData.buscarCiudadano(dni);
+            System.out.println("devolvió el ciudadano");
+            System.out.println("nombre ciudadano "+ciudadano.getNombreCompleto());
         if(ciudadano!=null){
                jCheckBoxVerificacion.setSelected(true);
                int codRefuerzo= ciudadano.getCodRefuerzo();
