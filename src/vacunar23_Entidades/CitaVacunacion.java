@@ -2,12 +2,13 @@
 package vacunar23_Entidades;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class CitaVacunacion {
     private int codCita;
     private LocalDate fechaHoraCita;
     private String centroVacunacion; 
-    private LocalDate fechaHoraColoca;
+    private LocalTime fechaHoraColoca;
     private Vacuna vacuna;
     private int codRefuerzo;
     private Ciudadano ciudadano;       
@@ -16,7 +17,7 @@ public class CitaVacunacion {
     public CitaVacunacion() {
     }
 
-    public CitaVacunacion(int codCita, LocalDate fechaHoraCita, String centroVacunacion, LocalDate fechaHoraColoca, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano, String estado) {
+    public CitaVacunacion(int codCita, LocalDate fechaHoraCita, String centroVacunacion, LocalTime fechaHoraColoca, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano, String estado) {
         this.codCita = codCita;
         this.fechaHoraCita = fechaHoraCita;
         this.centroVacunacion = centroVacunacion;
@@ -27,13 +28,14 @@ public class CitaVacunacion {
         this.estado = estado;
     }
 
-    public CitaVacunacion(LocalDate fechaHoraCita, String centroVacunacion, LocalDate fechaHoraColoca, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano) {
+    public CitaVacunacion(LocalDate fechaHoraCita, String centroVacunacion, LocalTime fechaHoraColoca, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano, String estado) {
         this.fechaHoraCita = fechaHoraCita;
         this.centroVacunacion = centroVacunacion;
         this.fechaHoraColoca = fechaHoraColoca;
         this.vacuna = vacuna;
         this.codRefuerzo = codRefuerzo;
         this.ciudadano = ciudadano;
+        this.estado = estado;
     }
     
     
@@ -61,11 +63,11 @@ public class CitaVacunacion {
         this.centroVacunacion = centroVacunacion;
     }
 
-    public LocalDate getFechaHoraColoca() {
+    public LocalTime getFechaHoraColoca() {
         return fechaHoraColoca;
     }
 
-    public void setFechaHoraColoca(LocalDate fechaHoraColoca) {
+    public void setFechaHoraColoca(LocalTime fechaHoraColoca) {
         this.fechaHoraColoca = fechaHoraColoca;
     }
 
