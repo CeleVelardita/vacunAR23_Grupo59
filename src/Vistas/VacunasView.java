@@ -148,6 +148,11 @@ public class VacunasView extends javax.swing.JInternalFrame {
 
         jLabel5.setText("VENCIMIENTO: ");
 
+        jtMarca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jtMarcaActionPerformed(evt);
+            }
+        });
         jtMarca.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtMarcaKeyTyped(evt);
@@ -356,14 +361,13 @@ public class VacunasView extends javax.swing.JInternalFrame {
             System.out.println(ex.getMessage());
             System.out.println(ex.getLocalizedMessage());
             System.out.println(ex.getStackTrace());
-        }           
+        }                  
         
     }//GEN-LAST:event_jbAgregarActionPerformed
 
     
     /// ---------- BOTÓN MODIFICAR ----------
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
-        
         filaSeleccionada = jtTablaVacunas.getSelectedRow();
 
         if (filaSeleccionada != -1) {
@@ -424,13 +428,11 @@ public class VacunasView extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila haciendo doble click para modificar");
         }
-
     }//GEN-LAST:event_jbModificarActionPerformed
 
     
     /// ---------- DOBLE CLICK SOBRE UNA FILA DE LA TABLA ----------
     private void jtTablaVacunasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtTablaVacunasMousePressed
-        
         // Este evento me permite hacer doble click sobre una fila de la tabla y automáticamente setear los campos para
         // la edición y modificación de los datos
         JTable tabla = (JTable) evt.getSource();
@@ -491,7 +493,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
             
             // Elimino una fila de la tabla
             tablaVacunas.removeRow(filaSeleccionada);
-        }     
+        }    
     }//GEN-LAST:event_jbEliminarActionPerformed
 
     
@@ -518,7 +520,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jtNroSerieKeyTyped
 
     private void jdcVencimientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jdcVencimientoMouseClicked
-        // TODO add your handling code here:
+         // TODO add your handling code here:
         fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
         LocalDate fechaActual = LocalDate.now();
 
@@ -529,9 +531,20 @@ public class VacunasView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jdcVencimientoMouseClicked
 
-   
-    
-    
+    private void jtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtMarcaActionPerformed
+        String marca = jtMarca.getText();
+        
+        int longitud = marca.length();
+        if (longitud > 30) {
+            jtMarca.setEditable(false);
+            System.out.println("Marca demasiado larga");
+            JOptionPane.showMessageDialog(this, "Marca demasiado larga");
+            return;
+        }
+        
+        //restriccionMarca(marca);
+    }//GEN-LAST:event_jtMarcaActionPerformed
+
     private void limpiarCampos(){
         jcbLaboratorio.setSelectedItem(null); 
         jtMarca.setText("");
