@@ -209,6 +209,7 @@ public class citaData {
                 private String patologia = null;
                 private String ambitoTrabajo;
                 */
+                ciudadano.setIdCiudadano(RSetcitas.getInt("idCiudadano"));
                 ciudadano.setDni(RSetcitas.getInt("dni"));
                 ciudadano.setNombreCompleto(RSetcitas.getString("nombreCompleto"));
                 ciudadano.setEmail(RSetcitas.getString("email"));
@@ -296,6 +297,7 @@ public class citaData {
                 private String patologia = null;
                 private String ambitoTrabajo;
                 */
+                ciudadano.setIdCiudadano(RSetcitas.getInt("idCiudadano"));
                 ciudadano.setDni(RSetcitas.getInt("dni"));
                 ciudadano.setNombreCompleto(RSetcitas.getString("nombreCompleto"));
                 ciudadano.setEmail(RSetcitas.getString("email"));
@@ -381,6 +383,7 @@ public class citaData {
                 private String patologia = null;
                 private String ambitoTrabajo;
                 */
+                ciudadano.setIdCiudadano(RSetcitas.getInt("idCiudadano"));
                 ciudadano.setDni(RSetcitas.getInt("dni"));
                 ciudadano.setNombreCompleto(RSetcitas.getString("nombreCompleto"));
                 ciudadano.setEmail(RSetcitas.getString("email"));
@@ -456,6 +459,7 @@ public class citaData {
                 private String patologia = null;
                 private String ambitoTrabajo;
                 */
+                ciudadano.setIdCiudadano(RSetcitas.getInt("idCiudadano"));
                 ciudadano.setDni(RSetcitas.getInt("dni"));
                 ciudadano.setNombreCompleto(RSetcitas.getString("nombreCompleto"));
                 ciudadano.setEmail(RSetcitas.getString("email"));
