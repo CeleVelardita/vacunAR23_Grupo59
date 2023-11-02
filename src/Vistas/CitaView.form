@@ -133,7 +133,7 @@
                           <EmptySpace min="-2" pref="165" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" max="-2" attributes="0">
                               <Component id="jLModificarEstado" max="32767" attributes="0"/>
-                              <Component id="jComboBox4" alignment="0" max="32767" attributes="0"/>
+                              <Component id="jcomboboxEstado" alignment="0" max="32767" attributes="0"/>
                               <Component id="jBotonAplicarEstado" alignment="1" min="-2" pref="135" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -200,7 +200,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLModificarEstado" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                  <Component id="jComboBox4" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jcomboboxEstado" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="jBotonAplicarEstado" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -412,7 +412,7 @@
             <Property name="text" type="java.lang.String" value="Modificar Estado De La Cita:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox4">
+        <Component class="javax.swing.JComboBox" name="jcomboboxEstado">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="0"/>
@@ -426,6 +426,9 @@
           <Properties>
             <Property name="text" type="java.lang.String" value="Aplicar Estado"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jBotonAplicarEstadoActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jBuscarDni">
           <Properties>
