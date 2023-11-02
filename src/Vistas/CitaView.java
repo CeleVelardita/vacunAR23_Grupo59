@@ -600,35 +600,29 @@ public class CitaView extends javax.swing.JInternalFrame {
         if (filaSeleccionada >= 0) {
             // Asegúrate de que se haya seleccionado una fila válida
             Object valorCelda = jTableListado.getValueAt(fila, columnaa);
-            Object dnifila =jTableListado.getValueAt(fila, 1);
+            Object dnifila =jTableListado.getValueAt(fila, 2);
             Object codcita =jTableListado.getValueAt(fila, 0);
             if (valorCelda != null) {
-        try {
-            int codigoRefuerzo = Integer.parseInt(valorCelda.toString());
-            int dni = Integer.parseInt(dnifila.toString());
-            int codigocita=Integer.parseInt(codcita.toString());
-            System.out.println(""+codigoRefuerzo);
-            System.out.println(""+dni);
-            System.out.println(""+codigocita);
-            
-            citaData.estadoCita(estadoCombo, codigocita);
-            CiudadanoData ciuData = null;
-            if(estadoCombo.equals("Aplicada")){
-                ciuData.cambiarCodigoRefuerzo(codigoRefuerzo, dni);
-            }
-             
-            // Ahora tienes el contenido de la celda en la variable codigoRefuerzo como un entero
-            } catch (NumberFormatException e) {
-               JOptionPane.showMessageDialog(null, "problema en los métodos"+e.getLocalizedMessage());
-            }
-        } 
-         
-        
-            
-            
-            
-    }         
-        
+                try {
+                    int codigoRefuerzo = Integer.parseInt(valorCelda.toString());
+                    int dni = Integer.parseInt(dnifila.toString());
+                    int codigocita=Integer.parseInt(codcita.toString());
+                    System.out.println(""+codigoRefuerzo);
+                    System.out.println(""+dni);
+                    System.out.println(""+codigocita);
+
+                    citaData.estadoCita(estadoCombo, codigocita);
+                    CiudadanoData ciuData = null;
+                    if(estadoCombo.equals("Aplicada")){
+                        ciuData.cambiarCodigoRefuerzo(codigoRefuerzo, dni);
+                    }
+
+                    // Ahora tienes el contenido de la celda en la variable codigoRefuerzo como un entero
+                    } catch (NumberFormatException e) {
+                       JOptionPane.showMessageDialog(null, "problema en los métodos"+e.getLocalizedMessage());
+                    }
+            } 
+        }         
 
     }//GEN-LAST:event_jBotonAplicarEstadoActionPerformed
 
