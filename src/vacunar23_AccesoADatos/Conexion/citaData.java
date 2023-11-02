@@ -94,7 +94,6 @@ public class citaData {
     }
 }
 
-
     public void modificarCita(CitaVacunacion citaVacunacion){
         try{
             //formulamos la petición

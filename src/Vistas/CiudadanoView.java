@@ -1,5 +1,6 @@
 package Vistas;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,9 +25,12 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
 
     public CiudadanoView() {
         initComponents();
-        ciu = new Ciudadano();
+        
+        getContentPane().setBackground(new Color(240, 255, 240));
+        
+        ciu = null;
         ciuData = new CiudadanoData();
-        ciudadanoActual = new Ciudadano();
+        ciudadanoActual = null;
 
         tablaCiu = (DefaultTableModel) jtTablaCiudadano.getModel();
 
@@ -81,9 +85,9 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setTitle("Base de Datos: Ciudadano");
-        setPreferredSize(new java.awt.Dimension(800, 700));
+        setPreferredSize(new java.awt.Dimension(750, 700));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(800, 700));
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 720));
 
         jbAgregar.setText("Agregar");
         jbAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -367,7 +371,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -529,63 +533,68 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
         // Busca al Ciudadano por el DNI ingresado y setea los campos, permitiendo modificaciones en todos
         // los campos, incluso en el código de refuerzo
+        try {
+            if (jtDni.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar un DNI");
+                return;
+            } else {
 
-        if (jtDni.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un DNI");
-            return;
-        }else{
-            
-            int dni = Integer.parseInt(jtDni.getText());
-            ciudadanoActual = ciuData.buscarCiudadano(dni);
-            
-            if (ciudadanoActual != null) {
-                // RECUPERO LOS DATOS Y SETEO LOS CAMPOS
-                String nombre = ciudadanoActual.getNombreCompleto();
-                String patologia = ciudadanoActual.getPatologia();
-                if (patologia.equals("Ninguna")) {
-                    jcbPatologia.setSelected(false);
-                }else{
-                    jcbPatologia.setSelected(true);
-                    jtTipoPatologia.setEditable(true);
+                int dni = Integer.parseInt(jtDni.getText());
+                ciudadanoActual = ciuData.buscarCiudadano(dni);
+
+                if (ciudadanoActual != null) {
+                    // RECUPERO LOS DATOS Y SETEO LOS CAMPOS
+                    String nombre = ciudadanoActual.getNombreCompleto();
+                    String patologia = ciudadanoActual.getPatologia();
+                    if (patologia.equals("Ninguna")) {
+                        jcbPatologia.setSelected(false);
+                    } else {
+                        jcbPatologia.setSelected(true);
+                        jtTipoPatologia.setEditable(true);
+                    }
+                    String ambito = ciudadanoActual.getAmbitoTrabajo();
+                    String celu = ciudadanoActual.getCelular();
+
+                    // Recupero el email completo y luego separo las partes necesarias para setear los campos por separado
+                    String emailCompleto = ciudadanoActual.getEmail();
+                    int indiceSeparador = emailCompleto.indexOf("@");
+                    String email = emailCompleto.substring(0, indiceSeparador);
+                    String dominioEmail = emailCompleto.substring(indiceSeparador);
+
+                    String distrito = ciudadanoActual.getDistrito();
+                    int refuerzo = ciudadanoActual.getCodRefuerzo();
+                    String codigo = String.valueOf(refuerzo);
+
+                    // Una vez recuperados todos los datos empiezo a setear los campos
+                    jtNomApellido.setText(nombre);
+                    jtTipoPatologia.setText(patologia);
+
+                    setearComboAmbito(dni);
+
+                    jtCelular.setText(celu);
+
+                    // Ahora seteo los campos por separado
+                    jtEmail.setText(email);
+
+                    // SETEAR EL DOMINIO DEL MAIL
+                    setearComboDominioEmail(dni);
+                    //jcbDominioMail.setSelectedItem(dominioEmail);
+
+                    jtDistrito.setText(distrito);
+
+                    jtRefuerzo.setText(codigo);
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se ha encontrado el paciente en la Base de Datos");
                 }
-                String ambito = ciudadanoActual.getAmbitoTrabajo();
-                String celu = ciudadanoActual.getCelular();
-                
-                // Recupero el email completo y luego separo las partes necesarias para setear los campos por separado
-                String emailCompleto = ciudadanoActual.getEmail();
-                int indiceSeparador = emailCompleto.indexOf("@");
-                String email = emailCompleto.substring(0, indiceSeparador);
-                String dominioEmail = emailCompleto.substring(indiceSeparador);
-                
-                String distrito = ciudadanoActual.getDistrito();
-                int refuerzo = ciudadanoActual.getCodRefuerzo();
-                String codigo = String.valueOf(refuerzo);
-                                
-                // Una vez recuperados todos los datos empiezo a setear los campos
-                
-                jtNomApellido.setText(nombre);
-                jtTipoPatologia.setText(patologia);
-                
-                setearComboAmbito(dni);
-                
-                jtCelular.setText(celu);
-                              
-                // Ahora seteo los campos por separado
-                jtEmail.setText(email);
 
-                // SETEAR EL DOMINIO DEL MAIL
-                setearComboDominioEmail(dni);
-                //jcbDominioMail.setSelectedItem(dominioEmail);
-
-                jtDistrito.setText(distrito);
-                
-                jtRefuerzo.setText(codigo);
-
-            } else{
-                JOptionPane.showMessageDialog(this, "No se ha encontrado el paciente en la Base de Datos");
             }
+        } catch(NumberFormatException ex){
+            
+        } catch(NullPointerException ex){
             
         }
+
     }//GEN-LAST:event_jbBuscarActionPerformed
 
     
@@ -622,7 +631,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
 
     private void jtEmailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtEmailKeyTyped
         char letra=evt.getKeyChar();
-        if (!Character.isLetter(letra) && letra != KeyEvent.VK_BACK_SPACE && letra != KeyEvent.VK_SPACE|| jtEmail.getText().length() >= 30) {
+        if (letra != KeyEvent.VK_BACK_SPACE && (letra == '@') || jtEmail.getText().length() >= 30) {
             evt.consume();
         }
     }//GEN-LAST:event_jtEmailKeyTyped
@@ -676,7 +685,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
         ListaCiudadano = (ArrayList<Ciudadano>) ciuData.listarCiudadanos();
 
         for (Ciudadano i : ListaCiudadano) {
-            tablaCiu.addRow(new Object[]{i.getDni(), i.getNombreCompleto(), i.getAmbitoTrabajo(), i.getPatologia(), i.getCodRefuerzo()});
+            tablaCiu.addRow(new Object[]{i.getDni(), i.getNombreCompleto(), i.getPatologia(), i.getAmbitoTrabajo(), i.getCodRefuerzo()});
         }
     }
 

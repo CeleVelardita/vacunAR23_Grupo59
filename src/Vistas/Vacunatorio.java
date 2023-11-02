@@ -4,6 +4,7 @@ package Vistas;
 import Vistas.Admin_Laboratorio_Principal;
 import Vistas.CitaView;
 import Vistas.VacunasView;
+import java.awt.Color;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -14,24 +15,8 @@ public class Vacunatorio extends javax.swing.JFrame {
     public Vacunatorio() {
         initComponents();
         
-        //JButton jbIconVacuna;
-        /*
-        jbIconVacuna = new JButton(new ImageIcon("IconVacuna.png"));
-                
-        jbIconVacuna.setBounds(0, 0, 130, 130);
-       
-       */ 
-        
-        
-        /*
-        // Creo una instancia de una variable "im" de tipo "ImagenIcon" donde le paso la URL del paquete del proyecto donde está ubicada la imagen
-        ImageIcon im = new ImageIcon("/iconos/IconVacuna.png");
-        
-        Icon i = new ImageIcon(im.getImage().getScaledInstance(jbIconVacuna.getWidth(), jbIconVacuna.getHeight(), Image.SCALE_DEFAULT));
-        
-        jbIconVacuna.setIcon(i);
-        add(jbIconVacuna);
-        */
+        //Le cambio el colorcito al JInternalFrame sin necesidad de usar un JPanel 
+        getContentPane().setBackground(new Color(240, 255, 240));
         
     }
 

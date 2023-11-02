@@ -2,6 +2,7 @@
 package Vistas;
 
 import com.sun.org.apache.bcel.internal.generic.IFEQ;
+import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -24,16 +25,21 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     private Laboratorio labActual;
     
     public Admin_Laboratorio_Principal() {
-        initComponents();        
+        initComponents();     
+        
+        getContentPane().setBackground(new Color(240, 255, 240));
         
         //definición de atributos (inicializamos)
         modeloTabla = (DefaultTableModel) jTListadoLab.getModel();
                 
         labData= new LaboratorioData();
         lab= new Laboratorio();
+        labActual = new Laboratorio();
         labActual = null;
         
-        ListarLaboratorios();
+        listarLaboratorios();
+        
+        jCheckBoxEstado.setSelected(true);
      
     }
 
@@ -243,7 +249,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
                     .addGroup(jpEscritorioLabLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpEscritorioLabLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -405,8 +411,11 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
          
            
 
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "El CUIT son sólo 11 dígitos, sin puntos ni guiones");
+        } catch (NullPointerException ex){
+            System.out.println("Error al acceder a la tabla de laboratorios");
+            JOptionPane.showMessageDialog(this, "Error al acceder a la tabla de laboratorios");
         }
 
     }//GEN-LAST:event_jbAgregarActionPerformed
@@ -414,7 +423,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     ///Botón Listar Laboratorios
     private void jbListarLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbListarLabActionPerformed
        modeloTabla.setRowCount(0);
-       listarLaboratoriosActivos();
+       listarLaboratorios();
     }//GEN-LAST:event_jbListarLabActionPerformed
 
     ///Botón Modificar
@@ -547,11 +556,11 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         jtCuit.setText("");
         jtPais.setText("");
         jtDomicilio.setText("");
-        jCheckBoxEstado.setSelected(false);
+        jCheckBoxEstado.setSelected(true);
     }
         
     /*-----Carga la Lista de Laboratorios de la BD a la tabla-----*/
-    private void ListarLaboratorios(){
+    private void listarLaboratorios(){
         /*
         1ero- necesitamos el objeto de la clase LaboratorioData para acceder a su método listarLaboratorios ->labData
         2do- necesitamos un arrayList donde almacenaremos la lista de laboratorios que nos devolverá ese método
