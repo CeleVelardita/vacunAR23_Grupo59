@@ -22,6 +22,8 @@ public class CiudadanoData {
     private List<Ciudadano> listaCiudadanos;
     private List<Ciudadano> listaCiudadanosTrabajo;
     
+    private Ciudadano ciudadano = null;
+    
     /*------------ MÉTODOS NECESARIOS -----------
     
     - Agregar ciudadano
@@ -43,61 +45,25 @@ public class CiudadanoData {
     }    
     
     public void guardarCiudadano(Ciudadano ciudadano){
+        System.out.println("método guardar Ciudadano");
         String sql = "INSERT INTO ciudadano (dni, nombreCompleto, email, celular, patologia, ambitoTrabajo, distrito, codRefuerzo)"
-                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?";
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
+            
+            /*
             String dni = String.valueOf(ciudadano.getDni());
-            
-            if(dni.length() > 8){
-                System.out.println("Ha excedido el límite de dígitos para el DNI");
-            }
-            
             String nombre = ciudadano.getNombreCompleto();
-            
-            if(nombre.length() > 30){
-                System.out.println("Ha excedido el límite de carácteres para nombre y apellido");
-            }
-            
             String email = ciudadano.getEmail();
-            
-            if(email.length() > 30){
-                System.out.println("Ha excedido el límite de carácteres para el email");
-            }
-            
             String celular = ciudadano.getCelular();
-            
-            if(celular.length() > 18){
-                System.out.println("Ha excedido el límite de dígitos para el celular. Ingrese: nro de área sin 0 + número sin 15");
-            }
-            
             String patologia = ciudadano.getPatologia();
-            
-            if(patologia.length() > 30){
-                System.out.println("Ha excedido el límite de carácteres para nombre y apellido");
-            }
-            
             String ambito = ciudadano.getAmbitoTrabajo();
-            
-            if(ambito.length() > 40){
-                System.out.println("Ha excedido el límite de carácteres para el ámbito laboral");
-            }
-            
             String distrito = ciudadano.getDistrito();
-            
-            if(distrito.length() > 50){
-                System.out.println("Ha excedido el límite de carácteres para el distrito");
-            }
             String refuerzo = String.valueOf(ciudadano.getCodRefuerzo());
+            */ 
             
-            if(refuerzo.length() > 1){
-                System.out.println("El código de refuerzo solo puede 1, 2 o 3.");
-            }
-            
-            if((dni.length() < 9) && (nombre.length() < 31) && (email.length() < 31) && (celular.length() < 19) && (patologia.length() < 31) && (ambito.length() < 41) && (distrito.length() < 51) && (refuerzo.length() == 1)){
-                
             ps.setInt(1, ciudadano.getDni());
             ps.setString(2, ciudadano.getNombreCompleto());
             ps.setString(3, ciudadano.getEmail());
@@ -109,17 +75,13 @@ public class CiudadanoData {
             
             // El executeUpdate devuelve un entero
             int columnaAfectada = ps.executeUpdate();
-                        
-            if (columnaAfectada > 0) {
-                // Luego de preparar, enviar y ejecutar las sentencias, pido la clave generada a cada ciudadano, que correspondería al idCiudadano
-                // Recordar que el ResultSet devuelve una tabla, pero en este caso sería de una sola columna (idCiudadano) con tantas filas
-                // como ciudadanos haya cargado en la BD
+            
                 ResultSet id = ps.getGeneratedKeys();
-                System.out.println(id);
+
                 if (id.next()) {
-                    ciudadano.setIdCiudadano(id.getInt("idCiudadano")); //Va el 1 porque le indico la columna que quiero utilizar, también podría ir el nombre
-                    // de la columna entre "" tal cual está en la BD
-                    
+                    System.out.println("linea 82 ciudadano data");
+                    System.out.println(id);
+                    ciudadano.setIdCiudadano(id.getInt(1)); //Va el 1 porque le indico la columna que quiero utilizar
                     
                     /*-----------------------------*/
                     // Para probar en el main
@@ -134,16 +96,12 @@ public class CiudadanoData {
                     System.out.println(ciudadano.getAmbitoTrabajo());
                     System.out.println("También mostramos el id: " + ciudadano.getIdCiudadano());
                     /*------------------------------*/
-                    
-                    
-                    JOptionPane.showMessageDialog(null, "Paciente cargado exitosamente");
-                }
-            }
-            
-            ps.close();            
-            
-            }
-            
+
+                JOptionPane.showMessageDialog(null, "Paciente cargado exitosamente");
+
+                ps.close();
+
+            }           
         } catch (SQLException ex) {
             System.out.println("Error al cargar datos: "+ex.getMessage());
         }        
@@ -151,81 +109,28 @@ public class CiudadanoData {
     
     public void modificarCiudadano(Ciudadano ciudadano){
         try {
-            String sql ="UPDATE ciudadano SET dni = ?, nombreCompleto = ?, email = ?, celular = ?, patologia = ?, ambitoTrabajo = ?, distrito = ?, codRefuerzo = ? WHERE dni = ?";
+            String sql ="UPDATE ciudadano SET nombreCompleto = ?, email = ?, celular = ?, patologia = ?, ambitoTrabajo = ?, distrito = ?, codRefuerzo = ? WHERE dni = ?";
             
             PreparedStatement ps = con.prepareStatement(sql);
             
-            String dni = String.valueOf(ciudadano.getDni());
+            ps.setString(1, ciudadano.getNombreCompleto());
+            ps.setString(2, ciudadano.getEmail());
+            ps.setString(3, ciudadano.getCelular());
+            ps.setString(4, ciudadano.getPatologia());
+            ps.setString(5, ciudadano.getAmbitoTrabajo());
+            ps.setString(6, ciudadano.getDistrito());
+            ps.setInt(7, ciudadano.getCodRefuerzo());
+            ps.setInt(8, ciudadano.getDni());
+            /// EJECUCIÓN DE LA SENTENCIA:
+            /// ps.executeUpdate(); ---> Se utiliza en INSERT, UPDATE, DELETE
+            /// ps.executeQuery(); ----> Se utiliza en SELECT
             
-            if(dni.length() > 8){
-                System.out.println("Ha excedido el límite de dígitos para el DNI");
-            }
-            
-            String nombre = ciudadano.getNombreCompleto();
-            
-            if(nombre.length() > 30){
-                System.out.println("Ha excedido el límite de carácteres para nombre y apellido");
-            }
-            
-            String email = ciudadano.getEmail();
-            
-            if(email.length() > 30){
-                System.out.println("Ha excedido el límite de carácteres para el email");
-            }
-            
-            String celular = ciudadano.getCelular();
-            
-            if(celular.length() > 18){
-                System.out.println("Ha excedido el límite de dígitos para el celular. Ingrese: nro de área sin 0 + número sin 15");
-            }
-            
-            String patologia = ciudadano.getPatologia();
-            
-            if(patologia.length() > 30){
-                System.out.println("Ha excedido el límite de carácteres para nombre y apellido");
-            }
-            
-            String ambito = ciudadano.getAmbitoTrabajo();
-            
-            if(ambito.length() > 40){
-                System.out.println("Ha excedido el límite de carácteres para el ámbito laboral");
-            }
-            
-            String distrito = ciudadano.getDistrito();
-            
-            if(distrito.length() > 50){
-                System.out.println("Ha excedido el límite de carácteres para el distrito");
-            }
-            String refuerzo = String.valueOf(ciudadano.getCodRefuerzo());
-            
-            if(refuerzo.length() > 1){
-                System.out.println("El código de refuerzo solo puede 1, 2 o 3.");
-            }
+            int filaAfectada = ps.executeUpdate();
 
-            if ((dni.length() < 9) && (nombre.length() < 31) && (email.length() < 31) && (celular.length() < 19) && (patologia.length() < 31) && (ambito.length() < 41) && (distrito.length() < 51) && (refuerzo.length() == 1)) {
-
-                ps.setInt(1, ciudadano.getDni());
-                ps.setString(2, ciudadano.getNombreCompleto());
-                ps.setString(3, ciudadano.getEmail());
-                ps.setString(4, ciudadano.getCelular());
-                ps.setString(5, ciudadano.getPatologia());
-                ps.setString(6, ciudadano.getAmbitoTrabajo());
-                ps.setString(7, ciudadano.getDistrito());
-                ps.setInt(8, ciudadano.getCodRefuerzo());
-
-                /// EJECUCIÓN DE LA SENTENCIA:
-                /// ps.executeUpdate(); ---> Se utiliza en INSERT, UPDATE, DELETE
-                /// ps.executeQuery(); ----> Se utiliza en SELECT
-                int filaAfectada = ps.executeUpdate();
-
-                if (filaAfectada > 0) {
-                    ResultSet lista = ps.getGeneratedKeys();
-                    if (lista.next()) {
-                        JOptionPane.showMessageDialog(null, "¡Modificación Exitosa!");
-                    }
-                }
+            if (filaAfectada > 0) {
+                JOptionPane.showMessageDialog(null, "¡Modificación Exitosa!");
             }
-            
+                
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla 'Ciudadano'" + ex.getMessage());
         } catch (NumberFormatException ex){
@@ -361,7 +266,7 @@ public class CiudadanoData {
         String sql = "SELECT * FROM ciudadano WHERE dni = ?";
         System.out.println("entró al método");
 //        Ciudadano ciudadano = null; // Inicializamos a null
-        Ciudadano ciudadano = new Ciudadano();
+        Ciudadano ciudadano = null;
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, dni); // Asignamos el valor al marcador de posición
@@ -370,7 +275,7 @@ public class CiudadanoData {
 
             if (buscarDni.next()) {
                 // Crear una instancia de Ciudadano solo si se encuentra en la base de datos
-//                ciudadano = new Ciudadano();
+                ciudadano = new Ciudadano();
                 ciudadano.setDni(buscarDni.getInt("dni"));
                 ciudadano.setNombreCompleto(buscarDni.getString("nombreCompleto"));
                 ciudadano.setEmail(buscarDni.getString("email"));
@@ -384,7 +289,7 @@ public class CiudadanoData {
             }
 
             ps.close();
-        } catch (SQLException ex) {
+        } catch (SQLException ex) {            
             System.out.println("Error al acceder a la Base de Datos 'Ciudadano': " + ex.getMessage());
         }
 

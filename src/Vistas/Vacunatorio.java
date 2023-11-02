@@ -1,6 +1,9 @@
 
 package Vistas;
 
+import Vistas.Admin_Laboratorio_Principal;
+import Vistas.CitaView;
+import Vistas.VacunasView;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -49,11 +52,7 @@ public class Vacunatorio extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-<<<<<<< HEAD
-        escritorio.setPreferredSize(new java.awt.Dimension(900, 700));
-=======
         escritorio.setPreferredSize(new java.awt.Dimension(900, 750));
->>>>>>> main
 
         jbIconVacuna.setText("Vacunas");
         jbIconVacuna.setPreferredSize(new java.awt.Dimension(30, 15));

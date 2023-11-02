@@ -23,7 +23,7 @@ public class VacunaData {
     private Laboratorio laboratorio;
     private LaboratorioData labData;
 
-    Vacuna vacuna = null;
+    private Vacuna vacuna = null;
     
     public VacunaData() {
         con = Conexion.getConexion();
