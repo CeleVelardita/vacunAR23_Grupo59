@@ -147,13 +147,8 @@ public class citaData {
             
             //seteamos el contenido deseado siguiendo el orden de la consulta en sql 0,1,2,3....
             
-            ps.setString(0,estado); 
-            //por ultimo luego del where pide el código de la cita
-            ps.setInt(1, codCita);
-            /*
-            debemos ejecutar la petición y nos devolverá un número con el que 
-            confirmaremos si se realizó correctamente la modificación
-            */
+            ps.setString(1, estado); // Índice 1 en lugar de 0
+            ps.setInt(2, codCita);   // Índice 2 en lugar de 1
             int valorDevuelto = ps.executeUpdate();
 
             if (valorDevuelto > 0) {
@@ -168,8 +163,9 @@ public class citaData {
             }
             
         }catch (SQLException ex) {
-            System.out.println("SQLException");
-            JOptionPane.showMessageDialog(null, "Error al conectarse a la tabla CitaVacunacions" + ex.getMessage());
+        System.out.println("Error de SQL: " + ex.getMessage());
+        ex.printStackTrace();
+        JOptionPane.showMessageDialog(null, "Error al conectarse a la tabla CitaVacunacion: " + ex.getMessage());
         }catch (NumberFormatException ex) {
             System.out.println("NullPointerException" + ex.getMessage());
             JOptionPane.showMessageDialog(null, "Error al modificar Estado de la cita"+ ex.getMessage());
