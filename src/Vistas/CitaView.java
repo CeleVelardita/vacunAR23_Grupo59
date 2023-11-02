@@ -9,6 +9,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;//necesario para turnos, cudiado con java.sql.Date
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +34,7 @@ public class CitaView extends javax.swing.JInternalFrame {
     
     private List<Ciudadano> ListaCiudadanos;
     private List<Vacuna> ListaVacunas;
-    private List<CitaVacunacion> listaCitas;//para todas las citas todas
+    private List<CitaVacunacion> listarTodasCitas=new ArrayList<>();//para todas las citas todas
     private List<CitaVacunacion>listaCitaXDia;//para listar por dia
     private citaData citaData;
     private VacunaData vacuData;
@@ -48,9 +49,6 @@ public class CitaView extends javax.swing.JInternalFrame {
     private Instant instant;
     ZoneId zoneId;
      LocalDate turnoDelDia;
-     
-    
-    private SimpleDateFormat dFormat;
     
     //atributos extras para extraer datos de los eventos
     private int dni;
@@ -73,8 +71,7 @@ public class CitaView extends javax.swing.JInternalFrame {
          ciuData= new CiudadanoData();
          citaVac= new CitaVacunacion();
         
-         /*----fecha----*/
-         dFormat= new SimpleDateFormat("dd-mm-yyyy");
+         
          // Deshabilita la edición del campo de texto
             JTextFieldDateEditor dateEditor = (JTextFieldDateEditor) jCalendarCita.getDateEditor();
             dateEditor.setEditable(false);
@@ -104,13 +101,12 @@ public class CitaView extends javax.swing.JInternalFrame {
         horariosHabiles.put(new Date(), true);
         horariosHabiles.put(new Date(new Date().getTime() + 86400000), true);
         horariosHabiles.put(new Date(new Date().getTime() + 172800000), true);
-        
-        
-        
+
         
         turnosPordia();//tabla con turnos segun dia
     }
 
+    
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -244,11 +240,6 @@ public class CitaView extends javax.swing.JInternalFrame {
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         jCalendarCita.setToolTipText("dd/MM/yyyy");
-        jCalendarCita.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jCalendarCitaPropertyChange(evt);
-            }
-        });
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jButton1.setText("Listar Todas Las Citas");
@@ -416,10 +407,7 @@ public class CitaView extends javax.swing.JInternalFrame {
     ///boton Guardar Cita
     private void jBotonGuardarCitaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonGuardarCitaActionPerformed
         try{
-           // jCheckBoxVerificacion.setEnabled(false);//para que no sea editable
            
-           ///obtengo fecha
-//           String fechaELegida= dFormat.format(jCalendarCita.getDate());
            // Obtén la fecha seleccionada del componente JDateChooser
             Date fechaSeleccionadaDate = jCalendarCita.getDate();
 
@@ -442,8 +430,7 @@ public class CitaView extends javax.swing.JInternalFrame {
             
             System.out.println("hora del combobox"+localTime);
             
-            // Obtener el número seleccionado del JComboBox
-//            String numeroSeleccionado = (String) jComboBoxHorarios.getSelectedItem();
+            
 
             // Convertir el número a int
             codRefuerzoCita = Integer.parseInt((String) jComboBoxRefuerzo.getSelectedItem());
@@ -465,8 +452,6 @@ public class CitaView extends javax.swing.JInternalFrame {
                                          ciudadanoNew,  "Activa");
     
             
-        
-            
             
             System.out.println(" cita "+citaVac);
             
@@ -474,7 +459,7 @@ public class CitaView extends javax.swing.JInternalFrame {
             
             citaData.cargarCita(citaVac);//cargo a la BD
             
-            citaVac=citaData.buscarCitaXDNI(dni);//obtengo el codigo que colocó la bd
+//            citaVac=citaData.buscarCitaXDNI(dni);//obtengo el codigo que colocó la bd
             
             //ahora la tambla
              borrarFilaDeTabla();
@@ -486,28 +471,7 @@ public class CitaView extends javax.swing.JInternalFrame {
                                 citaVac.getCodRefuerzo(),citaVac.getCiudadano().getDistrito(),
                                 citaVac.getEstado()});
              
-                        
-
-            
-            
-            
-            
-           
-//           JDateChooser jCalendarCita = new JDateChooser();
-//
-//            // Obtén la fecha seleccionada del JCalendar
-//            Date fechaSeleccionada = jCalendarCita.getDate();
-//
-//            // Convierte la fecha seleccionada a LocalDate
-//            LocalDate fecha = null;
-//            if (fechaSeleccionada != null) {
-//                fecha = fechaSeleccionada.toInstant().atZone(Calendar.getInstance().getTimeZone().toZoneId()).toLocalDate();
-//            }
-            
-//            //hora elegida
-//            LocalTime hora=(LocalTime) jComboBoxHorarios.getSelectedItem();
-            
-            
+              
             
         }catch(NumberFormatException e){
             JOptionPane.showMessageDialog(null,"Problemas en el DNI "+e.getLocalizedMessage());
@@ -520,14 +484,6 @@ public class CitaView extends javax.swing.JInternalFrame {
             dni=Integer.parseInt(jtDNI.getText());//aplicar controles
             System.out.println("dni ingresado: "+dni);
             
-//            String digito=String.valueOf(dni);
-//            if(digito.length()<7 || digito.length()>8){
-//                System.out.println("ingresó al if (digito.length()<7 || digito.length()>8) ");
-//                JOptionPane.showMessageDialog(null,"Ingrese un  DNI válido");
-//                return;
-//            }
-
-
 
             System.out.println("pasó el if");
             ciudadano=ciuData.buscarCiudadano(dni);
@@ -582,58 +538,37 @@ public class CitaView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jBuscarDniActionPerformed
 
-    private void jCalendarCitaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jCalendarCitaPropertyChange
-       /*
-        Este código añadirá un escuchador de eventos de propiedad al JCalendar.
-        El escuchador de eventos de propiedad se invocará cada vez que
-        se cambie una propiedad del JCalendar.
-        En este caso, el escuchador de eventos de propiedad comprobará
-        si la propiedad date ha cambiado. Si ha cambiado, el código comprobará
-        si el horario seleccionado está disponible.
-        Si no lo está, el día seleccionado en el calendario se deshabilitará.
-        */
-//        if (evt.getPropertyName().equals("date")) {
-//            String horario = (String) jComboBoxHorarios.getSelectedItem();
-//
-//            if (!horariosHabiles.get(jCalendarCita.getDate())) {
-//                jCalendarCita.setDate(null);
-//            }
-//        }
-    }//GEN-LAST:event_jCalendarCitaPropertyChange
-
     private void jBotonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonBuscarActionPerformed
         
         try{
             int jtdni=Integer.parseInt(jtBuscarxDni.getText());
             borrarFilaDeTabla();
-        Date date = jdcListarXDia.getDate(); // Obtener la fecha seleccionada en formato java.util.Date
-        Instant instant =date.toInstant(); // Convertir a Instant
-         ZoneId zoneId = ZoneId.systemDefault(); // Obtener la zona horaria por defecto
-        LocalDate turnoDelDia = instant.atZone(zoneId).toLocalDate(); // Convertir a LocalDate ya tengo lo que seleciionó el usuario
-        
-        listaCitaXDia=citaData.listarCitasXDia(turnoDelDia);
-         if(listaCitaXDia!=null){
-             for(CitaVacunacion cit: listaCitaXDia){
-             modeloTabla.addRow(new Object[]{cit.getCodCita(),cit.getCiudadano().getNombreCompleto(),
-                                cit.getCiudadano().getDni(),cit.getCiudadano().getPatologia(),
-                                cit.getFechaHoraCita(),cit.getFechaHoraColoca(),
-                                cit.getVacuna().getMarca(),cit.getVacuna().getNroSerie(),
-                                cit.getCodRefuerzo(),cit.getCiudadano().getDistrito(),
-                                cit.getEstado()});
-            }
-         }else{
-             JOptionPane.showMessageDialog(null, "no hay citas para la fecha que seleccionó");
-         }
+            System.out.println("dni ingresado "+jtdni);
+            CitaVacunacion CitaXDni= citaData.buscarCitaXDNI(jtdni);
+            System.out.println("cita "+CitaXDni);
+             if(CitaXDni!=null){
+                 modeloTabla.addRow(new Object[]{CitaXDni.getCodCita(),CitaXDni.getCiudadano().getNombreCompleto(),
+                                    CitaXDni.getCiudadano().getDni(),CitaXDni.getCiudadano().getPatologia(),
+                                    CitaXDni.getFechaHoraCita(),CitaXDni.getFechaHoraColoca(),
+                                    CitaXDni.getVacuna().getMarca(),CitaXDni.getVacuna().getNroSerie(),
+                                    CitaXDni.getCodRefuerzo(),CitaXDni.getCiudadano().getDistrito(),
+                                    CitaXDni.getEstado()});
+             }else{
+                 JOptionPane.showMessageDialog(null, "no se registra el dni en los turnos");
+             }
         }catch(NullPointerException ex){
             JOptionPane.showMessageDialog(null, "no extiste cita para éste dni");
         }
     }//GEN-LAST:event_jBotonBuscarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        listaCitas=citaData.listarCitas();
-        if(listaCitas!=null){
+    
+        citaData=new citaData();
+        listarTodasCitas=citaData.listarCitas();
+   
+        if(listarTodasCitas!=null){
             borrarFilaDeTabla();
-            for(CitaVacunacion citas: listaCitas){
+            for(CitaVacunacion citas: listarTodasCitas){
                 modeloTabla.addRow(new Object[]{citas.getCodCita(),citas.getCiudadano().getNombreCompleto(),
                                 citas.getCiudadano().getDni(),citas.getCiudadano().getPatologia(),
                                 citas.getFechaHoraCita(),citas.getFechaHoraColoca(),

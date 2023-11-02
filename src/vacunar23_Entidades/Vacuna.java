@@ -15,7 +15,7 @@ public class Vacuna {
     private LocalDate fechaCaduca;
     private boolean colocada = false;
     
-    
+    private int idLaboratorio;
         
     public Vacuna(){}
     
@@ -36,6 +36,26 @@ public class Vacuna {
         fechaCaduca = fecha;
         this.colocada = colocada;
         laboratorio = lab;
+    }
+    
+    /*--------------------------------------------*/
+    public Vacuna(int id, int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, int idLaboratorio ){
+        this.idVacuna = idVacuna;
+        this.idLaboratorio = idLaboratorio;
+        this.nroSerie = nroSerie;
+        this.marca = marca;
+        this.medida = medida;
+        fechaCaduca = fechaCaduca;
+        this.colocada = colocada;
+    }
+    /*---------------------------------------------*/
+
+    public int getIdLaboratorio() {
+        return idLaboratorio;
+    }
+
+    public void setIdLaboratorio(int idLaboratorio) {
+        this.idLaboratorio = idLaboratorio;
     }
 
     public Laboratorio getLaboratorio(){
@@ -96,8 +116,10 @@ public class Vacuna {
 
     @Override
     public String toString() {
-        return "Vacuna{" + "idVacuna=" + idVacuna + ", laboratorio=" + laboratorio.getNomLaboratorio() + ", nroSerie=" + nroSerie + ", marca=" + marca + ", medida=" + medida + ", fechaCaduca=" + fechaCaduca + ", colocada=" + colocada + '}';
+        return "Vacuna{" + "idVacuna=" + idVacuna + ", laboratorio=" + laboratorio + ", nroSerie=" + nroSerie + ", marca=" + marca + ", medida=" + medida + ", fechaCaduca=" + fechaCaduca + ", colocada=" + colocada + ", idLaboratorio=" + idLaboratorio + '}';
     }
+
+    
     
      
 
