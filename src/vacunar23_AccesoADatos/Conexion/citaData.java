@@ -55,83 +55,43 @@ public class citaData {
         ->    
     */
     
-    public void cargarCita(CitaVacunacion citaVacunacion) {
+   public void cargarCita(CitaVacunacion citaVacunacion) {
     try {
         String sql = "INSERT INTO citavacunacion (idCiudadano, codRefuerzo, " +
                      "fechaHoraCita, centroVacunacion, horarioTurno, idVacuna, " +
                      "estado) VALUES (?,?,?,?,?,?,?)";
         PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-        
-        System.out.println("pasó la conexion");
-        // No necesitas establecer el valor de idCiudadano ni idVacuna, ya que son autoincrementales.
-        ps.setInt(1, citaVacunacion.getCiudadano().getIdCiudadano());
+        ps.setInt(1, citaVacunacion.getCiudadano().getIdCiudadano()); // Aquí, toma el id del ciudadano asociado a la cita.
         ps.setInt(2, citaVacunacion.getCodRefuerzo());
         ps.setDate(3, Date.valueOf(citaVacunacion.getFechaHoraCita()));
         ps.setString(4, citaVacunacion.getCentroVacunacion());
 
         // Aquí estableces la hora en la columna horarioTurno como Time
-        
-        ps.setTime(5, Time.valueOf(citaVacunacion.getFechaHoraColoca()));
-        ps.setInt(6, citaVacunacion.getVacuna().getIdVacuna());
-        // También puedes omitir la columna idVacuna, ya que es autoincremental.
+        LocalTime localTime = citaVacunacion.getFechaHoraColoca();
+        Time time = Time.valueOf(localTime);
+        ps.setTime(5, time);
 
+        ps.setInt(6, citaVacunacion.getVacuna().getIdVacuna()); // Aquí, toma el id de la vacuna asociada a la cita.
         ps.setString(7, citaVacunacion.getEstado());
-        
-        
-        System.out.println("hasta aqui llegó");
-        int columnaAfectada = ps.executeUpdate();//ejecuta la sentencia hacia la tabla
+
+        int columnaAfectada = ps.executeUpdate(); // Ejecuta la sentencia hacia la tabla.
 
         // Debes revisar si la inserción se realizó correctamente.
         if (columnaAfectada > 0) {
             ResultSet generatedKeys = ps.getGeneratedKeys();
             if (generatedKeys.next()) {
-                int idCiudadanoGenerado = generatedKeys.getInt(1); // Obtener el valor generado para idCiudadano
-                // Si es necesario hacer algo con el id generado, aquí puedes hacerlo.
-                JOptionPane.showMessageDialog(null, "Cita de vacunación ingresada correctamente con idCiudadano: " + idCiudadanoGenerado);
+                int idCitaGenerado = generatedKeys.getInt(1); // Obtener el valor generado para idCita, si es necesario.
+                JOptionPane.showMessageDialog(null, "Cita de vacunación ingresada correctamente con idCita: " + idCitaGenerado);
             }
         }
         ps.close();
     } catch (SQLException ex) {
-        JOptionPane.showMessageDialog(null, "Error al acceder a la tabla citaVacunacion: " + ex.getMessage());
+        JOptionPane.showMessageDialog(null, "Error al acceder a la tabla citaVacunacion: " + ex.getLocalizedMessage());
     }
 }
-//    public void cargarCita(CitaVacunacion citaVacunacion){
-//        
-//        try {
-//            String sql ="INSERT INTO citavacunacion ( idCiudadano, codRefuerzo, "
-//                    + "fechaHoraCita, centroVacunacion, horarioTurno, idVacuna, "
-//                    + "estado) VALUES (?,?,?,?,?,?,?)";
-//            PreparedStatement ps= con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-//
-//            ps.setInt(1, citaVacunacion.getCiudadano().getIdCiudadano());
-//            ps.setInt(2, citaVacunacion.getCodRefuerzo());
-//            ps.setDate(3, Date.valueOf(citaVacunacion.getFechaHoraCita()));
-//            ps.setString(4, citaVacunacion.getCentroVacunacion());
-//
-//            // Aquí establecemos la hora en la columna horarioTurno como Time
-//            LocalTime localTime = citaVacunacion.getFechaHoraColoca();
-//            Time time = Time.valueOf(localTime);
-//            ps.setTime(5, time);
-//
-//            ps.setInt(6, citaVacunacion.getVacuna().getIdVacuna());
-//            ps.setString(7, citaVacunacion.getEstado());
-//            int columnaAfectada = ps.executeUpdate();//ejecuta la sentencia hacia la tabla
-//            
-//            //debemos revisar si el ingreso se realizó correctamente con columnaAfectada
-//            ResultSet lista = ps.getGeneratedKeys();
-//            if(lista.next()){
-//                
-//                JOptionPane.showMessageDialog(null, "Laboratorio Ingresado Correctamente");
-//            }
-//            ps.close();
-//        } catch (SQLException ex) {
-//            JOptionPane.showMessageDialog(null, "Error al acceder a la tabla citaVacunacion"+ex.getMessage());
-//        }
-//        
-//        
-//    }
-//    
+
+
     public void modificarCita(CitaVacunacion citaVacunacion){
         try{
             //formulamos la petición
@@ -288,6 +248,7 @@ public class citaData {
      return listaCitas;   
     }
 
+    
     public CitaVacunacion buscarCitaXDNI(int dni){
              String sql = "SELECT * FROM citaVacunacion AS cv " +
                  "JOIN ciudadano AS c ON cv.idCiudadano = c.idCiudadano " +
@@ -457,6 +418,83 @@ public class citaData {
          return cita;
     }
     
+    public List<CitaVacunacion> listarCitasXDia(LocalDate fecha){
+     String sql = "SELECT *\n"
+                + "FROM citaVacunacion AS cv, ciudadano, vacuna\n"
+                + "JOIN vacuna AS v and ciudadano AS c\n"               
+                + "ON cv.idVacuna=v.idVacuna and cv.idCiudadano=c.idCiudadano"
+                + "WHERE cv.fechaHoraCita = ?";    
+     
+     try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ps.setDate(1, Date.valueOf(fecha));//debo parsear fecha es LocalDate y debo pasarle al sql un tipo Date
+            ResultSet RSetcitas = ps.executeQuery();
+            while (RSetcitas.next()) {
+                ///seteo los objetos de entidades
+                //objteo: cita -> clase CitaVacunacion
+                //objteo: vacuna -> clase Vacuna
+                //objteo: ciudadano -> clase Ciudadano
+                
+                //vacuna
+                vacuna.setIdVacuna(RSetcitas.getInt("idVacuna"));
+                vacuna.setNroSerie(RSetcitas.getInt("nroSerieDosis"));
+                vacuna.setMarca(RSetcitas.getString("marca"));
+                vacuna.setMedida(RSetcitas.getDouble("medida"));
+                vacuna.setFechaCaduca(RSetcitas.getDate("fechaCaduca").toLocalDate()); // NO OLVIDAR "toLocalDate" PARA PARSEAR
+                vacuna.setColocada(RSetcitas.getBoolean("colocada"));
+
+                //ciudadano
+                /*
+                private int dni;
+                private String nombreCompleto;
+                private String email;
+                private String celular;
+                private String patologia = null;
+                private String ambitoTrabajo;
+                */
+                ciudadano.setDni(RSetcitas.getInt("dni"));
+                ciudadano.setNombreCompleto(RSetcitas.getString("nombreCompleto"));
+                ciudadano.setEmail(RSetcitas.getString("email"));
+                ciudadano.setCelular(RSetcitas.getString("celular"));
+                ciudadano.setPatologia(RSetcitas.getString("patologia"));
+                ciudadano.setAmbitoTrabajo(RSetcitas.getString("ambitoTrabajo"));
+                
+                /*
+                private int codCita;
+                private LocalDate fechaHoraCita;
+                private String centroVacunacion; 
+                private LocalDate fechaHoraColoca;
+                private Vacuna vacuna;
+                private int codRefuerzo;
+                private Ciudadano ciudadano;       
+                private String estado;
+                */
+                cita.setCodCita(RSetcitas.getInt("codCita"));
+                cita.setFechaHoraCita(RSetcitas.getDate("fechaHoraCita").toLocalDate());
+                cita.setCentroVacunacion(RSetcitas.getString("email"));
+                cita.setFechaHoraColoca(RSetcitas.getTime("fechaHoraColoca").toLocalTime());
+                cita.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
+                cita.setEstado(RSetcitas.getString("estado"));
+                
+                //seteo a citas los objetos ya con sus datos cargados
+                cita.setCiudadano(ciudadano); 
+                cita.setVacuna(vacuna);
+                
+                //cargo la cita a la lista a devolver
+                listaCitas.add(cita);
+            }
+
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println("falló el acceso a alguna de las tablas citaVacunacion, ciudadano o vacuna");
+            JOptionPane.showMessageDialog(null, "falló el acceso a alguna de las tablas citaVacunacion, ciudadano o vacuna");              
+        }
+        
+     return listaCitas;   
+    }
+
     
     
 }

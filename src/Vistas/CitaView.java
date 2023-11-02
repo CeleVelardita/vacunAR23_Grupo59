@@ -5,6 +5,7 @@ package Vistas;
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -32,14 +33,15 @@ public class CitaView extends javax.swing.JInternalFrame {
     
     private List<Ciudadano> ListaCiudadanos;
     private List<Vacuna> ListaVacunas;
-    private List<CitaVacunacion> listaCitas;
+    private List<CitaVacunacion> listaCitas;//para todas las citas todas
+    private List<CitaVacunacion>listaCitaXDia;//para listar por dia
     private citaData citaData;
     private VacunaData vacuData;
     private CiudadanoData ciuData;
     private CitaVacunacion citaVac;
     private Vacuna vacuna;
 
-    private Ciudadano ciudadano=null;
+    private Ciudadano ciudadano;
     
     SimpleDateFormat dFormat;
     
@@ -55,10 +57,12 @@ public class CitaView extends javax.swing.JInternalFrame {
         jCheckBoxVerificacion.setEnabled(false);
         jtNombre.setEnabled(false);
         
-        //cargarComboRefuerzo();
+   
+        
+
        
         dni=00000000;
-//        ciudadano= new Ciudadano();
+        ciudadano= new Ciudadano();
         
         vacuna=new Vacuna();
         vacuData= new VacunaData();
@@ -71,8 +75,8 @@ public class CitaView extends javax.swing.JInternalFrame {
          // Deshabilita la edición del campo de texto
             JTextFieldDateEditor dateEditor = (JTextFieldDateEditor) jCalendarCita.getDateEditor();
             dateEditor.setEditable(false);
-         
-         
+            JTextFieldDateEditor tipeojdcListarXDia= (JTextFieldDateEditor) jdcListarXDia.getDateEditor();
+            tipeojdcListarXDia.setEditable(false);
         ///Necesario para los turnos:
         
         //carga de combobox   
@@ -97,6 +101,11 @@ public class CitaView extends javax.swing.JInternalFrame {
         horariosHabiles.put(new Date(), true);
         horariosHabiles.put(new Date(new Date().getTime() + 86400000), true);
         horariosHabiles.put(new Date(new Date().getTime() + 172800000), true);
+        
+        
+        
+        
+        turnosPordia();//tabla con turnos segun dia
     }
 
     
@@ -128,7 +137,7 @@ public class CitaView extends javax.swing.JInternalFrame {
         jLListarXDia = new javax.swing.JLabel();
         jdcListarXDia = new com.toedter.calendar.JDateChooser();
         jLBuscarXDni = new javax.swing.JLabel();
-        jTextField6 = new javax.swing.JTextField();
+        jtBuscarxDni = new javax.swing.JTextField();
         jLModificarEstado = new javax.swing.JLabel();
         jComboBox4 = new javax.swing.JComboBox<>();
         jBotonAplicarEstado = new javax.swing.JButton();
@@ -200,6 +209,11 @@ public class CitaView extends javax.swing.JInternalFrame {
         }
 
         jBotonBuscar.setText("Buscar ");
+        jBotonBuscar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBotonBuscarActionPerformed(evt);
+            }
+        });
 
         jLListarXDia.setText("Listar Cita según calendario");
 
@@ -294,7 +308,7 @@ public class CitaView extends javax.swing.JInternalFrame {
                                 .addGap(142, 142, 142)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jLBuscarXDni)
-                                    .addComponent(jTextField6)
+                                    .addComponent(jtBuscarxDni)
                                     .addComponent(jBotonBuscar, javax.swing.GroupLayout.DEFAULT_SIZE, 130, Short.MAX_VALUE))
                                 .addGap(165, 165, 165)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -348,7 +362,7 @@ public class CitaView extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLBuscarXDni)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jtBuscarxDni, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jBotonBuscar))
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -571,6 +585,34 @@ public class CitaView extends javax.swing.JInternalFrame {
 //        }
     }//GEN-LAST:event_jCalendarCitaPropertyChange
 
+    private void jBotonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonBuscarActionPerformed
+        
+        try{
+            int jtdni=Integer.parseInt(jtBuscarxDni.getText());
+            borrarFilaDeTabla();
+        Date date = jdcListarXDia.getDate(); // Obtener la fecha seleccionada en formato java.util.Date
+        Instant instant =date.toInstant(); // Convertir a Instant
+         ZoneId zoneId = ZoneId.systemDefault(); // Obtener la zona horaria por defecto
+        LocalDate turnoDelDia = instant.atZone(zoneId).toLocalDate(); // Convertir a LocalDate ya tengo lo que seleciionó el usuario
+        
+        listaCitaXDia=citaData.listarCitasXDia(turnoDelDia);
+         if(listaCitaXDia!=null){
+             for(CitaVacunacion cit: listaCitaXDia){
+             modeloTabla.addRow(new Object[]{cit.getCodCita(),cit.getCiudadano().getNombreCompleto(),
+                                cit.getCiudadano().getDni(),cit.getCiudadano().getPatologia(),
+                                cit.getFechaHoraCita(),cit.getFechaHoraColoca(),
+                                cit.getVacuna().getMarca(),cit.getVacuna().getNroSerie(),
+                                cit.getCodRefuerzo(),cit.getCiudadano().getDistrito(),
+                                cit.getEstado()});
+            }
+         }else{
+             JOptionPane.showMessageDialog(null, "no hay citas para la fecha que seleccionó");
+         }
+        }catch(NullPointerException ex){
+            JOptionPane.showMessageDialog(null, "no extiste cita para éste dni");
+        }
+    }//GEN-LAST:event_jBotonBuscarActionPerformed
+
     
 
     
@@ -600,8 +642,8 @@ public class CitaView extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTableListado;
-    private javax.swing.JTextField jTextField6;
     private com.toedter.calendar.JDateChooser jdcListarXDia;
+    private javax.swing.JTextField jtBuscarxDni;
     private javax.swing.JTextField jtDNI;
     private javax.swing.JTextField jtNombre;
     // End of variables declaration//GEN-END:variables
@@ -647,4 +689,29 @@ public class CitaView extends javax.swing.JInternalFrame {
     
         
  
+        
+        
+   // Metodo para actualizar tabla segun dia
+   private void turnosPordia(){
+       borrarFilaDeTabla();
+       Date date = jdcListarXDia.getDate(); // Obtener la fecha seleccionada en formato java.util.Date
+       Instant instant =date.toInstant(); // Convertir a Instant
+        ZoneId zoneId = ZoneId.systemDefault(); // Obtener la zona horaria por defecto
+        LocalDate turnoDelDia = instant.atZone(zoneId).toLocalDate(); // Convertir a LocalDate ya tengo lo que seleciionó el usuario
+        
+        listaCitaXDia=citaData.listarCitasXDia(turnoDelDia);
+         if(listaCitaXDia!=null){
+             for(CitaVacunacion cit: listaCitaXDia){
+             modeloTabla.addRow(new Object[]{cit.getCodCita(),cit.getCiudadano().getNombreCompleto(),
+                                cit.getCiudadano().getDni(),cit.getCiudadano().getPatologia(),
+                                cit.getFechaHoraCita(),cit.getFechaHoraColoca(),
+                                cit.getVacuna().getMarca(),cit.getVacuna().getNroSerie(),
+                                cit.getCodRefuerzo(),cit.getCiudadano().getDistrito(),
+                                cit.getEstado()});
+            }
+         }else{
+             JOptionPane.showMessageDialog(null, "no hay citas para la fecha que seleccionó");
+         }
+      
+   }
 }
