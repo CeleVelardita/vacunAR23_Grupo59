@@ -419,7 +419,7 @@ public class CitaView extends javax.swing.JInternalFrame {
            // jCheckBoxVerificacion.setEnabled(false);//para que no sea editable
            
            ///obtengo fecha
-           String fechaELegida= dFormat.format(jCalendarCita.getDate());
+//           String fechaELegida= dFormat.format(jCalendarCita.getDate());
            // Obtén la fecha seleccionada del componente JDateChooser
             Date fechaSeleccionadaDate = jCalendarCita.getDate();
 
@@ -443,7 +443,7 @@ public class CitaView extends javax.swing.JInternalFrame {
             System.out.println("hora del combobox"+localTime);
             
             // Obtener el número seleccionado del JComboBox
-            String numeroSeleccionado = (String) jComboBoxHorarios.getSelectedItem();
+//            String numeroSeleccionado = (String) jComboBoxHorarios.getSelectedItem();
 
             // Convertir el número a int
             codRefuerzoCita = Integer.parseInt((String) jComboBoxRefuerzo.getSelectedItem());
