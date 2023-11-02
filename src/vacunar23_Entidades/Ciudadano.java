@@ -16,6 +16,10 @@ public class Ciudadano {
 
     public Ciudadano(){}
     
+    public Ciudadano(int id){
+        idCiudadano = id;
+    }
+    
     public Ciudadano(int idCiudadano, int dni, String nombreCompleto, String email, String celular, String patologia, String ambitoTrabajo, String distrito, int codRefuerzo) {
         this.idCiudadano = idCiudadano;
         this.dni = dni;

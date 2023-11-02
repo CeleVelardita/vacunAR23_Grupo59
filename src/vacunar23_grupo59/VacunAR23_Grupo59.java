@@ -4,6 +4,7 @@ package vacunar23_grupo59;
 import java.sql.Connection;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import jdk.nashorn.internal.codegen.CompilerConstants;
 import vacunar23_AccesoADatos.Conexion.CiudadanoData;
@@ -126,13 +127,30 @@ public class VacunAR23_Grupo59 {
         /*---------------Cargar Cita---------------*/
         String fecha1 = "2023-11-14";
         LocalDate fechaCita = LocalDate.parse(fecha);
-        /*
-        LocalDateTime fechaHoraColoca = LocalDateTime.now();
-                
-        CitaVacunacion cita = new CitaVacunacion(112233, fechaCita, "Tres de Febrero", fechaHoraColoca, idVacu, 2, idCiu, false);
-        /// Carga de Cita
-        */
         
+        LocalTime fechaHoraColoca = LocalTime.now();
+         
+        // Creamos un id como di lo sacara de la tabla de la BD
+        int idVac = 115;
+        Vacuna vacuna = new Vacuna(idVac);
+        
+        int idCiu = 10;
+        Ciudadano ciu2 = new Ciudadano(idCiu);
+        
+        CitaVacunacion cita = new CitaVacunacion(112233, fechaCita, "Tres de Febrero", fechaHoraColoca, vacuna, 2, ciu2, "Aplicada");
+        
+
+        /// Carga de Cita
+        citaData.cargarCita(cita);
+        
+        /// Modificación de cita
+        CitaVacunacion cita2 = new CitaVacunacion(112233, fechaCita, "Zona Norte", fechaHoraColoca, vacuna, 2, ciu2, "Aplicada");
+        citaData.modificarCita(cita2);
+        
+        /// Ver estado de la cita
+        citaData.estadoCita(cita2);
+        
+        /// 
         
     }
     

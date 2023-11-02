@@ -38,6 +38,10 @@ public class Vacuna {
         laboratorio = lab;
     }
     
+    public Vacuna (int id){
+        idVacuna = id;
+    }
+    
     /*--------------------------------------------*/
     public Vacuna(int id, int nroSerie, String marca, double medida, LocalDate fecha, boolean colocada, int idLaboratorio ){
         this.idVacuna = idVacuna;

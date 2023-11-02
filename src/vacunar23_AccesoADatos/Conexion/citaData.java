@@ -175,8 +175,7 @@ public class citaData {
             JOptionPane.showMessageDialog(null, "Error al modificar Estado de la cita"+ ex.getMessage());
         }
     }
-    
-     
+         
     public List<CitaVacunacion> listarCitas() {
         String sql = "SELECT DISTINCT * " +
              "FROM citaVacunacion AS cv " +
@@ -268,7 +267,6 @@ public class citaData {
 
     return listaCitas;
 }
-
     
     public CitaVacunacion buscarCitaXDNI(int dni){
              String sql = "SELECT * FROM citaVacunacion AS cv " +

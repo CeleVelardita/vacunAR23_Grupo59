@@ -20,6 +20,8 @@ public class CitaVacunacion {
     public CitaVacunacion() {
     }
 
+    
+    
     public CitaVacunacion(int codCita, LocalDate fechaHoraCita, String centroVacunacion, LocalTime fechaHoraColoca, Vacuna vacuna, int codRefuerzo, Ciudadano ciudadano, String estado) {
         this.codCita = codCita;
         this.fechaHoraCita = fechaHoraCita;
