@@ -275,6 +275,7 @@ public class CiudadanoData {
             if (buscarDni.next()) {
                 // Crear una instancia de Ciudadano solo si se encuentra en la base de datos
                 ciudadano = new Ciudadano();
+                ciudadano.setIdCiudadano(buscarDni.getInt("idCiudadano"));
                 ciudadano.setDni(buscarDni.getInt("dni"));
                 ciudadano.setNombreCompleto(buscarDni.getString("nombreCompleto"));
                 ciudadano.setEmail(buscarDni.getString("email"));

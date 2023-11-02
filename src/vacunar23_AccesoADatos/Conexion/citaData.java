@@ -57,11 +57,14 @@ public class citaData {
     
    public void cargarCita(CitaVacunacion citaVacunacion) {
     try {
-        String sql = "INSERT INTO citavacunacion (idCiudadano, codRefuerzo, " +
+        String sql = "INSERT INTO citavacunacion ( idCiudadano, codRefuerzo, " +
                      "fechaHoraCita, centroVacunacion, horarioTurno, idVacuna, " +
                      "estado) VALUES (?,?,?,?,?,?,?)";
         PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
+        System.out.println("idCiudadano:  "+citaVacunacion.getCiudadano().getIdCiudadano());
+        System.out.println("idVacuna:  "+citaVacunacion.getVacuna().getIdVacuna());
+        
         ps.setInt(1, citaVacunacion.getCiudadano().getIdCiudadano()); // Aquí, toma el id del ciudadano asociado a la cita.
         ps.setInt(2, citaVacunacion.getCodRefuerzo());
         ps.setDate(3, Date.valueOf(citaVacunacion.getFechaHoraCita()));
