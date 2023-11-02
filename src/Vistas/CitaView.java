@@ -588,7 +588,7 @@ public class CitaView extends javax.swing.JInternalFrame {
        int filaSeleccionada = jTableListado.getSelectedRow();
         int columna = 10;  // Columna 10
         String estadoCombo = (String) jcomboboxEstado.getSelectedItem();
-
+        
         if (filaSeleccionada != -1) {
             // Asegúrate de que se haya seleccionado una fila
             jTableListado.setValueAt(estadoCombo, filaSeleccionada, columna);
@@ -600,12 +600,13 @@ public class CitaView extends javax.swing.JInternalFrame {
         if (filaSeleccionada >= 0) {
             // Asegúrate de que se haya seleccionado una fila válida
             Object valorCelda = jTableListado.getValueAt(fila, columnaa);
-
+            Object dnifila =jTableListado.getValueAt(fila, 1);
             if (valorCelda != null) {
         try {
             int codigoRefuerzo = Integer.parseInt(valorCelda.toString());
+            int dni = Integer.parseInt(dnifila.toString());
             CiudadanoData ciuData = null;
-             ciuData.cambiarCodigoRefuerzo(codigoRefuerzo);
+             ciuData.cambiarCodigoRefuerzo(codigoRefuerzo, dni);
             // Ahora tienes el contenido de la celda en la variable codigoRefuerzo como un entero
             } catch (NumberFormatException e) {
                 // Manejar aquí si el valor no es un número válido
