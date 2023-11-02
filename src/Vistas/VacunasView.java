@@ -234,35 +234,33 @@ public class VacunasView extends javax.swing.JInternalFrame {
                             .addComponent(jcbLaboratorio, 0, 393, Short.MAX_VALUE)
                             .addComponent(jtMarca))
                         .addContainerGap(150, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel4)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel6))
-                                .addGap(36, 36, 36)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jcbMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jbLimpiarCampos)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 276, Short.MAX_VALUE))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jcbAplicada)
-                                            .addComponent(jtNroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jdcVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jbAgregar)
-                                                .addGap(72, 72, 72)
-                                                .addComponent(jbModificar)
-                                                .addGap(90, 90, 90)
-                                                .addComponent(jbEliminar)))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 147, Short.MAX_VALUE)))))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel6))
+                            .addGap(36, 36, 36)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jcbAplicada)
+                                        .addComponent(jtNroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jdcVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jbAgregar)
+                                            .addGap(72, 72, 72)
+                                            .addComponent(jbModificar)
+                                            .addGap(90, 90, 90)
+                                            .addComponent(jbEliminar)))
+                                    .addContainerGap(147, Short.MAX_VALUE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jcbMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jbLimpiarCampos)
+                                    .addGap(53, 53, 53)))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -366,7 +364,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
 
         } catch (NumberFormatException e) {
             e.getStackTrace();
-            JOptionPane.showMessageDialog(this, "El campo 'Nro. Serie' está vacío o contiene carácteres inválidos " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "El campo 'Nro. Serie' está vacío o contiene carácteres inválidos ");
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this, "Los campos 'Laboratorio' y 'Marca' no son válidos");
         } catch (NullPointerException ex) {
@@ -504,11 +502,20 @@ public class VacunasView extends javax.swing.JInternalFrame {
         if(filaSeleccionada != -1){
             String valor = jtTablaVacunas.getValueAt(filaSeleccionada, 2).toString();
             int numSerie = Integer.parseInt(valor);
-            vacunaData.eliminarVacuna(numSerie); 
-            
-            // Elimino una fila de la tabla
-            tablaVacunas.removeRow(filaSeleccionada);
-        }     
+          
+            int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro que quiere eliminar la vacuna seleccionada?", "Eliminar Vacuna", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                JOptionPane.showMessageDialog(null, "Vacuna eliminada");
+                vacunaData.eliminarVacuna(numSerie);
+                // Elimino una fila de la tabla
+                tablaVacunas.removeRow(filaSeleccionada);
+            } else {
+                System.out.println("No hace nada porque dijo que no :)");
+            }
+        } else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
+            return;
+        }    
     }//GEN-LAST:event_jbEliminarActionPerformed
 
 

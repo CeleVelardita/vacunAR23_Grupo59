@@ -1,5 +1,6 @@
 package Vistas;
 
+import java.awt.Color;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,8 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
 
     public CiudadanoView() {
         initComponents();
+        
+        getContentPane().setBackground(new Color(240, 255, 240));
         
         ciu = null;
         ciuData = new CiudadanoData();
@@ -82,9 +85,9 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
         setMaximizable(true);
         setResizable(true);
         setTitle("Base de Datos: Ciudadano");
-        setPreferredSize(new java.awt.Dimension(800, 700));
+        setPreferredSize(new java.awt.Dimension(750, 700));
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(800, 700));
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 720));
 
         jbAgregar.setText("Agregar");
         jbAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -368,7 +371,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 559, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(113, Short.MAX_VALUE))
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         pack();
@@ -628,7 +631,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
 
     private void jtEmailKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtEmailKeyTyped
         char letra=evt.getKeyChar();
-        if (!Character.isLetter(letra) && letra != KeyEvent.VK_BACK_SPACE && letra != KeyEvent.VK_SPACE|| jtEmail.getText().length() >= 30) {
+        if (letra != KeyEvent.VK_BACK_SPACE && (letra == '@') || jtEmail.getText().length() >= 30) {
             evt.consume();
         }
     }//GEN-LAST:event_jtEmailKeyTyped

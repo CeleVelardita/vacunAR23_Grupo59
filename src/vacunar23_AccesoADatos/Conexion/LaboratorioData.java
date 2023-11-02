@@ -44,32 +44,7 @@ public class LaboratorioData {
             // con.prepareStatement(sentencia Sql, le pido que devuelva la lista de las claves generadas ID)
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
-            String cuit = String.valueOf(laboratorio.getCuit());
-            
-            if(cuit.length() > 11){
-                System.out.println("Ha excedido el límite de valores para el número de CUIT");
-            }
-            
-            String nombre = laboratorio.getNomLaboratorio();
-            
-            if(nombre.length() > 100){
-                System.out.println("Ha excedido el límite de carácteres para el nombre del Laboratorio");
-            }
-            
-            String pais = laboratorio.getPais();
-            
-            if(pais.length() > 20){
-                System.out.println("Ha excedido el límite de carácteres para el país");
-            }
-            
-            String domicilio = laboratorio.getDomComercial();
-            
-            if(domicilio.length() > 30){
-                System.out.println("Ha excedido el límite de carácteres para el domicilio");
-            }
-            
-            if((cuit.length() < 12) && (nombre.length() < 101) && (pais.length() <21) && (domicilio.length() < 31)){
-               //Se setean los tipos de datos que quiero enviar, porque llegan el método a través del parámetro "laboratorio"
+            //Se setean los tipos de datos que quiero enviar, porque llegan el método a través del parámetro "laboratorio"
             ps.setLong(1, laboratorio.getCuit());
             ps.setString(2, laboratorio.getNomLaboratorio());
             ps.setString(3, laboratorio.getPais());       
@@ -94,7 +69,7 @@ public class LaboratorioData {
 
             // Cierro el método prepareStatement 
             ps.close();  
-            }
+            
             
         }catch (SQLException ex){
             JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla laboratorio de la BD");
