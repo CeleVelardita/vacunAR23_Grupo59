@@ -104,6 +104,8 @@ public class CitaView extends javax.swing.JInternalFrame {
 
         
         turnosPordia();//tabla con turnos segun dia
+        
+        comboboxEstado();
     }
 
     
@@ -138,7 +140,7 @@ public class CitaView extends javax.swing.JInternalFrame {
         jLBuscarXDni = new javax.swing.JLabel();
         jtBuscarxDni = new javax.swing.JTextField();
         jLModificarEstado = new javax.swing.JLabel();
-        jComboBox4 = new javax.swing.JComboBox<>();
+        jcomboboxEstado = new javax.swing.JComboBox<>();
         jBotonAplicarEstado = new javax.swing.JButton();
         jBuscarDni = new javax.swing.JButton();
         jCheckBoxVerificacion = new javax.swing.JCheckBox();
@@ -226,6 +228,11 @@ public class CitaView extends javax.swing.JInternalFrame {
         jLModificarEstado.setText("Modificar Estado De La Cita:");
 
         jBotonAplicarEstado.setText("Aplicar Estado");
+        jBotonAplicarEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jBotonAplicarEstadoActionPerformed(evt);
+            }
+        });
 
         jBuscarDni.setText("Buscar");
         jBuscarDni.addActionListener(new java.awt.event.ActionListener() {
@@ -322,7 +329,7 @@ public class CitaView extends javax.swing.JInternalFrame {
                         .addGap(165, 165, 165)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLModificarEstado, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jComboBox4, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jcomboboxEstado, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jBotonAplicarEstado, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
@@ -375,7 +382,7 @@ public class CitaView extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(jLModificarEstado)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jComboBox4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jcomboboxEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jBotonAplicarEstado)))
                         .addGap(18, 18, 18)
@@ -482,13 +489,9 @@ public class CitaView extends javax.swing.JInternalFrame {
 
         try{
             dni=Integer.parseInt(jtDNI.getText());//aplicar controles
-            System.out.println("dni ingresado: "+dni);
-            
 
-            System.out.println("pasó el if");
             ciudadano=ciuData.buscarCiudadano(dni);
-            System.out.println("devolvió el ciudadano");
-            System.out.println("nombre ciudadano "+ciudadano.getNombreCompleto());
+
             jComboBoxRefuerzo.removeAll();
         if(ciudadano!=null){
             jCheckBoxVerificacion.setSelected(true);
@@ -581,6 +584,42 @@ public class CitaView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void jBotonAplicarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonAplicarEstadoActionPerformed
+       int filaSeleccionada = jTableListado.getSelectedRow();
+        int columna = 10;  // Columna 10
+        String estadoCombo = (String) jcomboboxEstado.getSelectedItem();
+
+        if (filaSeleccionada != -1) {
+            // Asegúrate de que se haya seleccionado una fila
+            jTableListado.setValueAt(estadoCombo, filaSeleccionada, columna);
+        }
+        
+        int fila = jTableListado.getSelectedRow(); // Obtiene la fila seleccionada
+        int columnaa = 8; // La columna que deseas obtener (columna 8)
+
+        if (filaSeleccionada >= 0) {
+            // Asegúrate de que se haya seleccionado una fila válida
+            Object valorCelda = jTableListado.getValueAt(fila, columnaa);
+
+            if (valorCelda != null) {
+        try {
+            int codigoRefuerzo = Integer.parseInt(valorCelda.toString());
+            CiudadanoData ciuData = null;
+             ciuData.cambiarCodigoRefuerzo(codigoRefuerzo);
+            // Ahora tienes el contenido de la celda en la variable codigoRefuerzo como un entero
+            } catch (NumberFormatException e) {
+                // Manejar aquí si el valor no es un número válido
+            }
+        } 
+        
+        
+        
+        
+              
+        
+
+    }//GEN-LAST:event_jBotonAplicarEstadoActionPerformed
+
     
 
     
@@ -593,7 +632,6 @@ public class CitaView extends javax.swing.JInternalFrame {
     private javax.swing.JButton jButton1;
     private com.toedter.calendar.JDateChooser jCalendarCita;
     private javax.swing.JCheckBox jCheckBoxVerificacion;
-    private javax.swing.JComboBox<String> jComboBox4;
     private javax.swing.JComboBox<String> jComboBoxHorarios;
     private javax.swing.JComboBox<Vacuna> jComboBoxListaVacunas;
     private javax.swing.JComboBox<String> jComboBoxRefuerzo;
@@ -611,6 +649,7 @@ public class CitaView extends javax.swing.JInternalFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTableListado;
+    private javax.swing.JComboBox<String> jcomboboxEstado;
     private com.toedter.calendar.JDateChooser jdcListarXDia;
     private javax.swing.JTextField jtBuscarxDni;
     private javax.swing.JTextField jtDNI;
@@ -685,4 +724,21 @@ public class CitaView extends javax.swing.JInternalFrame {
         }
   
    }
+
+
+private void comboboxEstado(){
+    jcomboboxEstado.addItem("");
+    jcomboboxEstado.addItem("Activa");
+    jcomboboxEstado.addItem("Vencida");
+    jcomboboxEstado.addItem("Cancelada");
+    
+    
+    
 }
+
+
+
+
+
+}
+

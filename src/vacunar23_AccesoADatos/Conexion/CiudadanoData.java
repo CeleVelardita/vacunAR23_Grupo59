@@ -269,7 +269,7 @@ public class CiudadanoData {
         try {
             PreparedStatement ps = con.prepareStatement(sql);
             ps.setInt(1, dni); // Asignamos el valor al marcador de posición
-            System.out.println("entró al try");
+            
             ResultSet buscarDni = ps.executeQuery();
 
             if (buscarDni.next()) {
@@ -296,5 +296,27 @@ public class CiudadanoData {
         return ciudadano; // Devuelve el ciudadano encontrado o null si no se encuentra.
     }
 
+        
+public void cambiarCodigoRefuerzo(int codigo) {
+    try {
+        String sql = "UPDATE ciudadano SET codRefuerzo = ? WHERE corRefuerzo = ?";
+        PreparedStatement ps = con.prepareStatement(sql);
+        ps.setInt(1, codigo);
+        ps.setInt(2, codigo); // No estoy seguro si 'corRefuerzo' es el nombre correcto de la columna a actualizar, así que podrías necesitar ajustarlo.
+
+        int rowsAffected = ps.executeUpdate();
+
+        if (rowsAffected > 0) {
+            JOptionPane.showMessageDialog(null, "Código de refuerzo actualizado con éxito.");
+        } else {
+            JOptionPane.showMessageDialog(null, "No se encontró ningún registro que coincida con el código proporcionado.");
+        }
+
+        ps.close();
+    } catch (SQLException ex) {
+        JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla ciudadano: " + ex.getMessage());
+    }
+}
+    
     
 }
