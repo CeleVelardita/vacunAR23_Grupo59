@@ -43,7 +43,14 @@ public class CitaView extends javax.swing.JInternalFrame {
 
     private Ciudadano ciudadano;
     
-    SimpleDateFormat dFormat;
+    /**para extraer fecha**/
+    private Date date=new Date();
+    private Instant instant;
+    ZoneId zoneId;
+     LocalDate turnoDelDia;
+     
+    
+    private SimpleDateFormat dFormat;
     
     //atributos extras para extraer datos de los eventos
     private int dni;
@@ -56,10 +63,6 @@ public class CitaView extends javax.swing.JInternalFrame {
         modeloTabla = (DefaultTableModel) jTableListado.getModel();//despues de esto cargo el armado de cabecera de tabla
         jCheckBoxVerificacion.setEnabled(false);
         jtNombre.setEnabled(false);
-        
-   
-        
-
        
         dni=00000000;
         ciudadano= new Ciudadano();
@@ -105,7 +108,7 @@ public class CitaView extends javax.swing.JInternalFrame {
         
         
         
-        //turnosPordia();//tabla con turnos segun dia
+        turnosPordia();//tabla con turnos segun dia
     }
 
     
@@ -722,27 +725,29 @@ public class CitaView extends javax.swing.JInternalFrame {
  
         
         
-   // Metodo para actualizar tabla segun dia
-//   private void turnosPordia(){
-//       borrarFilaDeTabla();
-//       Date date = jdcListarXDia.getDate(); // Obtener la fecha seleccionada en formato java.util.Date
-//       Instant instant =date.toInstant(); // Convertir a Instant
-//        ZoneId zoneId = ZoneId.systemDefault(); // Obtener la zona horaria por defecto
-//        LocalDate turnoDelDia = instant.atZone(zoneId).toLocalDate(); // Convertir a LocalDate ya tengo lo que seleciionó el usuario
-//        
-//        listaCitaXDia=citaData.listarCitasXDia(turnoDelDia);
-//         if(listaCitaXDia!=null){
-//             for(CitaVacunacion cit: listaCitaXDia){
-//             modeloTabla.addRow(new Object[]{cit.getCodCita(),cit.getCiudadano().getNombreCompleto(),
-//                                cit.getCiudadano().getDni(),cit.getCiudadano().getPatologia(),
-//                                cit.getFechaHoraCita(),cit.getFechaHoraColoca(),
-//                                cit.getVacuna().getMarca(),cit.getVacuna().getNroSerie(),
-//                                cit.getCodRefuerzo(),cit.getCiudadano().getDistrito(),
-//                                cit.getEstado()});
-//            }
-//         }else{
-//             JOptionPane.showMessageDialog(null, "no hay citas para la fecha que seleccionó");
-//         }
-      
-//   }
+//    Metodo para actualizar tabla segun dia     // 
+   private void turnosPordia(){
+       borrarFilaDeTabla();
+        date = jdcListarXDia.getDate(); // Obtener la fecha seleccionada en formato java.util.Date
+       if(date!=null){
+            instant =date.toInstant(); // Convertir a Instant
+            ZoneId zoneId = ZoneId.systemDefault(); // Obtener la zona horaria por defecto
+            turnoDelDia = instant.atZone(zoneId).toLocalDate(); // Convertir a LocalDate ya tengo lo que seleciionó el usuario
+
+            listaCitaXDia=citaData.listarCitasXDia(turnoDelDia);
+             if(listaCitaXDia!=null){
+                 for(CitaVacunacion cit: listaCitaXDia){
+                 modeloTabla.addRow(new Object[]{cit.getCodCita(),cit.getCiudadano().getNombreCompleto(),
+                                    cit.getCiudadano().getDni(),cit.getCiudadano().getPatologia(),
+                                    cit.getFechaHoraCita(),cit.getFechaHoraColoca(),
+                                    cit.getVacuna().getMarca(),cit.getVacuna().getNroSerie(),
+                                    cit.getCodRefuerzo(),cit.getCiudadano().getDistrito(),
+                                    cit.getEstado()});
+                }
+             }else{
+                 JOptionPane.showMessageDialog(null, "no hay citas para la fecha que seleccionó");
+             }
+        }
+  
+   }
 }
