@@ -461,12 +461,13 @@ public class citaData {
                 + "ON cv.idVacuna=v.idVacuna and cv.idCiudadano=c.idCiudadano"
                 + "WHERE cv.fechaHoraCita = ?";    
      
-     try {
-            PreparedStatement ps = con.prepareStatement(sql);
-            
-            ps.setDate(1, Date.valueOf(fecha));//debo parsear fecha es LocalDate y debo pasarle al sql un tipo Date
-            ResultSet RSetcitas = ps.executeQuery();
-            while (RSetcitas.next()) {
+     List<CitaVacunacion> listaCitas = new ArrayList<>();
+
+    try {
+        PreparedStatement ps = con.prepareStatement(sql);
+        ResultSet RSetcitas = ps.executeQuery();
+
+        while (RSetcitas.next()) {
             // Crear nuevas instancias en cada iteración
             CitaVacunacion cita = new CitaVacunacion();
             Vacuna vacuna = new Vacuna();
@@ -530,8 +531,6 @@ public class citaData {
                 //cargo la cita a la lista a devolver
                 listaCitas.add(cita);
         }
-
-
             ps.close();
 
         } catch (SQLException e) {

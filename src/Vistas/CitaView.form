@@ -460,9 +460,6 @@
           <Properties>
             <Property name="toolTipText" type="java.lang.String" value="dd/MM/yyyy"/>
           </Properties>
-          <Events>
-            <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jCalendarCitaPropertyChange"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButton1">
           <Properties>

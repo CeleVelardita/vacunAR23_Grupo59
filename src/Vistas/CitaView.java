@@ -240,11 +240,6 @@ public class CitaView extends javax.swing.JInternalFrame {
         jLabel2.setHorizontalTextPosition(javax.swing.SwingConstants.LEFT);
 
         jCalendarCita.setToolTipText("dd/MM/yyyy");
-        jCalendarCita.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jCalendarCitaPropertyChange(evt);
-            }
-        });
 
         jButton1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jButton1.setText("Listar Todas Las Citas");
@@ -542,25 +537,6 @@ public class CitaView extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null,"DNI no encontrado"+e.getMessage());
         }
     }//GEN-LAST:event_jBuscarDniActionPerformed
-
-    private void jCalendarCitaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jCalendarCitaPropertyChange
-       /*
-        Este código añadirá un escuchador de eventos de propiedad al JCalendar.
-        El escuchador de eventos de propiedad se invocará cada vez que
-        se cambie una propiedad del JCalendar.
-        En este caso, el escuchador de eventos de propiedad comprobará
-        si la propiedad date ha cambiado. Si ha cambiado, el código comprobará
-        si el horario seleccionado está disponible.
-        Si no lo está, el día seleccionado en el calendario se deshabilitará.
-        */
-//        if (evt.getPropertyName().equals("date")) {
-//            String horario = (String) jComboBoxHorarios.getSelectedItem();
-//
-//            if (!horariosHabiles.get(jCalendarCita.getDate())) {
-//                jCalendarCita.setDate(null);
-//            }
-//        }
-    }//GEN-LAST:event_jCalendarCitaPropertyChange
 
     private void jBotonBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBotonBuscarActionPerformed
         
