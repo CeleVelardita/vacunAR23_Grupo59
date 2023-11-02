@@ -93,11 +93,13 @@ public class Vacuna {
     public void setColocada(boolean colocada) {
         this.colocada = colocada;
     }
-    
+
     @Override
-    public String toString() { // SE PUEDE MEJORAR SEGÚN LO QUE QUIERA MOSTRAR, ESTO ES SOLO UNA PRUEBA
-        return marca + " - " + laboratorio.getNomLaboratorio();
-    }    
+    public String toString() {
+        return "Vacuna{" + "idVacuna=" + idVacuna + ", laboratorio=" + laboratorio.getNomLaboratorio() + ", nroSerie=" + nroSerie + ", marca=" + marca + ", medida=" + medida + ", fechaCaduca=" + fechaCaduca + ", colocada=" + colocada + '}';
+    }
+    
+     
 
     @Override
     public int hashCode() {

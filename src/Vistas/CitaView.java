@@ -412,10 +412,6 @@ public class CitaView extends javax.swing.JInternalFrame {
             
             System.out.println("hora del combobox"+localTime);
             
-            
-           
-            
-            
             // Obtener el número seleccionado del JComboBox
             String numeroSeleccionado = (String) jComboBoxHorarios.getSelectedItem();
 
@@ -429,17 +425,14 @@ public class CitaView extends javax.swing.JInternalFrame {
             
             /*ahora armo la cita y la mando a la BDm por metodo cargar luego imprimo en tabla*/
             /*CitaVacunacion(, Ciudadano ciudadano)*/
-            
-//            citaVac.setFechaHoraCita(fechaSeleccionada);
-//            citaVac.setCentroVacunacion(ciudadano.getDistrito());
-//            citaVac.setFechaHoraColoca(localTime);
-//            citaVac.setVacuna(vacuna);
-//            citaVac.setCodRefuerzo(codRefuerzoCita);
-//            citaVac.setCiudadano(ciudadano);
-//            citaVac.setEstado("Activa");
-            
            
-            citaVac = new CitaVacunacion( fechaSeleccionada,  ciudadano.getDistrito(),  localTime,  vacuna,  codRefuerzoCita,  ciudadano,  "Activa");
+            Ciudadano ciudadanoNew =ciuData.buscarCiudadano(dni);
+            vacuna=vacuData.buscarPorNroSerie(vacuna.getNroSerie());
+            citaData=new citaData();
+            
+            citaVac = new CitaVacunacion( fechaSeleccionada,  ciudadanoNew.getDistrito(),
+                                         localTime,  vacuna,  codRefuerzoCita,
+                                         ciudadanoNew,  "Activa");
     
             
         
@@ -448,15 +441,7 @@ public class CitaView extends javax.swing.JInternalFrame {
             System.out.println(" cita "+citaVac);
             
             
-            if(vacuna!=null){
-                System.out.println("vacuna es válida: idvacuna: "+ citaVac.getVacuna().getIdVacuna());
-            }
-            if(ciudadano!=null){
-                System.out.println("ciudadano válido");
-            }
-            if(citaVac!=null){
-                System.out.println("cita válida");
-            }
+            
             citaData.cargarCita(citaVac);//cargo a la BD
             
             citaVac=citaData.buscarCitaXDNI(dni);//obtengo el codigo que colocó la bd
@@ -495,7 +480,7 @@ public class CitaView extends javax.swing.JInternalFrame {
             
             
         }catch(NumberFormatException e){
-            JOptionPane.showMessageDialog(null,"Problemas en el DNI "+e.getMessage());
+            JOptionPane.showMessageDialog(null,"Problemas en el DNI "+e.getLocalizedMessage());
         }
     }//GEN-LAST:event_jBotonGuardarCitaActionPerformed
 
@@ -518,11 +503,11 @@ public class CitaView extends javax.swing.JInternalFrame {
             ciudadano=ciuData.buscarCiudadano(dni);
             System.out.println("devolvió el ciudadano");
             System.out.println("nombre ciudadano "+ciudadano.getNombreCompleto());
+            jComboBoxRefuerzo.removeAll();
         if(ciudadano!=null){
             jCheckBoxVerificacion.setSelected(true);
                
                 //cargo refuerzo
-               
                int codRefuerzo= ciudadano.getCodRefuerzo();
                jtNombre.setText(ciudadano.getNombreCompleto());
                if(codRefuerzo==0){
@@ -541,9 +526,7 @@ public class CitaView extends javax.swing.JInternalFrame {
                            JOptionPane.showMessageDialog(null, "El Ciudadano Ya tiene los 3 Refuerzos");
                        }
                    }                  
-               }
-               
-               
+               }              
                //cargo vacunas
                    
                ListaVacunas=vacuData.listarVacunasNoAplic();
@@ -559,9 +542,7 @@ public class CitaView extends javax.swing.JInternalFrame {
                }
                
                 //----ya tengo todo, tomo los datos, creo la cita y la cargo en boton evento  guardar
-                
-                
-               
+     
            }else{
                jCheckBoxVerificacion.setSelected(false);
            }
