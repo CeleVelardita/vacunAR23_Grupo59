@@ -281,32 +281,30 @@ public class citaData {
             ps.setInt(1, dni);
             ResultSet RSetcitas = ps.executeQuery();
 
-            while (RSetcitas.next()) {
+            if (RSetcitas.next()) {
+            // Crear nuevas instancias en la primera iteración
+            CitaVacunacion cita = new CitaVacunacion();
+            Vacuna vacuna = new Vacuna();
+            Ciudadano ciudadano = new Ciudadano();
+
+            
+            // Mueve la creación de instancias fuera del bucle
+            do {
+              
                 ///seteo los objetos de entidades
                 //objteo: cita -> clase CitaVacunacion
                 //objteo: vacuna -> clase Vacuna
                 //objteo: ciudadano -> clase Ciudadano
                 
-                
                 //vacuna
-                /*
-                private int idVacuna;
-                private Laboratorio laboratorio; 
-                private int nroSerie;
-                private String marca;
-                private double medida;
-                private LocalDate fechaCaduca;
-                private boolean colocada = false;
-                */
                 vacuna.setIdVacuna(RSetcitas.getInt("idVacuna"));
                 vacuna.setNroSerie(RSetcitas.getInt("nroSerieDosis"));
                 vacuna.setMarca(RSetcitas.getString("marca"));
                 vacuna.setMedida(RSetcitas.getDouble("medida"));
                 vacuna.setFechaCaduca(RSetcitas.getDate("fechaCaduca").toLocalDate()); // NO OLVIDAR "toLocalDate" PARA PARSEAR
                 vacuna.setColocada(RSetcitas.getBoolean("colocada"));
-                
                 vacuna.setIdLaboratorio(RSetcitas.getInt("idLaboratorio"));
-                vacuna.getLaboratorio().setIdLaboratorio(RSetcitas.getInt("idLaboratorio"));
+//                vacuna.getLaboratorio().setIdLaboratorio(RSetcitas.getInt("idLaboratorio"));
                 //ciudadano
                 /*
                 private int dni;
@@ -339,25 +337,31 @@ public class citaData {
                 cita.setCodCita(RSetcitas.getInt("codCita"));
                 cita.setFechaHoraCita(RSetcitas.getDate("fechaHoraCita").toLocalDate());
                 cita.setCentroVacunacion(RSetcitas.getString("centroVacunacion"));
-
-                cita.setFechaHoraColoca(RSetcitas.getTime("horarioturno").toLocalTime());
-
+                cita.setFechaHoraColoca(RSetcitas.getTime("horarioTurno").toLocalTime());
                 cita.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 cita.setEstado(RSetcitas.getString("estado"));
                 
                 //seteo a citas los objetos ya con sus datos cargados
                 cita.setCiudadano(ciudadano); 
                 cita.setVacuna(vacuna);
-                
-                //cargo la cita a la lista a devolver
-                listaCitas.add(cita);
+                } while (RSetcitas.next());
+
+                // Cerrar la conexión aquí, ya que estamos fuera del bucle
+                ps.close();
+
+                // Devolver la cita
+                return cita;
+            } else {
+                // Si no se encontró una cita, devolver null
+                ps.close();
+                return null;
             }
-        ps.close();    
+                
         } catch (SQLException ex) {
-           JOptionPane.showMessageDialog(null, "falló el acceso a alguna de las tablas citaVacunacion, ciudadano o vacuna");
-            System.out.println(ex.getMessage());
+        JOptionPane.showMessageDialog(null, "falló el acceso a alguna de las tablas citaVacunacion, ciudadano o vacuna");
+        System.out.println(ex.getMessage());
+        return null;
         }
-         return cita;
     }
     
     public CitaVacunacion buscarCitaXFecha(LocalDate fecha){
@@ -463,6 +467,12 @@ public class citaData {
             ps.setDate(1, Date.valueOf(fecha));//debo parsear fecha es LocalDate y debo pasarle al sql un tipo Date
             ResultSet RSetcitas = ps.executeQuery();
             while (RSetcitas.next()) {
+            // Crear nuevas instancias en cada iteración
+            CitaVacunacion cita = new CitaVacunacion();
+            Vacuna vacuna = new Vacuna();
+            Ciudadano ciudadano = new Ciudadano();
+
+
                 ///seteo los objetos de entidades
                 //objteo: cita -> clase CitaVacunacion
                 //objteo: vacuna -> clase Vacuna
@@ -475,9 +485,8 @@ public class citaData {
                 vacuna.setMedida(RSetcitas.getDouble("medida"));
                 vacuna.setFechaCaduca(RSetcitas.getDate("fechaCaduca").toLocalDate()); // NO OLVIDAR "toLocalDate" PARA PARSEAR
                 vacuna.setColocada(RSetcitas.getBoolean("colocada"));
-                vacuna.getLaboratorio().setIdLaboratorio(RSetcitas.getInt("idLaboratorio"));
                 vacuna.setIdLaboratorio(RSetcitas.getInt("idLaboratorio"));
-
+//                vacuna.getLaboratorio().setIdLaboratorio(RSetcitas.getInt("idLaboratorio"));
                 //ciudadano
                 /*
                 private int dni;
@@ -509,8 +518,8 @@ public class citaData {
                 */
                 cita.setCodCita(RSetcitas.getInt("codCita"));
                 cita.setFechaHoraCita(RSetcitas.getDate("fechaHoraCita").toLocalDate());
-                cita.setCentroVacunacion(RSetcitas.getString("email"));
-                cita.setFechaHoraColoca(RSetcitas.getTime("fechaHoraColoca").toLocalTime());
+                cita.setCentroVacunacion(RSetcitas.getString("centroVacunacion"));
+                cita.setFechaHoraColoca(RSetcitas.getTime("horarioTurno").toLocalTime());
                 cita.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
                 cita.setEstado(RSetcitas.getString("estado"));
                 
@@ -520,7 +529,8 @@ public class citaData {
                 
                 //cargo la cita a la lista a devolver
                 listaCitas.add(cita);
-            }
+        }
+
 
             ps.close();
 

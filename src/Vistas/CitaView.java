@@ -567,34 +567,29 @@ public class CitaView extends javax.swing.JInternalFrame {
         try{
             int jtdni=Integer.parseInt(jtBuscarxDni.getText());
             borrarFilaDeTabla();
-        Date date = jdcListarXDia.getDate(); // Obtener la fecha seleccionada en formato java.util.Date
-        Instant instant =date.toInstant(); // Convertir a Instant
-         ZoneId zoneId = ZoneId.systemDefault(); // Obtener la zona horaria por defecto
-        LocalDate turnoDelDia = instant.atZone(zoneId).toLocalDate(); // Convertir a LocalDate ya tengo lo que seleciionó el usuario
-        
-        listaCitaXDia=citaData.listarCitasXDia(turnoDelDia);
-         if(listaCitaXDia!=null){
-             for(CitaVacunacion cit: listaCitaXDia){
-             modeloTabla.addRow(new Object[]{cit.getCodCita(),cit.getCiudadano().getNombreCompleto(),
-                                cit.getCiudadano().getDni(),cit.getCiudadano().getPatologia(),
-                                cit.getFechaHoraCita(),cit.getFechaHoraColoca(),
-                                cit.getVacuna().getMarca(),cit.getVacuna().getNroSerie(),
-                                cit.getCodRefuerzo(),cit.getCiudadano().getDistrito(),
-                                cit.getEstado()});
-            }
-         }else{
-             JOptionPane.showMessageDialog(null, "no hay citas para la fecha que seleccionó");
-         }
+            System.out.println("dni ingresado "+jtdni);
+            CitaVacunacion CitaXDni= citaData.buscarCitaXDNI(jtdni);
+            System.out.println("cita "+CitaXDni);
+             if(CitaXDni!=null){
+                 modeloTabla.addRow(new Object[]{CitaXDni.getCodCita(),CitaXDni.getCiudadano().getNombreCompleto(),
+                                    CitaXDni.getCiudadano().getDni(),CitaXDni.getCiudadano().getPatologia(),
+                                    CitaXDni.getFechaHoraCita(),CitaXDni.getFechaHoraColoca(),
+                                    CitaXDni.getVacuna().getMarca(),CitaXDni.getVacuna().getNroSerie(),
+                                    CitaXDni.getCodRefuerzo(),CitaXDni.getCiudadano().getDistrito(),
+                                    CitaXDni.getEstado()});
+             }else{
+                 JOptionPane.showMessageDialog(null, "no se registra el dni en los turnos");
+             }
         }catch(NullPointerException ex){
             JOptionPane.showMessageDialog(null, "no extiste cita para éste dni");
         }
     }//GEN-LAST:event_jBotonBuscarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        System.out.println("lista "+listarTodasCitas);
+    
         citaData=new citaData();
         listarTodasCitas=citaData.listarCitas();
-        System.out.println("lista "+listarTodasCitas);
+   
         if(listarTodasCitas!=null){
             borrarFilaDeTabla();
             for(CitaVacunacion citas: listarTodasCitas){
