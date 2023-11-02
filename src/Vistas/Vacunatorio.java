@@ -1,6 +1,9 @@
 
 package Vistas;
 
+import Vistas.Admin_Laboratorio_Principal;
+import Vistas.CitaView;
+import Vistas.VacunasView;
 import java.awt.Image;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
