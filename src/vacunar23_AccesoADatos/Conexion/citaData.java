@@ -248,6 +248,7 @@ public class citaData {
      return listaCitas;   
     }
 
+    
     public CitaVacunacion buscarCitaXDNI(int dni){
              String sql = "SELECT * FROM citaVacunacion AS cv " +
                  "JOIN ciudadano AS c ON cv.idCiudadano = c.idCiudadano " +
@@ -417,6 +418,83 @@ public class citaData {
          return cita;
     }
     
+    public List<CitaVacunacion> listarCitasXDia(LocalDate fecha){
+     String sql = "SELECT *\n"
+                + "FROM citaVacunacion AS cv, ciudadano, vacuna\n"
+                + "JOIN vacuna AS v and ciudadano AS c\n"               
+                + "ON cv.idVacuna=v.idVacuna and cv.idCiudadano=c.idCiudadano"
+                + "WHERE cv.fechaHoraCita = ?";    
+     
+     try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            
+            ps.setDate(1, Date.valueOf(fecha));//debo parsear fecha es LocalDate y debo pasarle al sql un tipo Date
+            ResultSet RSetcitas = ps.executeQuery();
+            while (RSetcitas.next()) {
+                ///seteo los objetos de entidades
+                //objteo: cita -> clase CitaVacunacion
+                //objteo: vacuna -> clase Vacuna
+                //objteo: ciudadano -> clase Ciudadano
+                
+                //vacuna
+                vacuna.setIdVacuna(RSetcitas.getInt("idVacuna"));
+                vacuna.setNroSerie(RSetcitas.getInt("nroSerieDosis"));
+                vacuna.setMarca(RSetcitas.getString("marca"));
+                vacuna.setMedida(RSetcitas.getDouble("medida"));
+                vacuna.setFechaCaduca(RSetcitas.getDate("fechaCaduca").toLocalDate()); // NO OLVIDAR "toLocalDate" PARA PARSEAR
+                vacuna.setColocada(RSetcitas.getBoolean("colocada"));
+
+                //ciudadano
+                /*
+                private int dni;
+                private String nombreCompleto;
+                private String email;
+                private String celular;
+                private String patologia = null;
+                private String ambitoTrabajo;
+                */
+                ciudadano.setDni(RSetcitas.getInt("dni"));
+                ciudadano.setNombreCompleto(RSetcitas.getString("nombreCompleto"));
+                ciudadano.setEmail(RSetcitas.getString("email"));
+                ciudadano.setCelular(RSetcitas.getString("celular"));
+                ciudadano.setPatologia(RSetcitas.getString("patologia"));
+                ciudadano.setAmbitoTrabajo(RSetcitas.getString("ambitoTrabajo"));
+                
+                /*
+                private int codCita;
+                private LocalDate fechaHoraCita;
+                private String centroVacunacion; 
+                private LocalDate fechaHoraColoca;
+                private Vacuna vacuna;
+                private int codRefuerzo;
+                private Ciudadano ciudadano;       
+                private String estado;
+                */
+                cita.setCodCita(RSetcitas.getInt("codCita"));
+                cita.setFechaHoraCita(RSetcitas.getDate("fechaHoraCita").toLocalDate());
+                cita.setCentroVacunacion(RSetcitas.getString("email"));
+                cita.setFechaHoraColoca(RSetcitas.getTime("fechaHoraColoca").toLocalTime());
+                cita.setCodRefuerzo(RSetcitas.getInt("codRefuerzo"));
+                cita.setEstado(RSetcitas.getString("estado"));
+                
+                //seteo a citas los objetos ya con sus datos cargados
+                cita.setCiudadano(ciudadano); 
+                cita.setVacuna(vacuna);
+                
+                //cargo la cita a la lista a devolver
+                listaCitas.add(cita);
+            }
+
+            ps.close();
+
+        } catch (SQLException e) {
+            System.out.println("falló el acceso a alguna de las tablas citaVacunacion, ciudadano o vacuna");
+            JOptionPane.showMessageDialog(null, "falló el acceso a alguna de las tablas citaVacunacion, ciudadano o vacuna");              
+        }
+        
+     return listaCitas;   
+    }
+
     
     
 }
