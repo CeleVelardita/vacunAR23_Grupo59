@@ -1,4 +1,3 @@
-
 package vacunar23_AccesoADatos.Conexion;
 
 import java.sql.Connection;
@@ -44,9 +43,9 @@ public class LaboratorioData {
             // con.prepareStatement(sentencia Sql, le pido que devuelva la lista de las claves generadas ID)
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             
-            String cuitt = String.valueOf(laboratorio.getCuit());
+            String cuit = String.valueOf(laboratorio.getCuit());
             
-            if(cuitt.length() > 11){
+            if(cuit.length() > 11){
                 System.out.println("Ha excedido el límite de valores para el número de CUIT");
                 return;
             }
@@ -58,9 +57,9 @@ public class LaboratorioData {
                 return;
             }
             
-            String paiss = laboratorio.getPais();
+            String pais = laboratorio.getPais();
             
-            if(paiss.length() > 20){
+            if(pais.length() > 20){
                 System.out.println("Ha excedido el límite de carácteres para el país");
                 return;
             }
@@ -72,7 +71,7 @@ public class LaboratorioData {
                 return;
             }
             
-            if((cuitt.length() < 12) && (nombre.length() < 101) && (paiss.length() <21) && (domicilio.length() < 31)){
+            if((cuit.length() < 12) && (nombre.length() < 101) && (pais.length() <21) && (domicilio.length() < 31)){
                //Se setean los tipos de datos que quiero enviar, porque llegan el método a través del parámetro "laboratorio"
             ps.setLong(1, laboratorio.getCuit());
             ps.setString(2, laboratorio.getNomLaboratorio());
@@ -108,35 +107,39 @@ public class LaboratorioData {
     }   
 
     public void modificarLaboratorio (Laboratorio lab){
+        System.out.println("Está en modificarLaboratorio");
         String sql = "UPDATE laboratorio SET CUIT= ?, nomLaboratorio= ?, pais= ?, domComercial= ?, estado= ? WHERE idLaboratorio= ?";
             try {
             PreparedStatement ps = con.prepareStatement(sql);
 
             String cuit = String.valueOf(lab.getCuit());
+            String nombre = lab.getNomLaboratorio();
+            String pais = lab.getPais();
+            String domicilio = lab.getDomComercial();
 
+            /*----------------------------------------------------------------------------------------
             if (cuit.length() > 11) {
                 System.out.println("Ha excedido el límite de valores para el número de CUIT");
             }
-
-            String nombre = lab.getNomLaboratorio();
-
+            
             if (nombre.length() > 100) {
                 System.out.println("Ha excedido el límite de carácteres para el nombre del Laboratorio");
             }
 
-            String pais = lab.getPais();
-
             if (pais.length() > 20) {
                 System.out.println("Ha excedido el límite de carácteres para el país");
             }
-
-            String domicilio = lab.getDomComercial();
-
+            
             if (domicilio.length() > 30) {
                 System.out.println("Ha excedido el límite de carácteres para el domicilio");
             }
-            
-            if ((cuit.length() < 12) && (nombre.length() < 101) && (pais.length() < 21) && (domicilio.length() < 31)) {
+            -------------------------------------------------------------------------------------------*/
+                System.out.println(lab.getCuit());
+                System.out.println(lab.getNomLaboratorio());
+                System.out.println(lab.getPais());
+                System.out.println(lab.getDomComercial());
+                System.out.println(lab.isEstado());
+                System.out.println(lab.getIdLaboratorio());
                 //Se setean los tipos de datos que quiero enviar, porque llegan el método a través del parámetro lab 
                 ps.setLong(1, lab.getCuit());
                 ps.setString(2, lab.getNomLaboratorio());
@@ -146,12 +149,12 @@ public class LaboratorioData {
                 // Por último se setea el ID
                 ps.setInt(6, lab.getIdLaboratorio());
                 int intDevuelto = ps.executeUpdate();
-                if (intDevuelto == 1) {
+                if (intDevuelto > 0) {
                     JOptionPane.showMessageDialog(null, "Laboratorio Modificado exitosamente");
                 }
                 // Cierra la conexión
                 ps.close();
-            }
+
 
         } catch (SQLException ex) {
             JOptionPane.showMessageDialog(null, "Error al intentar modificar el Laboratorio");
@@ -240,8 +243,7 @@ public class LaboratorioData {
         }
          return laboratorio;    
     }
-    
-    
+        
     
     /*---------------------------- Cele ------------------------*/
     
@@ -271,12 +273,11 @@ public class LaboratorioData {
         }
          return laboratorio;    
     }  
-     
-     
+          
     /*--------------------------------------------------------------------------------------------------*/
   
     public List<Laboratorio> listarLaboratorios(){
-        String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial FROM laboratorio WHERE estado = 1";
+        String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial, estado FROM laboratorio";
       // Otra posibilidad es "SELECT * FROM laboratorio WHERE estado = 1", recordar que el * invoca todos los parámetros
       // Creo una lista de laboratorios porque me va a devolver una lista de TODOS los laboratorios que se encuentren activos
         
@@ -294,7 +295,7 @@ public class LaboratorioData {
                 laboratorio.setNomLaboratorio(listaLab.getString("nomLaboratorio"));
                 laboratorio.setPais(listaLab.getString("pais"));
                 laboratorio.setDomComercial(listaLab.getString("domComercial"));
-                laboratorio.setEstado(true);
+                laboratorio.setEstado(listaLab.getBoolean("estado"));
                 // Finalmente a la lista "listaLaboratorios" le agrego (add) ese laboratorio
                 
                 System.out.println(laboratorio.getNomLaboratorio());
@@ -307,5 +308,44 @@ public class LaboratorioData {
         }
         return listaLaboratorios; 
         }
+    
+    public List<Laboratorio> listarLaboratoriosActivos() {
+        String sql = "SELECT idLaboratorio, CUIT, nomLaboratorio, pais, domComercial, estado FROM laboratorio WHERE estado = 1";
+        // Otra posibilidad es "SELECT * FROM laboratorio WHERE estado = 1", recordar que el * invoca todos los parámetros
+        // Creo una lista de laboratorios porque me va a devolver una lista de TODOS los laboratorios que se encuentren activos
+
+        ArrayList<Laboratorio> listaLaboratorios = new ArrayList<>();
+        try {
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet listaLab = ps.executeQuery();
+            // En este caso, a diferencia de los demás,  la lista me devuelve MÁS DE UNA fila, por eso la recorro con un WHILE y NO con un IF
+            while (listaLab.next()) {
+                // Mientras haya elementos en esa fila, le digo que se cree un laboratorio vacío
+                Laboratorio laboratorio = new Laboratorio();
+                // Luego a ese laboratorio, hay que setearle todos los datos
+                laboratorio.setIdLaboratorio(listaLab.getInt("idLaboratorio"));
+                laboratorio.setCuit(listaLab.getLong("CUIT"));
+                laboratorio.setNomLaboratorio(listaLab.getString("nomLaboratorio"));
+                laboratorio.setPais(listaLab.getString("pais"));
+                laboratorio.setDomComercial(listaLab.getString("domComercial"));
+                laboratorio.setEstado(listaLab.getBoolean("estado"));
+                // Finalmente a la lista "listaLaboratorios" le agrego (add) ese laboratorio
+
+                System.out.println(laboratorio.getNomLaboratorio());
+                listaLaboratorios.add(laboratorio);
+
+            }
+            ps.close();
+        } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, "No se pudo acceder a la tabla laboratorio");
+        }
+        return listaLaboratorios;
     }
+}
+    
+    
+
+
+
+
 

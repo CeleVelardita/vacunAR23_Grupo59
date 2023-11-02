@@ -3,10 +3,12 @@ package Vistas;
 
 import com.toedter.calendar.JTextFieldDateEditor;
 import java.awt.Point;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -151,9 +153,26 @@ public class VacunasView extends javax.swing.JInternalFrame {
                 jtMarcaActionPerformed(evt);
             }
         });
+        jtMarca.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtMarcaKeyTyped(evt);
+            }
+        });
+
+        jtNroSerie.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtNroSerieKeyTyped(evt);
+            }
+        });
 
         jcbMedida.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jcbMedida.setName(""); // NOI18N
+
+        jdcVencimiento.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jdcVencimientoMouseClicked(evt);
+            }
+        });
 
         jbAgregar.setText("Insertar");
         jbAgregar.addActionListener(new java.awt.event.ActionListener() {
@@ -342,14 +361,13 @@ public class VacunasView extends javax.swing.JInternalFrame {
             System.out.println(ex.getMessage());
             System.out.println(ex.getLocalizedMessage());
             System.out.println(ex.getStackTrace());
-        }           
+        }                  
         
     }//GEN-LAST:event_jbAgregarActionPerformed
 
     
     /// ---------- BOTÓN MODIFICAR ----------
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
-        
         filaSeleccionada = jtTablaVacunas.getSelectedRow();
 
         if (filaSeleccionada != -1) {
@@ -410,13 +428,11 @@ public class VacunasView extends javax.swing.JInternalFrame {
         } else {
             JOptionPane.showMessageDialog(null, "Por favor, seleccione una fila haciendo doble click para modificar");
         }
-
     }//GEN-LAST:event_jbModificarActionPerformed
 
     
     /// ---------- DOBLE CLICK SOBRE UNA FILA DE LA TABLA ----------
     private void jtTablaVacunasMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jtTablaVacunasMousePressed
-        
         // Este evento me permite hacer doble click sobre una fila de la tabla y automáticamente setear los campos para
         // la edición y modificación de los datos
         JTable tabla = (JTable) evt.getSource();
@@ -477,8 +493,43 @@ public class VacunasView extends javax.swing.JInternalFrame {
             
             // Elimino una fila de la tabla
             tablaVacunas.removeRow(filaSeleccionada);
-        }     
+        }    
     }//GEN-LAST:event_jbEliminarActionPerformed
+
+    
+    private void jtMarcaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtMarcaKeyTyped
+        // Condición para que no ingrese más de 30 carácteres
+        char letra = evt.getKeyChar();
+        if (!Character.isLetter(letra) && letra != KeyEvent.VK_BACK_SPACE && letra != KeyEvent.VK_SPACE) {
+            // Rechaza el carácter si no es un dígito o un retroceso
+            evt.consume();
+        }
+        String marca = jtMarca.getText();
+        if(marca.length() == 30){
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtMarcaKeyTyped
+
+    private void jtNroSerieKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtNroSerieKeyTyped
+        // Condición para que no ingrese otra cosa más que un número
+        char letra = evt.getKeyChar();
+        if (!Character.isDigit(letra) && letra != KeyEvent.VK_BACK_SPACE) {
+            // Rechaza el carácter si no es un dígito o un retroceso
+            evt.consume();
+        }
+    }//GEN-LAST:event_jtNroSerieKeyTyped
+
+    private void jdcVencimientoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jdcVencimientoMouseClicked
+         // TODO add your handling code here:
+        fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        LocalDate fechaActual = LocalDate.now();
+
+        long dias = ChronoUnit.DAYS.between(fechaActual, fechaCaducidad);
+
+        if (dias < 150) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_jdcVencimientoMouseClicked
 
     private void jtMarcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jtMarcaActionPerformed
         String marca = jtMarca.getText();
@@ -494,14 +545,6 @@ public class VacunasView extends javax.swing.JInternalFrame {
         //restriccionMarca(marca);
     }//GEN-LAST:event_jtMarcaActionPerformed
 
-    /*
-    Funcionalidades:
-       
-    - En la fecha de vencimiento comparar fecha actual con la fecha seleccionada. No permitir colocar una fecha menor a 3 meses.
-    
-    */
-    
-    
     private void limpiarCampos(){
         jcbLaboratorio.setSelectedItem(null); 
         jtMarca.setText("");
@@ -622,13 +665,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
         tablaVacunas.setValueAt(vacuna.isColocada(), filaSeleccionada, 5);        
     }
     
-    public void restriccionMarca(String marca){
-        int longitud = marca.length();
-        if (longitud > 30) {
-            jtMarca.setEditable(false);
-            System.out.println("Se superó el límite");
-        }
-    }
+    
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel1;

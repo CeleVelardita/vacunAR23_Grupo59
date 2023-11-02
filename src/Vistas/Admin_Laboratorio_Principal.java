@@ -1,6 +1,8 @@
 
 package Vistas;
 
+import Vistas.admin_lab_BuscarxCuit;
+import Vistas.admin_lab_BuscarxNombre;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     private Laboratorio lab;
     
     private int filaSeleccionada;
-    
+    private Laboratorio labActual;
     
     public Admin_Laboratorio_Principal() {
         initComponents();        
@@ -28,7 +30,9 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
                 
         labData= new LaboratorioData();
         lab= new Laboratorio();
+        labActual = null;
         
+        ListarLaboratorios();
      
     }
 
@@ -114,6 +118,12 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         jtPais.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 jtPaisKeyTyped(evt);
+            }
+        });
+
+        jtDomicilio.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jtDomicilioKeyTyped(evt);
             }
         });
 
@@ -227,7 +237,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
                     .addGroup(jpEscritorioLabLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(13, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpEscritorioLabLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -278,7 +288,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbDarBaja))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(90, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -315,23 +325,48 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             if (jtNombreLab.getText().isEmpty() || jtPais.getText().isEmpty() || jtDomicilio.getText().isEmpty() || jtCuit.getText().isEmpty()) {
                 JOptionPane.showMessageDialog(null, "No puede haber campos vacíos");
                 return; //return sale del método
+            } else {
+                //declaro atributos y almaceno en ellos lo ingresado en los jtextfield y jcheckbox para manipularlos            
+                String nombreLab = jtNombreLab.getText();
+                String numerito = jtCuit.getText();
+                System.out.println(numerito);
+                long cuit = Long.parseLong(numerito); //tendrá Exception
+
+                String pais = jtPais.getText();
+                String domicilio = jtDomicilio.getText();
+                Boolean estado = jCheckBoxEstado.isSelected();
+
+                System.out.println(nombreLab);
+                System.out.println(numerito);
+                System.out.println(pais);
+                System.out.println(domicilio);
+                System.out.println(estado);
+                
+                
+                //cargo éstos datos en el constructor de laboratorio
+                labActual = new Laboratorio(cuit, nombreLab, pais, domicilio, estado); //constructor creado en laboratorio(Entidades)
+
+                // Me fijo si el Laboratorio ya existe en la base de datos
+                lab = labData.buscarLaboratorioXCUIT(cuit); 
+                
+                if (lab == null) {
+                    labData.cargarLaboratorio(labActual);
+                    limpiarCampos();//limpio los campos textfield
+                    modeloTabla.addRow(new Object[]{labActual.getNomLaboratorio(), labActual.getCuit(), labActual.getPais(), labActual.getDomComercial(), labActual.isEstado()});
+                } else {
+                    System.out.println("Está en el else");                    
+                    int id = lab.getIdLaboratorio(); // Recupero el id del laboratorio encontrado y lo mando en el constructor para poder modificar según id
+                    labActual = new Laboratorio(id, cuit, nombreLab, pais, domicilio, estado);
+                    labData.modificarLaboratorio(labActual);
+                    limpiarCampos();//limpio los campos textfield
+                    filaSeleccionada = jTListadoLab.getSelectedRow();
+                    actualizarFilaTabla(filaSeleccionada, labActual);
+                }
             }
 
-            //declaro atributos y almaceno en ellos lo ingresado en los jtextfield y jcheckbox para manipularlos            
-            String nombreLab = jtNombreLab.getText();
-            String numerito = jtCuit.getText();
-            long cuit = Long.getLong(numerito); //tendrá Exception
-            String pais = jtPais.getText();
-            String domicilio = jtDomicilio.getText();
-            Boolean estado = jCheckBoxEstado.isSelected();
-            
-            //cargo éstos datos en el constructor de laboratorio
-            lab = new Laboratorio(cuit,nombreLab, pais, domicilio, estado); //constructor creado en laboratorio(Entidades)
             
             
-            
-            
-            
+                       
             /*-----------------------------------------------*/
             // este método no está funcionando y no entiendo por qué
             /*
@@ -355,24 +390,19 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             }
             */
             /*------------------------------------------*/
-            
-            
-            lab = labData.buscarLaboratorioXCUIT(cuit);            
-            
-            if (lab == null) {
-                labData.cargarLaboratorio(lab);
-            }else{
-                labData.modificarLaboratorio(lab);
-            }
-            
-            
-            
+
+                     
+            /*            
             limpiarCampos();//limpio los campos textfield
-            ListarLaboratorios ();//actualiza la tabla           
-        }catch (NumberFormatException e) {
+            ListarLaboratorios ();//actualiza la tabla   
+            */
+         
+           
+
+        } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "El CUIT son sólo 11 dígitos, sin puntos ni guiones");
         }
-        
+
     }//GEN-LAST:event_jbAgregarActionPerformed
 
     ///Botón Listar Laboratorios
@@ -393,7 +423,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbModificarActionPerformed
 
     private void jbBuscarXCuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarXCuitActionPerformed
-        admin_lab_BuscarxCuit buscarCuit = new admin_lab_BuscarxCuit(this); // Pasa una referencia al JFrame principal
+       admin_lab_BuscarxCuit buscarCuit = new admin_lab_BuscarxCuit(this); // Pasa una referencia al JFrame principal
         // Agrego al jpEscritorioLab 
         jpEscritorioLab.add(buscarCuit);
         // hago visible la ventana buscarXCuit
@@ -412,25 +442,54 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     
     private void jtNombreLabKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtNombreLabKeyTyped
         char letra = evt.getKeyChar();
-        if (!Character.isLetter(letra) && letra != KeyEvent.VK_BACK_SPACE && letra != KeyEvent.VK_SPACE) {
+        if (!Character.isLetter(letra) && letra != KeyEvent.VK_BACK_SPACE && letra != KeyEvent.VK_SPACE || jtNombreLab.getText().length() >= 50) {
             evt.consume();  // Rechaza el carácter si no es una letra, espacio o retroceso
         }
     }//GEN-LAST:event_jtNombreLabKeyTyped
 
     private void jtCuitKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtCuitKeyTyped
         char letra=evt.getKeyChar();
-        if (!Character.isDigit(letra) && letra != KeyEvent.VK_BACK_SPACE) {
-            // Rechaza el carácter si no es un dígito o un retroceso
+        if (!Character.isDigit(letra) && letra != KeyEvent.VK_BACK_SPACE || jtCuit.getText().length() >= 11) {
+            // Rechaza el carácter si no es un dígito o un retroceso o supera el límite de 11
             evt.consume();
         }
     }//GEN-LAST:event_jtCuitKeyTyped
 
     private void jtPaisKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtPaisKeyTyped
         char letra = evt.getKeyChar();
-        if (!Character.isLetter(letra) && letra != KeyEvent.VK_BACK_SPACE && letra != KeyEvent.VK_SPACE) {
+        if (!Character.isLetter(letra) && letra != KeyEvent.VK_BACK_SPACE && letra != KeyEvent.VK_SPACE || jtPais.getText().length() >= 20) {
             evt.consume();  // Rechaza el carácter si no es una letra, espacio o retroceso
         }
     }//GEN-LAST:event_jtPaisKeyTyped
+
+    /*------------------------------------------------------------------------------------*/
+    
+    ///Botón dar de alta/baja
+    private void jbDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDarBajaActionPerformed
+        try {
+            filaSeleccionada = jTListadoLab.getSelectedRow();
+            
+            if(filaSeleccionada != -1){
+                // Recupero el valor del CUIT de la tabla, es un objeto, luego lo casteo a un String para poder
+                // parsearlo a un Long
+                Object num = jTListadoLab.getValueAt(filaSeleccionada, 1);
+                String numerito = num.toString();
+                Long cuit = Long.parseLong(numerito);
+                labData.cambiarEstadoLaboratorio(cuit);
+                lab = labData.buscarLaboratorioXCUIT(cuit);
+                actualizarFilaTabla(filaSeleccionada, lab);
+            }
+        } catch (NullPointerException ex) {
+            JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna fila de la tabla");
+        }
+    }//GEN-LAST:event_jbDarBajaActionPerformed
+
+    private void jtDomicilioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtDomicilioKeyTyped
+        char letra = evt.getKeyChar();
+        if (!Character.isLetter(letra) && letra != KeyEvent.VK_BACK_SPACE && letra != KeyEvent.VK_SPACE || jtDomicilio.getText().length() >= 30) {
+            evt.consume();  // Rechaza el carácter si no es una letra, espacio o retroceso
+        }
+    }//GEN-LAST:event_jtDomicilioKeyTyped
 
     
     
@@ -463,9 +522,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     
     
     /*---------------------MÉTODOS---------------------*/
-    
-    
-     
+
     
     //borra/setea la tabla
     private void borrarFilaDeTabla(){
@@ -481,7 +538,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         jtCuit.setText("");
         jtPais.setText("");
         jtDomicilio.setText("");
-        jCheckBoxEstado.setEnabled(false);
+        jCheckBoxEstado.setSelected(false);
     }
         
     /*-----Carga la Lista de Laboratorios de la BD a la tabla-----*/
@@ -508,6 +565,14 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         // Obtener la lista de laboratorios
         ListaLaboratorios = (ArrayList<Laboratorio>) labData.listarLaboratorios();
 
+        for(Laboratorio i: ListaLaboratorios){
+            modeloTabla.addRow(new Object []{i.getNomLaboratorio(), i.getCuit(), i.getPais(), i.getDomComercial(), i.isEstado()});
+            System.out.println(lab.getNomLaboratorio());
+        }
+    }
+    
+    private void listarLaboratoriosActivos(){
+        ListaLaboratorios = (ArrayList<Laboratorio>) labData.listarLaboratoriosActivos();
 
         for(Laboratorio i: ListaLaboratorios){
             modeloTabla.addRow(new Object []{i.getNomLaboratorio(), i.getCuit(), i.getPais(), i.getDomComercial(), i.isEstado()});
@@ -574,6 +639,13 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
      modeloTabla.addRow(new Object []{lab.getNomLaboratorio(),lab.getCuit(),lab.getPais(),lab.getDomComercial(),lab.isEstado()});
 
     }
-
    
+    /*----- actualiza la fila una vez se hayan efectuado cambios------*/
+    public void actualizarFilaTabla(int filaSeleccionada, Laboratorio laboratorio){
+        jTListadoLab.setValueAt(laboratorio.getNomLaboratorio(), filaSeleccionada, 0);
+        jTListadoLab.setValueAt(laboratorio.getCuit(), filaSeleccionada, 1);
+        jTListadoLab.setValueAt(laboratorio.getPais(), filaSeleccionada, 2);
+        jTListadoLab.setValueAt(laboratorio.getDomComercial(), filaSeleccionada, 3);
+        jTListadoLab.setValueAt(laboratorio.isEstado(), filaSeleccionada, 4);
+    }
 }

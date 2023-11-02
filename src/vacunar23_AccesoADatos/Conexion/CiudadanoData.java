@@ -326,24 +326,59 @@ public class CiudadanoData {
         }
     }
 
-    public Ciudadano buscarCiudadano(int dni){
+//    public Ciudadano buscarCiudadano(int dni){
+//        String sql = "SELECT * FROM ciudadano WHERE dni = ?";
+//        
+//        // Se setea el ciudadano en null y luego se cargan los datos del ciudadano buscado
+//        Ciudadano ciudadano = null;
+//        try {
+//           PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+//           ps.setInt(1, dni);
+//           
+//           //En este caso (diferente al insert), se utiliza un executeQuery para la ejecución de la consulta
+//           ResultSet buscarDni = ps.executeQuery();
+//           
+//           //Ahora, si encuentra un ciudadano con ese dni, mostrará los datos
+//            if (buscarDni.next()) {
+//                System.out.println("Se ha encontrado en la Base de Datos un ciudadano cuyo DNI es "+buscarDni.getInt("dni"));
+//                
+//                ciudadano = new Ciudadano();
+//                
+//                ciudadano.setDni(buscarDni.getInt("dni"));
+//                ciudadano.setNombreCompleto(buscarDni.getString("nombreCompleto"));
+//                ciudadano.setEmail(buscarDni.getString("email"));
+//                ciudadano.setCelular(buscarDni.getString("celular"));
+//                ciudadano.setPatologia(buscarDni.getString("patologia"));
+//                ciudadano.setAmbitoTrabajo(buscarDni.getString("ambitoTrabajo"));
+//                ciudadano.setDistrito(buscarDni.getString("distrito"));
+//                ciudadano.setCodRefuerzo(buscarDni.getInt("codRefuerzo"));
+//            } else{
+//                System.out.println("No se ha encontrado el DNI ingresado en la Base de Datos");
+//            }
+//            
+//            ps.close();
+//            
+//        } catch (SQLException ex) {
+//            System.out.println("Error al acceder a la Base de Datos 'Ciudadano': "+ex.getMessage());
+//        }
+//        
+//        return ciudadano;
+//    }
+    
+    public Ciudadano buscarCiudadano(int dni) {
         String sql = "SELECT * FROM ciudadano WHERE dni = ?";
-        
-        // Se setea el ciudadano en null y luego se cargan los datos del ciudadano buscado
-        Ciudadano ciudadano = null;
+        System.out.println("entró al método");
+//        Ciudadano ciudadano = null; // Inicializamos a null
+        Ciudadano ciudadano = new Ciudadano();
         try {
-           PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-           ps.setInt(1, dni);
-           
-           //En este caso (diferente al insert), se utiliza un executeQuery para la ejecución de la consulta
-           ResultSet buscarDni = ps.executeQuery();
-           
-           //Ahora, si encuentra un ciudadano con ese dni, mostrará los datos
+            PreparedStatement ps = con.prepareStatement(sql);
+            ps.setInt(1, dni); // Asignamos el valor al marcador de posición
+            System.out.println("entró al try");
+            ResultSet buscarDni = ps.executeQuery();
+
             if (buscarDni.next()) {
-                System.out.println("Se ha encontrado en la Base de Datos un ciudadano cuyo DNI es "+buscarDni.getInt("dni"));
-                
-                ciudadano = new Ciudadano();
-                
+                // Crear una instancia de Ciudadano solo si se encuentra en la base de datos
+//                ciudadano = new Ciudadano();
                 ciudadano.setDni(buscarDni.getInt("dni"));
                 ciudadano.setNombreCompleto(buscarDni.getString("nombreCompleto"));
                 ciudadano.setEmail(buscarDni.getString("email"));
@@ -352,22 +387,18 @@ public class CiudadanoData {
                 ciudadano.setAmbitoTrabajo(buscarDni.getString("ambitoTrabajo"));
                 ciudadano.setDistrito(buscarDni.getString("distrito"));
                 ciudadano.setCodRefuerzo(buscarDni.getInt("codRefuerzo"));
-            } else{
+            } else {
                 System.out.println("No se ha encontrado el DNI ingresado en la Base de Datos");
             }
-            
+
             ps.close();
-            
         } catch (SQLException ex) {
-            System.out.println("Error al acceder a la Base de Datos 'Ciudadano': "+ex.getMessage());
+            System.out.println("Error al acceder a la Base de Datos 'Ciudadano': " + ex.getMessage());
         }
-        
-        return ciudadano;
+
+        return ciudadano; // Devuelve el ciudadano encontrado o null si no se encuentra.
     }
-    
-    
-    
-    
+
     
 }
 
