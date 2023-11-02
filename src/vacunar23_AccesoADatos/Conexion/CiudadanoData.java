@@ -297,12 +297,12 @@ public class CiudadanoData {
     }
 
         
-public void cambiarCodigoRefuerzo(int codigo) {
+public void cambiarCodigoRefuerzo(int codigo, int dni) {
     try {
-        String sql = "UPDATE ciudadano SET codRefuerzo = ? WHERE corRefuerzo = ?";
+        String sql = "UPDATE ciudadano SET codRefuerzo = ? WHERE dni = ?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, codigo);
-        ps.setInt(2, codigo); // No estoy seguro si 'corRefuerzo' es el nombre correcto de la columna a actualizar, así que podrías necesitar ajustarlo.
+        ps.setInt(2, dni); // No estoy seguro si 'corRefuerzo' es el nombre correcto de la columna a actualizar, así que podrías necesitar ajustarlo.
 
         int rowsAffected = ps.executeUpdate();
 
