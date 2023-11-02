@@ -24,6 +24,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
 
     public CiudadanoView() {
         initComponents();
+        
         ciu = null;
         ciuData = new CiudadanoData();
         ciudadanoActual = null;
@@ -529,63 +530,68 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
     private void jbBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarActionPerformed
         // Busca al Ciudadano por el DNI ingresado y setea los campos, permitiendo modificaciones en todos
         // los campos, incluso en el código de refuerzo
+        try {
+            if (jtDni.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Debe ingresar un DNI");
+                return;
+            } else {
 
-        if (jtDni.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Debe ingresar un DNI");
-            return;
-        }else{
-            
-            int dni = Integer.parseInt(jtDni.getText());
-            ciudadanoActual = ciuData.buscarCiudadano(dni);
-            
-            if (ciudadanoActual != null) {
-                // RECUPERO LOS DATOS Y SETEO LOS CAMPOS
-                String nombre = ciudadanoActual.getNombreCompleto();
-                String patologia = ciudadanoActual.getPatologia();
-                if (patologia.equals("Ninguna")) {
-                    jcbPatologia.setSelected(false);
-                }else{
-                    jcbPatologia.setSelected(true);
-                    jtTipoPatologia.setEditable(true);
+                int dni = Integer.parseInt(jtDni.getText());
+                ciudadanoActual = ciuData.buscarCiudadano(dni);
+
+                if (ciudadanoActual != null) {
+                    // RECUPERO LOS DATOS Y SETEO LOS CAMPOS
+                    String nombre = ciudadanoActual.getNombreCompleto();
+                    String patologia = ciudadanoActual.getPatologia();
+                    if (patologia.equals("Ninguna")) {
+                        jcbPatologia.setSelected(false);
+                    } else {
+                        jcbPatologia.setSelected(true);
+                        jtTipoPatologia.setEditable(true);
+                    }
+                    String ambito = ciudadanoActual.getAmbitoTrabajo();
+                    String celu = ciudadanoActual.getCelular();
+
+                    // Recupero el email completo y luego separo las partes necesarias para setear los campos por separado
+                    String emailCompleto = ciudadanoActual.getEmail();
+                    int indiceSeparador = emailCompleto.indexOf("@");
+                    String email = emailCompleto.substring(0, indiceSeparador);
+                    String dominioEmail = emailCompleto.substring(indiceSeparador);
+
+                    String distrito = ciudadanoActual.getDistrito();
+                    int refuerzo = ciudadanoActual.getCodRefuerzo();
+                    String codigo = String.valueOf(refuerzo);
+
+                    // Una vez recuperados todos los datos empiezo a setear los campos
+                    jtNomApellido.setText(nombre);
+                    jtTipoPatologia.setText(patologia);
+
+                    setearComboAmbito(dni);
+
+                    jtCelular.setText(celu);
+
+                    // Ahora seteo los campos por separado
+                    jtEmail.setText(email);
+
+                    // SETEAR EL DOMINIO DEL MAIL
+                    setearComboDominioEmail(dni);
+                    //jcbDominioMail.setSelectedItem(dominioEmail);
+
+                    jtDistrito.setText(distrito);
+
+                    jtRefuerzo.setText(codigo);
+
+                } else {
+                    JOptionPane.showMessageDialog(this, "No se ha encontrado el paciente en la Base de Datos");
                 }
-                String ambito = ciudadanoActual.getAmbitoTrabajo();
-                String celu = ciudadanoActual.getCelular();
-                
-                // Recupero el email completo y luego separo las partes necesarias para setear los campos por separado
-                String emailCompleto = ciudadanoActual.getEmail();
-                int indiceSeparador = emailCompleto.indexOf("@");
-                String email = emailCompleto.substring(0, indiceSeparador);
-                String dominioEmail = emailCompleto.substring(indiceSeparador);
-                
-                String distrito = ciudadanoActual.getDistrito();
-                int refuerzo = ciudadanoActual.getCodRefuerzo();
-                String codigo = String.valueOf(refuerzo);
-                                
-                // Una vez recuperados todos los datos empiezo a setear los campos
-                
-                jtNomApellido.setText(nombre);
-                jtTipoPatologia.setText(patologia);
-                
-                setearComboAmbito(dni);
-                
-                jtCelular.setText(celu);
-                              
-                // Ahora seteo los campos por separado
-                jtEmail.setText(email);
 
-                // SETEAR EL DOMINIO DEL MAIL
-                setearComboDominioEmail(dni);
-                //jcbDominioMail.setSelectedItem(dominioEmail);
-
-                jtDistrito.setText(distrito);
-                
-                jtRefuerzo.setText(codigo);
-
-            } else{
-                JOptionPane.showMessageDialog(this, "No se ha encontrado el paciente en la Base de Datos");
             }
+        } catch(NumberFormatException ex){
+            
+        } catch(NullPointerException ex){
             
         }
+
     }//GEN-LAST:event_jbBuscarActionPerformed
 
     
@@ -676,7 +682,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
         ListaCiudadano = (ArrayList<Ciudadano>) ciuData.listarCiudadanos();
 
         for (Ciudadano i : ListaCiudadano) {
-            tablaCiu.addRow(new Object[]{i.getDni(), i.getNombreCompleto(), i.getAmbitoTrabajo(), i.getPatologia(), i.getCodRefuerzo()});
+            tablaCiu.addRow(new Object[]{i.getDni(), i.getNombreCompleto(), i.getPatologia(), i.getAmbitoTrabajo(), i.getCodRefuerzo()});
         }
     }
 
