@@ -69,8 +69,6 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jTListadoLab = new javax.swing.JTable();
         jbAgregar = new javax.swing.JButton();
-        jbBuscarXCuit = new javax.swing.JButton();
-        jbBuscarXNombre = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jbListarLab = new javax.swing.JButton();
         jbModificar = new javax.swing.JButton();
@@ -169,22 +167,6 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
             }
         });
 
-        jbBuscarXCuit.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jbBuscarXCuit.setText("Buscar por Cuit");
-        jbBuscarXCuit.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbBuscarXCuitActionPerformed(evt);
-            }
-        });
-
-        jbBuscarXNombre.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jbBuscarXNombre.setText("Buscar por Nombre");
-        jbBuscarXNombre.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jbBuscarXNombreActionPerformed(evt);
-            }
-        });
-
         jbListarLab.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jbListarLab.setText("Listar Laboratorios");
         jbListarLab.addActionListener(new java.awt.event.ActionListener() {
@@ -238,18 +220,15 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 558, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpEscritorioLabLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
+                        .addGap(25, 25, 25)
                         .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jbListarLab)
-                            .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jbBuscarXNombre)
-                                .addComponent(jbBuscarXCuit, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jbModificar)
                             .addComponent(jbDarBaja)))
                     .addGroup(jpEscritorioLabLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpEscritorioLabLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -288,10 +267,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
                 .addGap(35, 35, 35)
                 .addGroup(jpEscritorioLabLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jpEscritorioLabLayout.createSequentialGroup()
-                        .addComponent(jbBuscarXCuit)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jbBuscarXNombre)
-                        .addGap(18, 18, 18)
+                        .addGap(96, 96, 96)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jbListarLab)
@@ -437,22 +413,6 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
       
     }//GEN-LAST:event_jbModificarActionPerformed
 
-    private void jbBuscarXCuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarXCuitActionPerformed
-        admin_lab_BuscarxCuit buscarCuit = new admin_lab_BuscarxCuit(this); // Pasa una referencia al JFrame principal
-        // Agrego al jpEscritorioLab 
-        jpEscritorioLab.add(buscarCuit);
-        // hago visible la ventana buscarXCuit
-        buscarCuit.setVisible(true);
-    }//GEN-LAST:event_jbBuscarXCuitActionPerformed
-
-    private void jbBuscarXNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarXNombreActionPerformed
-        admin_lab_BuscarxNombre buscarNombreFrame = new admin_lab_BuscarxNombre(this); // Pasa una referencia al JFrame principal
-        // Agrego al jpEscritorioLab 
-        jpEscritorioLab.add(buscarNombreFrame);
-        // hago visible la ventana buscarXNombre
-        buscarNombreFrame.setVisible(true);
-    }//GEN-LAST:event_jbBuscarXNombreActionPerformed
-
     /*-----------------------------EVENTOS de CONTROL-------------------------------------*/    
     
     private void jtNombreLabKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtNombreLabKeyTyped
@@ -523,8 +483,6 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTable jTListadoLab;
     private javax.swing.JButton jbAgregar;
-    private javax.swing.JButton jbBuscarXCuit;
-    private javax.swing.JButton jbBuscarXNombre;
     private javax.swing.JButton jbDarBaja;
     private javax.swing.JButton jbListarLab;
     private javax.swing.JButton jbModificar;
