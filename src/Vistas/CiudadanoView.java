@@ -18,7 +18,8 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
     private CiudadanoData ciuData;
     private DefaultComboBoxModel<String> modeloComboAmbitoLab;
     private DefaultComboBoxModel<String> modeloComboDominioEmail;
-
+    private DefaultComboBoxModel<String> modeloComboDistrito;
+    
     private List<Ciudadano> ListaCiudadano;
 
     private int filaSeleccionada;
@@ -28,8 +29,10 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
         
         getContentPane().setBackground(new Color(240, 255, 240));
         
+        ciu = new Ciudadano();
         ciu = null;
         ciuData = new CiudadanoData();
+        ciudadanoActual = new Ciudadano();
         ciudadanoActual = null;
 
         tablaCiu = (DefaultTableModel) jtTablaCiudadano.getModel();
@@ -43,6 +46,8 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
         cargarComboLaboral();
 
         cargarComboDominioMail();
+        
+        //cargarComboDistrito();
 
         cargarListaCiudadanos();
 
@@ -79,6 +84,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
         jtNomApellido = new javax.swing.JTextField();
         jtDni = new javax.swing.JTextField();
         jbBuscar = new javax.swing.JButton();
+        jbLimpiar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -232,6 +238,13 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
             }
         });
 
+        jbLimpiar.setText("Limpiar Campos");
+        jbLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbLimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -258,21 +271,19 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jbBuscar)
-                        .addGap(54, 54, 54)
-                        .addComponent(jbModificar)))
+                        .addGap(35, 35, 35)
+                        .addComponent(jbModificar)
+                        .addGap(19, 19, 19)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jLabel9)
+                        .addComponent(jLabel8)
+                        .addComponent(jLabel10)
+                        .addComponent(jLabel5))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel5))
-                        .addGap(18, 18, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jbAgregar)
-                        .addGap(8, 8, 8)))
+                        .addGap(16, 16, 16)
+                        .addComponent(jbAgregar)))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,14 +292,15 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(1, 1, 1)
                                 .addComponent(jtDistrito, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 83, Short.MAX_VALUE))
+                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jcbDominioMail, 0, 109, Short.MAX_VALUE)
+                        .addComponent(jcbDominioMail, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(6, 6, 6))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(66, 66, 66)
+                        .addComponent(jbLimpiar)
+                        .addGap(36, 36, 36)
                         .addComponent(jbEliminar)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -346,12 +358,13 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
                             .addComponent(jtTipoPatologia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel5)
                             .addComponent(jtRefuerzo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 91, Short.MAX_VALUE)))
+                        .addGap(28, 91, Short.MAX_VALUE)))
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jbEliminar)
                     .addComponent(jbBuscar)
                     .addComponent(jbModificar)
-                    .addComponent(jbAgregar))
+                    .addComponent(jbAgregar)
+                    .addComponent(jbLimpiar))
                 .addGap(68, 68, 68)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
@@ -363,7 +376,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 786, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 741, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -400,12 +413,13 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
                 String ambito = (String) jcbAmbitoLab.getSelectedItem();
 
                 String celu = jtCelular.getText();
-                int celular = Integer.parseInt(celu);
+                long celular = Long.parseLong(celu);
 
                 String email = jtEmail.getText();
                 String arrobaEmail = (String) jcbDominioMail.getSelectedItem();
                 String emailCompleto = email + arrobaEmail;
 
+                //String distrito = (String) jcbDistrito.getSelectedItem();
                 String distrito = jtDistrito.getText();
                 jtRefuerzo.setEditable(false);
 
@@ -443,7 +457,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
     /// --------------- BOTÓN MODIFICAR ---------------
     private void jbModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbModificarActionPerformed
         String tipoPatologia = null;
-        jtRefuerzo.setEditable(true);
+        jtRefuerzo.setEditable(false);
         try {
             if (jtDni.getText() == null || jtNomApellido.getText() == null || jcbAmbitoLab.getSelectedItem() == null || jtCelular.getText() == null || jtEmail.getText() == null || jcbDominioMail.getSelectedItem() == null || (jcbPatologia.isSelected() == true && jtTipoPatologia.getText() == null) || jtDistrito.getText() == null) {
                 JOptionPane.showMessageDialog(this, "No pueden quedar campos vacíos");
@@ -463,27 +477,27 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
                 String ambito = (String) jcbAmbitoLab.getSelectedItem();
 
                 String celu = jtCelular.getText();
-                int celular = Integer.parseInt(celu);
+                long celular = Long.parseLong(celu);
 
                 String email = jtEmail.getText();
                 String arrobaEmail = (String) jcbDominioMail.getSelectedItem();
                 String emailCompleto = email + arrobaEmail;
 
+                //String distrito = (String) jcbDistrito.getSelectedItem();
                 String distrito = jtDistrito.getText();
                 int refuerzo = Integer.parseInt(jtRefuerzo.getText());
-                if (refuerzo > 3) {
-                    JOptionPane.showMessageDialog(this, "Indique con 1, 2 o 3 según dosis colocada");
-                }else{
-                    ciudadanoActual = new Ciudadano(dni, nomApellido, emailCompleto, celu, tipoPatologia, ambito, distrito, refuerzo);
+                
+                ciudadanoActual = new Ciudadano(dni, nomApellido, emailCompleto, celu, tipoPatologia, ambito, distrito, refuerzo);
 
                 ciuData.modificarCiudadano(ciudadanoActual);
                 limpiarCampos();
                 tablaCiu.addRow(new Object[]{ciudadanoActual.getDni(), ciudadanoActual.getNombreCompleto(), ciudadanoActual.getPatologia(), ciudadanoActual.getAmbitoTrabajo(), ciudadanoActual.getCodRefuerzo()});
                 
-                }
+                
             }
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "Los campos 'DNI', 'Celular' y 'Cod. Refuerzo' deben contener númeeros enteros, sin puntos ni comas");
+            System.out.println(ex.getLocalizedMessage());
         } catch (IllegalArgumentException ex) {
             JOptionPane.showMessageDialog(this, "Error al ingresar datos en los campos de texto");
         } catch (NullPointerException ex) {
@@ -561,6 +575,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
                     String email = emailCompleto.substring(0, indiceSeparador);
                     String dominioEmail = emailCompleto.substring(indiceSeparador);
 
+                    
                     String distrito = ciudadanoActual.getDistrito();
                     int refuerzo = ciudadanoActual.getCodRefuerzo();
                     String codigo = String.valueOf(refuerzo);
@@ -577,9 +592,11 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
                     jtEmail.setText(email);
 
                     // SETEAR EL DOMINIO DEL MAIL
-                    setearComboDominioEmail(dni);
-                    //jcbDominioMail.setSelectedItem(dominioEmail);
+                    //setearComboDominioEmail(dni);
+                    jcbDominioMail.setSelectedItem(dominioEmail);
 
+                    // SETEAR EL DISTRITO
+                    //setearComboDistrito(dni);                    
                     jtDistrito.setText(distrito);
 
                     jtRefuerzo.setText(codigo);
@@ -650,6 +667,10 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jtRefuerzoKeyTyped
 
+    private void jbLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbLimpiarActionPerformed
+        limpiarCampos();
+    }//GEN-LAST:event_jbLimpiarActionPerformed
+
     /*---------------------------------------------------------------------*/
     
     
@@ -679,6 +700,16 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
 
         jcbDominioMail.setModel(modeloComboDominioEmail);
         jcbDominioMail.repaint();
+    }
+    
+    private void cargarComboDistrito(){
+        //modeloComboDistrito = (DefaultComboBoxModel<String>) jcbDistrito.getModel();
+        
+        modeloComboDistrito.addElement(null);
+        modeloComboDistrito.addElement("Zona Norte");
+        modeloComboDistrito.addElement("Zona Sur");
+        modeloComboDistrito.addElement("Zona Este");
+        modeloComboDistrito.addElement("Zona Oeste");
     }
 
     public void cargarListaCiudadanos() {
@@ -724,9 +755,9 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
         }
     }
     
-    public void setearComboDominioEmail(int dni){
+    public void setearComboDominioEmail(int dni) {
         ciudadanoActual = ciuData.buscarCiudadano(dni);
-        
+
         boolean estaEnCombo = false;
 
         for (int i = 0; i < modeloComboDominioEmail.getSize(); i++) {
@@ -743,7 +774,26 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
                     break;
                 }
             }
-        }  
+        }
+    }
+
+    public void setearComboDistrito(int dni) {
+        ciudadanoActual = ciuData.buscarCiudadano(dni);
+        
+        boolean estaEnCombo = false;
+        
+        for (int i = 0; i < modeloComboDistrito.getSize(); i++) {
+            // Guardo en un objeto el elemento del combo
+            if (i > 0) {
+                Object elementoCombo = modeloComboDistrito.getElementAt(i);
+                
+                if (elementoCombo.toString().equals(ciudadanoActual.getDistrito())) {
+                    estaEnCombo = true;
+                    modeloComboDistrito.setSelectedItem(elementoCombo);
+                    break;
+                }
+            }
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -762,6 +812,7 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
     private javax.swing.JButton jbAgregar;
     private javax.swing.JButton jbBuscar;
     private javax.swing.JButton jbEliminar;
+    private javax.swing.JButton jbLimpiar;
     private javax.swing.JButton jbModificar;
     private javax.swing.JComboBox<String> jcbAmbitoLab;
     private javax.swing.JComboBox<String> jcbDominioMail;
