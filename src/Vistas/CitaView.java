@@ -601,10 +601,13 @@ public class CitaView extends javax.swing.JInternalFrame {
             // Asegúrate de que se haya seleccionado una fila válida
             Object valorCelda = jTableListado.getValueAt(fila, columnaa);
             Object dnifila =jTableListado.getValueAt(fila, 1);
+            Object codcita =jTableListado.getValueAt(fila, 0);
             if (valorCelda != null) {
         try {
             int codigoRefuerzo = Integer.parseInt(valorCelda.toString());
             int dni = Integer.parseInt(dnifila.toString());
+            int codigocita=Integer.parseInt(codcita.toString());
+            citaData.estadoCita(estadoCombo, codigocita);
             CiudadanoData ciuData = null;
              ciuData.cambiarCodigoRefuerzo(codigoRefuerzo, dni);
             // Ahora tienes el contenido de la celda en la variable codigoRefuerzo como un entero
@@ -613,7 +616,7 @@ public class CitaView extends javax.swing.JInternalFrame {
             }
         } 
          
-          
+        
             
             
             
