@@ -139,7 +139,7 @@ public class citaData {
         }
     }
     
-    public void estadoCita(CitaVacunacion citaVacunacion){
+    public void estadoCita(String estado, int codCita){
         String sql = "UPDATE citaVacunacion SET estado = ? WHERE codCita = ?";
         try{
             //conectamos con la tabla y le mandamos la petición sql
@@ -147,9 +147,9 @@ public class citaData {
             
             //seteamos el contenido deseado siguiendo el orden de la consulta en sql 0,1,2,3....
             
-            ps.setString(0,citaVacunacion.getEstado()); 
+            ps.setString(0,estado); 
             //por ultimo luego del where pide el código de la cita
-            ps.setInt(1, citaVacunacion.getCodCita());
+            ps.setInt(1, codCita);
             /*
             debemos ejecutar la petición y nos devolverá un número con el que 
             confirmaremos si se realizó correctamente la modificación
