@@ -1,8 +1,8 @@
 
 package Vistas;
 
-import Vistas.admin_lab_BuscarxCuit;
-import Vistas.admin_lab_BuscarxNombre;
+import com.sun.org.apache.bcel.internal.generic.IFEQ;
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +17,10 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     private DefaultTableModel modeloTabla;//modelo para la tabla
     private List<Laboratorio> ListaLaboratorios;
     private LaboratorioData labData;
-    private Laboratorio lab;
+    private Laboratorio lab;    
     
     private int filaSeleccionada;
+    
     private Laboratorio labActual;
     
     public Admin_Laboratorio_Principal() {
@@ -196,6 +197,11 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
 
         jbDarBaja.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jbDarBaja.setText("Dar de Baja/Alta");
+        jbDarBaja.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jbDarBajaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jpEscritorioLabLayout = new javax.swing.GroupLayout(jpEscritorioLab);
         jpEscritorioLab.setLayout(jpEscritorioLabLayout);
@@ -237,7 +243,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
                     .addGroup(jpEscritorioLabLayout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addContainerGap(19, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jpEscritorioLabLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLTitulo, javax.swing.GroupLayout.PREFERRED_SIZE, 296, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -288,7 +294,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(jbDarBaja))
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                .addContainerGap(90, Short.MAX_VALUE))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -407,8 +413,8 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
 
     ///Botón Listar Laboratorios
     private void jbListarLabActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbListarLabActionPerformed
-        borrarFilaDeTabla();
-        ListarLaboratorios();
+       modeloTabla.setRowCount(0);
+       listarLaboratoriosActivos();
     }//GEN-LAST:event_jbListarLabActionPerformed
 
     ///Botón Modificar
@@ -423,7 +429,7 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_jbModificarActionPerformed
 
     private void jbBuscarXCuitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbBuscarXCuitActionPerformed
-       admin_lab_BuscarxCuit buscarCuit = new admin_lab_BuscarxCuit(this); // Pasa una referencia al JFrame principal
+        admin_lab_BuscarxCuit buscarCuit = new admin_lab_BuscarxCuit(this); // Pasa una referencia al JFrame principal
         // Agrego al jpEscritorioLab 
         jpEscritorioLab.add(buscarCuit);
         // hago visible la ventana buscarXCuit
@@ -462,9 +468,16 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jtPaisKeyTyped
 
-    /*------------------------------------------------------------------------------------*/
+    private void jtDomicilioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtDomicilioKeyTyped
+        char letra = evt.getKeyChar();
+        if (!Character.isLetter(letra) && letra != KeyEvent.VK_BACK_SPACE && letra != KeyEvent.VK_SPACE || jtDomicilio.getText().length() >= 30) {
+            evt.consume();  // Rechaza el carácter si no es una letra, espacio o retroceso
+        }
+    }//GEN-LAST:event_jtDomicilioKeyTyped
+
+    /*-------------------------------------------------------------------------------------*/
     
-    ///Botón dar de alta/baja
+    /// Botón Dar de baja / alta
     private void jbDarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbDarBajaActionPerformed
         try {
             filaSeleccionada = jTListadoLab.getSelectedRow();
@@ -484,13 +497,9 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         }
     }//GEN-LAST:event_jbDarBajaActionPerformed
 
-    private void jtDomicilioKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jtDomicilioKeyTyped
-        char letra = evt.getKeyChar();
-        if (!Character.isLetter(letra) && letra != KeyEvent.VK_BACK_SPACE && letra != KeyEvent.VK_SPACE || jtDomicilio.getText().length() >= 30) {
-            evt.consume();  // Rechaza el carácter si no es una letra, espacio o retroceso
-        }
-    }//GEN-LAST:event_jtDomicilioKeyTyped
-
+    
+    
+    
     
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -648,4 +657,5 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
         jTListadoLab.setValueAt(laboratorio.getDomComercial(), filaSeleccionada, 3);
         jTListadoLab.setValueAt(laboratorio.isEstado(), filaSeleccionada, 4);
     }
+    
 }
