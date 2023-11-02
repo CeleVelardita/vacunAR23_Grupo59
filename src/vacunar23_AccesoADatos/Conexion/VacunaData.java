@@ -52,43 +52,18 @@ public class VacunaData {
         try {
             PreparedStatement ps = con.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 
-            String nroSerie = String.valueOf(vacuna.getNroSerie());
-            
-            if (nroSerie.length() > 6) {
-                System.out.println("Ha excedido el límite de valores para el número de serie");
-                return;
-            }
-            
-            String marca = vacuna.getMarca();
-            
-            if(marca.length() > 30){
-                System.out.println("Ha excedido el límite de carácteres para la marca");
-                return;
-            }
-            
-            LocalDate fecha = vacuna.getFechaCaduca();
-            LocalDate fechaActual = LocalDate.now();
-            
-            long dias = ChronoUnit.DAYS.between(fechaActual, fecha);
-            
-            if (dias < 150) {
-                System.out.println("Ingrese una fecha válida por favor");
-                return;
-            }
-            
-            if ((nroSerie.length() < 7) && (marca.length() < 31) && (dias > 149)) {
-                ps.setInt(1, vacuna.getNroSerie());
-                ps.setString(2, vacuna.getMarca());
-                ps.setDouble(3, vacuna.getMedida());
-                ps.setDate(4, Date.valueOf(vacuna.getFechaCaduca()));
-                ps.setBoolean(5, vacuna.isColocada());
-                ps.setInt(6, vacuna.getLaboratorio().getIdLaboratorio());
+            ps.setInt(1, vacuna.getNroSerie());
+            ps.setString(2, vacuna.getMarca());
+            ps.setDouble(3, vacuna.getMedida());
+            ps.setDate(4, Date.valueOf(vacuna.getFechaCaduca()));
+            ps.setBoolean(5, vacuna.isColocada());
+            ps.setInt(6, vacuna.getLaboratorio().getIdLaboratorio());
 
-                int columnaAfectada = ps.executeUpdate();
+            int columnaAfectada = ps.executeUpdate();
 
             if (columnaAfectada > 0) {
                 ResultSet id = ps.getGeneratedKeys();
-                
+
                 if (id.next()) {
                     System.out.println("La vacuna fue cargada exitosamente");
                     JOptionPane.showMessageDialog(null, "La vacuna fue cargada exitosamente");
@@ -99,7 +74,7 @@ public class VacunaData {
             }
 
             ps.close();
-            }
+
             
         } catch (SQLException ex) {
             JOptionPane.showConfirmDialog(null, "Error al acceder a la tabla de vacunas");
@@ -116,50 +91,26 @@ public class VacunaData {
         try {
             PreparedStatement ps = con.prepareStatement(sql);
 
-            String nroSerie = String.valueOf(vacuna.getNroSerie());
-            
-            if (nroSerie.length() > 6) {
-                System.out.println("Ha excedido el límite de valores para el número de serie");
-            }
-            
-            String marca = vacuna.getMarca();
-            
-            if(marca.length() > 30){
-                System.out.println("Ha excedido el límite de carácteres para la marca");
-            }
-            
-            LocalDate fecha = vacuna.getFechaCaduca();
-            LocalDate fechaActual = LocalDate.now();
-            
-            long dias = ChronoUnit.DAYS.between(fechaActual, fecha);
-            
-            if (dias < 150) {
-                System.out.println("Ingrese una fecha válida por favor");
-            }
-            
-            if ((nroSerie.length() < 7) && (marca.length() < 31) && (dias > 149)) {
+            ps.setString(1, vacuna.getMarca());
+            ps.setDouble(2, vacuna.getMedida());
+            ps.setDate(3, Date.valueOf(vacuna.getFechaCaduca()));
+            ps.setBoolean(4, vacuna.isColocada());
+            ps.setInt(5, vacuna.getLaboratorio().getIdLaboratorio());
+            ps.setInt(6, vacuna.getNroSerie());
 
-                ps.setString(1, vacuna.getMarca());
-                ps.setDouble(2, vacuna.getMedida());
-                ps.setDate(3, Date.valueOf(vacuna.getFechaCaduca()));
-                ps.setBoolean(4, vacuna.isColocada());
-                ps.setInt(5, vacuna.getLaboratorio().getIdLaboratorio());
-                ps.setInt(6, vacuna.getNroSerie());
+            int filaAfectada = ps.executeUpdate();
 
-                int filaAfectada = ps.executeUpdate();
-
-                if (filaAfectada > 0) {
-                    System.out.println("¡Modificación exitosa!");
-                    JOptionPane.showMessageDialog(null, "¡Modificación exitosa!");
-                }
-                
-                ps.close();
+            if (filaAfectada > 0) {
+                System.out.println("¡Modificación exitosa!");
+                JOptionPane.showMessageDialog(null, "¡Modificación exitosa!");
             }
 
-            }catch (SQLException ex) {
+            ps.close();
+
+        } catch (SQLException ex) {
             System.out.println("No se ha podido ingresar a la tabla de Vacunas" + ex.getMessage());
             JOptionPane.showMessageDialog(null, "No se ha podido ingresar a la tabla de Vacunas");
-        }catch (NumberFormatException ex) {
+        } catch (NumberFormatException ex) {
             System.out.println("NullPointerException " + ex.getMessage());
             JOptionPane.showMessageDialog(null, "Error al modificar la vacuna");
         }
@@ -177,19 +128,12 @@ public class VacunaData {
             int filaAfectada = ps.executeUpdate();
 
             if (filaAfectada == 1) {
-                System.out.println("Vacuna eliminada");
-                
-                int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro que quiere eliminar la vacuna seleccionada?", "Eliminar Vacuna", JOptionPane.YES_NO_OPTION);
-                if (respuesta == JOptionPane.YES_OPTION) {
-                    JOptionPane.showMessageDialog(null, "Vacuna eliminada");
-                } else{
-                    System.out.println("No hace nada porque dijo que no :)");
-                }                
+                System.out.println("Vacuna eliminada");                
+                               
             } else {
                 System.out.println("No se ha indicado la vacuna a eliminar");
                 JOptionPane.showMessageDialog(null, "No se ha indicado la vacuna a eliminar. Por favor seleccione una fila de la tabla.");
             }
-
             ps.close();
         } catch (SQLException ex) {
             System.out.println("Error al ingresar a la tabla Vacunas");

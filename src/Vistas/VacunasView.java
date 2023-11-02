@@ -2,6 +2,7 @@
 package Vistas;
 
 import com.toedter.calendar.JTextFieldDateEditor;
+import java.awt.Color;
 import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -49,7 +50,12 @@ public class VacunasView extends javax.swing.JInternalFrame {
     
     public VacunasView() {
         initComponents();
+        
+        //Le cambio el colorcito al JInternalFrame sin necesidad de usar un JPanel 
+        getContentPane().setBackground(new Color(240, 255, 240));
+       
         vacunaData = new VacunaData();
+        vacunaActual = new Vacuna();
         vacunaActual = null;  
                              
         tablaVacunas = (DefaultTableModel) jtTablaVacunas.getModel();
@@ -190,7 +196,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
             }
         });
 
-        jbEliminar.setText("Elimiar");
+        jbEliminar.setText("Eliminar");
         jbEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jbEliminarActionPerformed(evt);
@@ -215,7 +221,7 @@ public class VacunasView extends javax.swing.JInternalFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(35, 35, 35)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -226,35 +232,35 @@ public class VacunasView extends javax.swing.JInternalFrame {
                                 .addGap(30, 30, 30)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jcbLaboratorio, 0, 393, Short.MAX_VALUE)
-                            .addComponent(jtMarca)))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel3)
-                            .addComponent(jLabel6))
-                        .addGap(36, 36, 36)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jbAgregar)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbModificar)
-                                .addGap(81, 81, 81)
-                                .addComponent(jbEliminar)
-                                .addGap(118, 118, 118))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jcbMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jbLimpiarCampos)
-                                .addGap(16, 16, 16))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jcbAplicada)
-                                    .addComponent(jtNroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jdcVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE)))))
-                .addContainerGap(40, Short.MAX_VALUE))
+                            .addComponent(jtMarca))
+                        .addContainerGap(150, Short.MAX_VALUE))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 623, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel4)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel6))
+                            .addGap(36, 36, 36)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jcbAplicada)
+                                        .addComponent(jtNroSerie, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jdcVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGroup(layout.createSequentialGroup()
+                                            .addComponent(jbAgregar)
+                                            .addGap(72, 72, 72)
+                                            .addComponent(jbModificar)
+                                            .addGap(90, 90, 90)
+                                            .addComponent(jbEliminar)))
+                                    .addContainerGap(147, Short.MAX_VALUE))
+                                .addGroup(layout.createSequentialGroup()
+                                    .addComponent(jcbMedida, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jbLimpiarCampos)
+                                    .addGap(53, 53, 53)))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -281,21 +287,17 @@ public class VacunasView extends javax.swing.JInternalFrame {
                     .addComponent(jLabel5)
                     .addComponent(jdcVencimiento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(43, 43, 43)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel6)
-                            .addComponent(jcbAplicada, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(101, 101, 101)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jbModificar)
-                            .addComponent(jbAgregar)
-                            .addComponent(jbEliminar))
-                        .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(17, 17, 17))))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jcbAplicada, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(47, 47, 47)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jbAgregar)
+                    .addComponent(jbModificar)
+                    .addComponent(jbEliminar))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55))
         );
 
         bindingGroup.bind();
@@ -308,44 +310,40 @@ public class VacunasView extends javax.swing.JInternalFrame {
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
         int nroExistente = 0;
         try {
-            /// Se guardan los datos de cada campo en su variable correpondiente
-            Laboratorio lab = laboratorioSeleccionado();
-            // Utilizo el método creado para acceder al nombre y al id del laboratorio seleccionado
-            if(lab != null){
-            //nombreLab = lab.getNomLaboratorio();
-            int id = lab.getIdLaboratorio();           
-            }
-            
-            String marca = jtMarca.getText();
-            int nroSerie = Integer.parseInt(jtNroSerie.getText());
-            
-            // Guardo la opción del comboBoxDosis en una variable
-            
-            if(jcbMedida.getSelectedItem() != null){
-            String dosis = (String) jcbMedida.getSelectedItem(); // el combo me devuelve un Object
-            dosisSeleccionada = Double.parseDouble(dosis); // Lo parseo a un Double para mandarlo a la base de datos
-            } else{
-                dosisSeleccionada = 0.0;
-            }
-            
-            if (jdcVencimiento.getDate() != null) {
-               fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            }
-            
-            Boolean aplicada = jcbAplicada.isSelected();       
-            
-            
-            /// Verifico que no queden campos vacíos
-            if (lab == null || marca.isEmpty() || nroSerie == 0 || dosisSeleccionada == 0.0 || fechaCaducidad == null) {
+            if (jcbLaboratorio.getSelectedItem() == null || jtMarca.getText() == null || jtNroSerie.getText() == null || jcbMedida.getSelectedItem() == null || jdcVencimiento.getDate() == null) {
                 JOptionPane.showMessageDialog(this, "No pueden haber campos vacíos");
                 return;
-            } else { /// Si los campos no están vacíos...  
-                
+            } else {
+                /// Se guardan los datos de cada campo en su variable correpondiente
+                Laboratorio lab = laboratorioSeleccionado();
+                // Utilizo el método creado para acceder al nombre y al id del laboratorio seleccionado
+                if (lab != null) {
+                    //nombreLab = lab.getNomLaboratorio();
+                    int id = lab.getIdLaboratorio();
+                }
+
+                String marca = jtMarca.getText();
+                int nroSerie = Integer.parseInt(jtNroSerie.getText());
+
+                // Guardo la opción del comboBoxDosis en una variable
+                if (jcbMedida.getSelectedItem() != null) {
+                    String dosis = (String) jcbMedida.getSelectedItem(); // el combo me devuelve un Object
+                    dosisSeleccionada = Double.parseDouble(dosis); // Lo parseo a un Double para mandarlo a la base de datos
+                } else {
+                    dosisSeleccionada = 0.0;
+                }
+
+                if (jdcVencimiento.getDate() != null) {
+                    fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                }
+
+                Boolean aplicada = jcbAplicada.isSelected();
+
                 
                 /*-----------------------------------------*/
                 // Chequeo si el numSerie no existe en mi BD
                 vacunaActual = vacunaData.buscarPorNroSerie(nroSerie);
-                
+
                 if (vacunaActual != null) {
                     nroExistente = vacunaActual.getNroSerie();
                     System.out.println(nroExistente);
@@ -354,29 +352,27 @@ public class VacunasView extends javax.swing.JInternalFrame {
                         //limpiarCampos();
                     }
                 }
-                
                 /*-----------------------------------------*/
                 
-
                 if (vacunaActual == null && (nroExistente != nroSerie)) {
-                    vacunaActual = new Vacuna(nroSerie, marca, dosisSeleccionada, fechaCaducidad, aplicada, lab);                    
-                    vacunaData.cargarVacuna(vacunaActual);                              
+                    vacunaActual = new Vacuna(nroSerie, marca, dosisSeleccionada, fechaCaducidad, aplicada, lab);
+                    vacunaData.cargarVacuna(vacunaActual);
                     limpiarCampos();
                     tablaVacunas.addRow(new Object[]{vacunaActual.getLaboratorio().getNomLaboratorio(), vacunaActual.getMarca(), vacunaActual.getNroSerie(), vacunaActual.getMedida(), vacunaActual.getFechaCaduca(), vacunaActual.isColocada()});
-                } 
+                }
             }
 
         } catch (NumberFormatException e) {
             e.getStackTrace();
-            JOptionPane.showMessageDialog(this, "El campo 'Nro. Serie' está vacío o contiene carácteres inválidos "+e.getMessage());
+            JOptionPane.showMessageDialog(this, "El campo 'Nro. Serie' está vacío o contiene carácteres inválidos ");
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this, "Los campos 'Laboratorio' y 'Marca' no son válidos");
-        }  catch(NullPointerException ex){
+        } catch (NullPointerException ex) {
             System.out.println(ex.getMessage());
             System.out.println(ex.getLocalizedMessage());
             System.out.println(ex.getStackTrace());
-        }           
-        
+        }
+
     }//GEN-LAST:event_jbAgregarActionPerformed
 
     
@@ -506,11 +502,20 @@ public class VacunasView extends javax.swing.JInternalFrame {
         if(filaSeleccionada != -1){
             String valor = jtTablaVacunas.getValueAt(filaSeleccionada, 2).toString();
             int numSerie = Integer.parseInt(valor);
-            vacunaData.eliminarVacuna(numSerie); 
-            
-            // Elimino una fila de la tabla
-            tablaVacunas.removeRow(filaSeleccionada);
-        }     
+          
+            int respuesta = JOptionPane.showConfirmDialog(null, "¿Está seguro que quiere eliminar la vacuna seleccionada?", "Eliminar Vacuna", JOptionPane.YES_NO_OPTION);
+            if (respuesta == JOptionPane.YES_OPTION) {
+                JOptionPane.showMessageDialog(null, "Vacuna eliminada");
+                vacunaData.eliminarVacuna(numSerie);
+                // Elimino una fila de la tabla
+                tablaVacunas.removeRow(filaSeleccionada);
+            } else {
+                System.out.println("No hace nada porque dijo que no :)");
+            }
+        } else{
+            JOptionPane.showMessageDialog(this, "Debe seleccionar una fila");
+            return;
+        }    
     }//GEN-LAST:event_jbEliminarActionPerformed
 
 
@@ -689,15 +694,6 @@ public class VacunasView extends javax.swing.JInternalFrame {
     private javax.swing.JTable jtTablaVacunas;
     private org.jdesktop.beansbinding.BindingGroup bindingGroup;
     // End of variables declaration//GEN-END:variables
-
-
-    
-
-    
-
-    
-
-
 
 
 }
