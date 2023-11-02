@@ -302,7 +302,7 @@ public void cambiarCodigoRefuerzo(int codigo, int dni) {
         String sql = "UPDATE ciudadano SET codRefuerzo = ? WHERE dni = ?";
         PreparedStatement ps = con.prepareStatement(sql);
         ps.setInt(1, codigo);
-        ps.setInt(2, dni); // No estoy seguro si 'corRefuerzo' es el nombre correcto de la columna a actualizar, así que podrías necesitar ajustarlo.
+        ps.setInt(2, dni); 
 
         int rowsAffected = ps.executeUpdate();
 

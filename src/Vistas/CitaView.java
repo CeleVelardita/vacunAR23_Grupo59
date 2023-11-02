@@ -595,7 +595,7 @@ public class CitaView extends javax.swing.JInternalFrame {
         }
         
         int fila = jTableListado.getSelectedRow(); // Obtiene la fila seleccionada
-        int columnaa = 8; // La columna que deseas obtener (columna 8)
+        int columnaa = 8; // La columna que deseas obtener (columna 8) codigo de refuerzo
 
         if (filaSeleccionada >= 0) {
             // Asegúrate de que se haya seleccionado una fila válida
@@ -607,12 +607,19 @@ public class CitaView extends javax.swing.JInternalFrame {
             int codigoRefuerzo = Integer.parseInt(valorCelda.toString());
             int dni = Integer.parseInt(dnifila.toString());
             int codigocita=Integer.parseInt(codcita.toString());
+            System.out.println(""+codigoRefuerzo);
+            System.out.println(""+dni);
+            System.out.println(""+codigocita);
+            
             citaData.estadoCita(estadoCombo, codigocita);
             CiudadanoData ciuData = null;
-             ciuData.cambiarCodigoRefuerzo(codigoRefuerzo, dni);
+            if(estadoCombo.equals("Aplicada")){
+                ciuData.cambiarCodigoRefuerzo(codigoRefuerzo, dni);
+            }
+             
             // Ahora tienes el contenido de la celda en la variable codigoRefuerzo como un entero
             } catch (NumberFormatException e) {
-                // Manejar aquí si el valor no es un número válido
+               JOptionPane.showMessageDialog(null, "problema en los métodos"+e.getLocalizedMessage());
             }
         } 
          
