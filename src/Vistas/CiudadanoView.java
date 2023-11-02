@@ -24,9 +24,9 @@ public class CiudadanoView extends javax.swing.JInternalFrame {
 
     public CiudadanoView() {
         initComponents();
-        ciu = null;
+        ciu = new Ciudadano();
         ciuData = new CiudadanoData();
-        ciudadanoActual = null;
+        ciudadanoActual = new Ciudadano();
 
         tablaCiu = (DefaultTableModel) jtTablaCiudadano.getModel();
 
