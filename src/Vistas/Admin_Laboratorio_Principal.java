@@ -2,6 +2,7 @@
 package Vistas;
 
 import com.sun.org.apache.bcel.internal.generic.IFEQ;
+import java.awt.Color;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -24,7 +25,9 @@ public class Admin_Laboratorio_Principal extends javax.swing.JInternalFrame {
     private Laboratorio labActual;
     
     public Admin_Laboratorio_Principal() {
-        initComponents();        
+        initComponents();     
+        
+        getContentPane().setBackground(new Color(240, 255, 240));
         
         //definición de atributos (inicializamos)
         modeloTabla = (DefaultTableModel) jTListadoLab.getModel();

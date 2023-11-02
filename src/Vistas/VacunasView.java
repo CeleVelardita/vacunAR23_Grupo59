@@ -312,44 +312,40 @@ public class VacunasView extends javax.swing.JInternalFrame {
     private void jbAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jbAgregarActionPerformed
         int nroExistente = 0;
         try {
-            /// Se guardan los datos de cada campo en su variable correpondiente
-            Laboratorio lab = laboratorioSeleccionado();
-            // Utilizo el método creado para acceder al nombre y al id del laboratorio seleccionado
-            if(lab != null){
-            //nombreLab = lab.getNomLaboratorio();
-            int id = lab.getIdLaboratorio();           
-            }
-            
-            String marca = jtMarca.getText();
-            int nroSerie = Integer.parseInt(jtNroSerie.getText());
-            
-            // Guardo la opción del comboBoxDosis en una variable
-            
-            if(jcbMedida.getSelectedItem() != null){
-            String dosis = (String) jcbMedida.getSelectedItem(); // el combo me devuelve un Object
-            dosisSeleccionada = Double.parseDouble(dosis); // Lo parseo a un Double para mandarlo a la base de datos
-            } else{
-                dosisSeleccionada = 0.0;
-            }
-            
-            if (jdcVencimiento.getDate() != null) {
-               fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-            }
-            
-            Boolean aplicada = jcbAplicada.isSelected();       
-            
-            
-            /// Verifico que no queden campos vacíos
-            if (lab == null || marca.isEmpty() || nroSerie == 0 || dosisSeleccionada == 0.0 || fechaCaducidad == null) {
+            if (jcbLaboratorio.getSelectedItem() == null || jtMarca.getText() == null || jtNroSerie.getText() == null || jcbMedida.getSelectedItem() == null || jdcVencimiento.getDate() == null) {
                 JOptionPane.showMessageDialog(this, "No pueden haber campos vacíos");
                 return;
-            } else { /// Si los campos no están vacíos...  
-                
+            } else {
+                /// Se guardan los datos de cada campo en su variable correpondiente
+                Laboratorio lab = laboratorioSeleccionado();
+                // Utilizo el método creado para acceder al nombre y al id del laboratorio seleccionado
+                if (lab != null) {
+                    //nombreLab = lab.getNomLaboratorio();
+                    int id = lab.getIdLaboratorio();
+                }
+
+                String marca = jtMarca.getText();
+                int nroSerie = Integer.parseInt(jtNroSerie.getText());
+
+                // Guardo la opción del comboBoxDosis en una variable
+                if (jcbMedida.getSelectedItem() != null) {
+                    String dosis = (String) jcbMedida.getSelectedItem(); // el combo me devuelve un Object
+                    dosisSeleccionada = Double.parseDouble(dosis); // Lo parseo a un Double para mandarlo a la base de datos
+                } else {
+                    dosisSeleccionada = 0.0;
+                }
+
+                if (jdcVencimiento.getDate() != null) {
+                    fechaCaducidad = jdcVencimiento.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                }
+
+                Boolean aplicada = jcbAplicada.isSelected();
+
                 
                 /*-----------------------------------------*/
                 // Chequeo si el numSerie no existe en mi BD
                 vacunaActual = vacunaData.buscarPorNroSerie(nroSerie);
-                
+
                 if (vacunaActual != null) {
                     nroExistente = vacunaActual.getNroSerie();
                     System.out.println(nroExistente);
@@ -358,29 +354,27 @@ public class VacunasView extends javax.swing.JInternalFrame {
                         //limpiarCampos();
                     }
                 }
-                
                 /*-----------------------------------------*/
                 
-
                 if (vacunaActual == null && (nroExistente != nroSerie)) {
-                    vacunaActual = new Vacuna(nroSerie, marca, dosisSeleccionada, fechaCaducidad, aplicada, lab);                    
-                    vacunaData.cargarVacuna(vacunaActual);                              
+                    vacunaActual = new Vacuna(nroSerie, marca, dosisSeleccionada, fechaCaducidad, aplicada, lab);
+                    vacunaData.cargarVacuna(vacunaActual);
                     limpiarCampos();
                     tablaVacunas.addRow(new Object[]{vacunaActual.getLaboratorio().getNomLaboratorio(), vacunaActual.getMarca(), vacunaActual.getNroSerie(), vacunaActual.getMedida(), vacunaActual.getFechaCaduca(), vacunaActual.isColocada()});
-                } 
+                }
             }
 
         } catch (NumberFormatException e) {
             e.getStackTrace();
-            JOptionPane.showMessageDialog(this, "El campo 'Nro. Serie' está vacío o contiene carácteres inválidos "+e.getMessage());
+            JOptionPane.showMessageDialog(this, "El campo 'Nro. Serie' está vacío o contiene carácteres inválidos " + e.getMessage());
         } catch (IllegalArgumentException e) {
             JOptionPane.showMessageDialog(this, "Los campos 'Laboratorio' y 'Marca' no son válidos");
-        }  catch(NullPointerException ex){
+        } catch (NullPointerException ex) {
             System.out.println(ex.getMessage());
             System.out.println(ex.getLocalizedMessage());
             System.out.println(ex.getStackTrace());
-        }           
-        
+        }
+
     }//GEN-LAST:event_jbAgregarActionPerformed
 
     
