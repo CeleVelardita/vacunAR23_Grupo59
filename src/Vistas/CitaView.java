@@ -611,11 +611,8 @@ public class CitaView extends javax.swing.JInternalFrame {
                 // Manejar aquí si el valor no es un número válido
             }
         } 
-        
-        
-        
-        
-              
+            
+    }         
         
 
     }//GEN-LAST:event_jBotonAplicarEstadoActionPerformed
